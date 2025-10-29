@@ -1,1 +1,3 @@
-﻿GreekBudget2025
+﻿puclic class Simulator{
+    system.out.println(" FIRST BRANCH ");
+}

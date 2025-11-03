@@ -1,3 +1,5 @@
 public class Test2 {
-    System.oyt.println("Ακομα πειραματιζομαι...");
+    public static void main(String args[]) {
+    System.out.println("Ακομα πειραματιζομαι...");
+    }
 }

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Σύγκριση Προϋπολογισμών - GreekBudget2025</title>
+  <style>
+    :root{
+      --bg:#fff8f0;
+      --accent:#ff6f3c;
+      --pill:#fdecb0;
+      --pill-border:#f5d98b;
+      --muted:#6b6b6b;
+      --radius:12px;
+      --container:900px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
+    }
+    body{
+      margin:0; background:var(--bg); color:#111; display:flex; justify-content:center; padding:36px 16px;
+    }
+    .page{
+      width:100%; max-width:var(--container);
+      background:#fff;
+      padding:28px 36px 60px; box-shadow:0 8px 30px rgba(0,0,0,0.06); border-radius:14px;
+    }
+    header{display:flex; align-items:center; justify-content:center; margin-bottom:18px}
+    .logo{height:160px; width:auto;}
+    h1{font-size:20px; text-align:center; margin:6px 0 28px; font-weight:700; color:#d35400;}
+    h2{text-align:center; font-size:18px; color:#111; margin-top:20px;}
+    p{text-align:center; color:#333; font-size:15px; line-height:1.5; max-width:700px; margin:10px auto;}
+
+    select{
+      display:block;
+      margin:20px auto;
+      padding:10px 20px;
+      border-radius:999px;
+      border:2px solid var(--accent);
+      font-weight:600;
+      background:var(--accent);
+      color:white;
+      font-size:15px;
+      cursor:pointer;
+      transition:background 0.2s;
+    }
+
+    select:hover{ background:#ff814f; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: var(--accent);
+      color: white;
+    }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    tr:hover { background-color: #ffe4d4; }
+
+    footer {
+      margin-top:40px;
+      background-color:white;
+      padding:20px;
+      text-align:center;
+      font-size:15px;
+      color:#333;
+      border-radius:12px;
+    }
+    footer img {
+      height:160px;
+      width:auto;
+      display:block;
+      margin:0 auto 10px;
+    }
+    footer h2 {
+      margin-top:10px;
+      color:#d35400;
+    }
+
+    @media (max-width: 600px) {
+      table { font-size: 13px; }
+      th, td { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" role="main">
+    <header>
+      <img class="logo" src="blender_logo.jfif" alt="Blender logo">
+    </header>
+
+    <h1>Σύγκριση με Προϋπολογισμούς Άλλων Χωρών</h1>
+    <p>
+      Επίλεξε μια χώρα για να συγκρίνεις τον κρατικό της προϋπολογισμό με αυτόν της Ελλάδας.
+      Η λίστα περιλαμβάνει διαθέσιμες ευρωπαϊκές και διεθνείς οικονομίες για ανάλυση και αντιπαραβολή.
+    </p>
+
+    <select id="country-select">
+      <option selected disabled>Επιλέξτε Χώρα για Σύγκριση</option>
+      <option>Γερμανία</option>
+      <option>Γαλλία</option>
+      <option>Ιταλία</option>
+      <option>Ισπανία</option>
+      <option>Ολλανδία</option>
+    </select>
+
+    <h2>Πινάκας με διαφορές σε σημαντικούς δείκτες</h2>
+
+    <table>
+      <tr>
+        <th>Δείκτης</th>
+        <th>Ελλάδα</th>
+        <th>Επιλεγμένη Χώρα</th>
+      </tr>
+      <tr>
+        <td>ΑΕΠ (δισ. €)</td>
+        <td>224</td>
+        <td id="gdp">—</td>
+      </tr>
+      <tr>
+        <td>Έλλειμμα (% ΑΕΠ)</td>
+        <td>-1.5%</td>
+        <td id="deficit">—</td>
+      </tr>
+      <tr>
+        <td>Δημόσιο Χρέος (% ΑΕΠ)</td>
+        <td>161%</td>
+        <td id="debt">—</td>
+      </tr>
+      <tr>
+        <td>Δημόσιες Δαπάνες (% ΑΕΠ)</td>
+        <td>49%</td>
+        <td id="spending">—</td>
+      </tr>
+      <tr>
+        <td>Πληθυσμός (εκατ.)</td>
+        <td>10.4</td>
+        <td id="population">—</td>
+      </tr>
+    </table>
+
+    <footer>
+      <img src="blender_logo.jfif" alt="Blender Logo">
+      <h2>About Us – Ομάδα Blender</h2>
+      <p>
+        Είμαστε η ομάδα Blender, φοιτητές του Τμήματος Διοικητικής Επιστήμης και Τεχνολογίας του ΟΠΑ, που μας ενώνει η δημιουργικότητα, η συνεργασία και η καινοτομία.<br>
+        Μέσα από το project «Προϋπολογισμός για μια χώρα», προσεγγίζουμε με φρέσκια ματιά τον τρόπο που μπορεί να λειτουργήσει μια χώρα, δίνοντας έμφαση στη διαφάνεια, την πρόοδο και τη συμμετοχικότητα.<br>
+        Η Blender συμβάλλει με μίξη διαφορετικών ιδεών και προσωπικοτήτων που, μέσα από την ομαδική δουλειά, δημιουργούν κάτι νέο και ουσιαστικό.
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    const data = {
+      "Γερμανία": {gdp:"4.5 τρισ.", deficit:"-0.3%", debt:"64%", spending:"46%", population:"83.2"},
+      "Γαλλία": {gdp:"3.2 τρισ.", deficit:"-4.5%", debt:"110%", spending:"58%", population:"68"},
+      "Ιταλία": {gdp:"2.1 τρισ.", deficit:"-5.3%", debt:"137%", spending:"50%", population:"59"},
+      "Ισπανία": {gdp:"1.6 τρισ.", deficit:"-3.6%", debt:"111%", spending:"48%", population:"47"},
+      "Ολλανδία": {gdp:"1.0 τρισ.", deficit:"-0.7%", debt:"48%", spending:"44%", population:"17.6"}
+    };
+
+    document.getElementById("country-select").addEventListener("change", function() {
+      const c = data[this.value];
+      document.getElementById("gdp").textContent = c.gdp;
+      document.getElementById("deficit").textContent = c.deficit;
+      document.getElementById("debt").textContent = c.debt;
+      document.getElementById("spending").textContent = c.spending;
+      document.getElementById("population").textContent = c.population;
+    });
+  </script>
+</body>
+</html>

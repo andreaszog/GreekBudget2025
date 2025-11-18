@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ανάλυση Εσόδων - Εξόδων - GreekBudget2025</title>
+  <style>
+    :root{
+      --bg:#fff8f0;
+      --accent:#ff6f3c; /* orange */
+      --pill:#fdecb0; /* pale yellow */
+      --pill-border:#f5d98b;
+      --muted:#6b6b6b;
+      --card-height:140px;
+      --radius:12px;
+      --container:900px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
+    }
+    body{
+      margin:0; background:var(--bg); color:#111; display:flex; justify-content:center; padding:36px 16px;
+    }
+    .page{
+      width:100%; max-width:var(--container);
+      background:linear-gradient(#fff,#fff);
+      padding:28px 36px 60px; box-shadow:0 8px 30px rgba(0,0,0,0.06); border-radius:14px;
+    }
+    header{display:flex; align-items:center; justify-content:center; margin-bottom:18px}
+    .logo{height:160px}
+    h1{font-size:20px; text-align:center; margin:6px 0 28px; font-weight:700; color:#d35400;}
+
+    .section{margin-bottom:28px}
+    .section h2{font-size:16px; text-align:left; margin:0 0 12px; font-weight:600}
+    .actions{display:flex; gap:10px; margin-bottom:12px}
+    .pill-btn{background:var(--pill); border:1px solid var(--pill-border); padding:8px 14px; border-radius:999px; cursor:pointer; font-weight:600}
+    .pill-btn:active{transform:translateY(1px)}
+
+    .table-card{
+      background:var(--accent);
+      border-radius:8px; padding:18px; color:white; min-height:var(--card-height);
+      box-shadow:0 6px 18px rgba(0,0,0,0.06); display:flex; flex-direction:column; gap:8px;
+    }
+    .table-row{display:flex; justify-content:space-between; padding:8px 10px; border-radius:6px; align-items:center}
+    .table-row:nth-child(odd){opacity:0.95}
+    .table-head{font-weight:700; opacity:0.95}
+    .table-cell{font-size:15px}
+
+    
+    .totals{margin-top:16px; display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+    .total-line{width:100%; max-width:520px; background:var(--accent); color:white; padding:10px 12px; border-radius:6px; font-weight:700}
+
+    .balance{margin-top:8px; font-weight:700}
+    .summary-text{margin-top:14px; color:var(--muted)}
+
+    
+    .grid{display:grid; grid-template-columns:1fr; gap:22px}
+    @media(min-width:900px){
+      .grid{grid-template-columns:1fr 1fr}
+      .header-grid{display:flex; justify-content:space-between; align-items:center}
+    }
+
+    
+    .small-form{display:flex; gap:8px; flex-wrap:wrap}
+    input[type="text"], input[type="number"]{padding:8px 10px; border-radius:8px; border:1px solid #e8e8e8}
+    .ghost{background:transparent; border:1px dashed rgba(255,255,255,0.3); padding:6px 10px; border-radius:6px}
+
+    footer {
+      margin-top:40px;
+      background-color:white;
+      padding:20px;
+      text-align:center;
+      font-size:15px;
+      color:#333;
+      border-radius:12px;
+    }
+    footer img {
+      height: 160px;     
+      width: auto;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    footer h2 {
+      margin-top:10px;
+      color:#d35400;
+    }
+  </style>
+</head>
+<body>
+  <main class="page" role="main">
+    <header>
+      <img class="logo" src="blender_logo.jfif" alt="Blender logo">
+    </header>
+
+    <h1>Ανάλυση Εσόδων - Εξόδων</h1>
+
+    <section class="grid">
+      <div class="section" id="revenues">
+        <h2>Έσοδα</h2>
+        <div class="actions">
+          <button class="pill-btn" onclick="showAdd('revenue')">Προσθήκη</button>
+          <button class="pill-btn" onclick="editSelected('revenue')">Επεξεργασία</button>
+          <button class="pill-btn" onclick="deleteSelected('revenue')">Διαγραφή</button>
+        </div>
+
+        <div class="table-card" id="revenue-list">
+          <div class="table-row table-head"><div>Κατηγορία</div><div>Ποσό (σε EUR)</div></div>
+          <!-- sample rows -->
+          <div class="table-row"><div class="table-cell">Φόροι</div><div class="table-cell">45.000</div></div>
+          <div class="table-row"><div class="table-cell">Επιχορηγήσεις ΕΕ</div><div class="table-cell">12.500</div></div>
+          <div class="table-row"><div class="table-cell">Μη φορολογικά</div><div class="table-cell">7.320</div></div>
+        </div>
+      </div>
+
+      <div class="section" id="expenses">
+        <h2>Έξοδα</h2>
+        <div class="actions">
+          <button class="pill-btn" onclick="showAdd('expense')">Προσθήκη</button>
+          <button class="pill-btn" onclick="editSelected('expense')">Επεξεργασία</button>
+          <button class="pill-btn" onclick="deleteSelected('expense')">Διαγραφή</button>
+        </div>
+
+        <div class="table-card" id="expense-list">
+          <div class="table-row table-head"><div>Κατηγορία</div><div>Ποσό (σε EUR)</div></div>
+          <div class="table-row"><div class="table-cell">Υγεία</div><div class="table-cell">28.000</div></div>
+          <div class="table-row"><div class="table-cell">Παιδεία</div><div class="table-cell">18.500</div></div>
+          <div class="table-row"><div class="table-cell">Συντάξεις</div><div class="table-cell">30.200</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Χαρακτηρισμός Προϋπολογισμού</h2>
+
+      <div class="totals">
+        <div class="total-line" id="total-revenues">Σύνολο Εσόδων: 64.820 €</div>
+        <div class="total-line" id="total-expenses">Σύνολο Εξόδων: 76.700 €</div>
+        <div class="total-line" id="balance">Ισοζύγιο: -11.880 €</div>
+      </div>
+
+      <p class="summary-text">Ο προϋπολογισμός χαρακτηρίζεται ως: <strong id="budget-character">Έλλειμμα</strong></p>
+    </section>
+
+    <!-- small add/edit panel -->
+    <div style="margin-top:18px">
+      <form id="entry-form" onsubmit="return addOrEdit(event)" class="small-form" aria-hidden="false">
+        <input type="hidden" id="entry-type" value="revenue">
+        <input type="hidden" id="edit-index" value="-1">
+        <input id="category" type="text" placeholder="Κατηγορία" required>
+        <input id="amount" type="number" placeholder="Ποσό (EUR)" step="0.01" required>
+        <button type="submit" class="pill-btn">Αποθήκευση</button>
+        <button type="button" class="pill-btn" onclick="resetForm()">Άκυρο</button>
+      </form>
+    </div>
+
+    <footer>
+      <img src="blender_logo.jfif" alt="Blender Logo">
+            <h2>About Us – Ομάδα Blender</h2>
+            <p>
+                Είμαστε η ομάδα Blender, φοιτητές του Τμήματος Διοικητικής Επιστήμης και Τεχνολογίας του ΟΠΑ, που μας ενώνει η δημιουργικότητα, η συνεργασία και η καινοτομία.<br>
+                Μέσα από το project «Προϋπολογισμός για μια χώρα», προσεγγίζουμε με φρέσκια ματιά τον τρόπο που μπορεί να λειτουργήσει μια χώρα, δίνοντας έμφαση στη διαφάνεια, την πρόοδο και τη συμμετοχικότητα.<br>
+                Η Blender συμβάλλει με μίξη διαφορετικών ιδεών και προσωπικοτήτων που, μέσα από την ομαδική δουλειά, δημιουργούν κάτι νέο και ουσιαστικό.
+            </p>
+      </footer>
+  </main>
+
+  <script>
+    function parseAmount(s){ return Number(String(s).replace(/[^0-9.-]+/g,'')||0); }
+
+    function showAdd(type){
+      document.getElementById('entry-type').value = type;
+      document.getElementById('edit-index').value = -1;
+      document.getElementById('category').value = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('category').focus();
+    }
+
+    function addOrEdit(e){
+      e.preventDefault();
+      const type = document.getElementById('entry-type').value;
+      const cat = document.getElementById('category').value.trim();
+      const amt = parseFloat(document.getElementById('amount').value) || 0;
+      const listId = type === 'revenue' ? 'revenue-list' : 'expense-list';
+      const list = document.getElementById(listId);
+
+      const editIdx = parseInt(document.getElementById('edit-index').value,10);
+      if(editIdx >= 0){
+        // edit existing (skip header row)
+        const rows = list.querySelectorAll('.table-row');
+        const target = rows[editIdx+1];
+        target.children[0].textContent = cat;
+        target.children[1].textContent = amt.toLocaleString('el-GR');
+      } else {
+        const row = document.createElement('div');
+        row.className='table-row';
+        row.innerHTML = `<div class="table-cell">${escapeHtml(cat)}</div><div class="table-cell">${amt.toLocaleString('el-GR')}</div>`;
+        list.appendChild(row);
+      }
+      resetForm();
+      recalcTotals();
+      return false;
+    }
+
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c];}); }
+
+    function editSelected(type){
+      const list = document.getElementById(type === 'revenue' ? 'revenue-list' : 'expense-list');
+      // pick last row as simple demo (could be enhanced to select via click)
+      const rows = list.querySelectorAll('.table-row');
+      if(rows.length<=1){ alert('Δεν υπάρχει επιλεγμένη εγγραφή για επεξεργασία.'); return; }
+      const idx = rows.length-2; // edit last data row
+      const target = rows[idx+1];
+      document.getElementById('entry-type').value = type;
+      document.getElementById('edit-index').value = idx;
+      document.getElementById('category').value = target.children[0].textContent;
+      document.getElementById('amount').value = parseAmount(target.children[1].textContent);
+      document.getElementById('category').focus();
+    }
+
+    function deleteSelected(type){
+      const list = document.getElementById(type === 'revenue' ? 'revenue-list' : 'expense-list');
+      const rows = list.querySelectorAll('.table-row');
+      if(rows.length<=1){ alert('Δεν υπάρχει εγγραφή για διαγραφή.'); return; }
+      // delete last data row
+      const last = rows[rows.length-1];
+      if(!confirm('Να διαγραφεί η τελευταία εγγραφή;')) return;
+      last.remove();
+      recalcTotals();
+    }
+
+    function resetForm(){
+      document.getElementById('category').value='';
+      document.getElementById('amount').value='';
+      document.getElementById('edit-index').value='-1';
+    }
+
+    function recalcTotals(){
+      const revList = document.querySelectorAll('#revenue-list .table-row');
+      const expList = document.querySelectorAll('#expense-list .table-row');
+      let rev=0, exp=0;
+      for(let i=1;i<revList.length;i++) rev += parseAmount(revList[i].children[1].textContent);
+      for(let i=1;i<expList.length;i++) exp += parseAmount(expList[i].children[1].textContent);
+      document.getElementById('total-revenues').textContent = 'Σύνολο Εσόδων: ' + rev.toLocaleString('el-GR') + ' €';
+      document.getElementById('total-expenses').textContent = 'Σύνολο Εξόδων: ' + exp.toLocaleString('el-GR') + ' €';
+      const bal = rev - exp;
+      const balEl = document.getElementById('balance');
+      balEl.textContent = 'Ισοζύγιο: ' + (bal<0?'-':'') + Math.abs(bal).toLocaleString('el-GR') + ' €';
+      document.getElementById('budget-character').textContent = bal>=0? 'Πλεόνασμα' : 'Έλλειμμα';
+    }
+
+    // initial calc
+    recalcTotals();
+  </script>
+</body>
+</html>
+</body>
+</html>

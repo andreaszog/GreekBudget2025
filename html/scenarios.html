@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>Ανάλυση Σεναρίων | Blender</title>
+  <style>
+    :root{
+      --cream:#fff8ec;
+      --yellow:#f9e59b;
+      --yellow-line:#f3d96a;
+      --text:#222;
+      --muted:#333;
+      --orange:#f07a36;
+      --orange2:#e9651b;
+      --radius:16px;
+      --bar-h:88px;
+      --logo-w:210px;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--cream);font-family:Arial,Helvetica,sans-serif;color:var(--text);text-align:center}
+
+    /* ===== Κοινή κίτρινη μπάρα (Header & Footer) ===== */
+    .bar{
+      background:var(--yellow);
+      height:var(--bar-h);
+      border-top:2px solid var(--yellow-line);
+      border-bottom:2px solid var(--yellow-line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .brand-logo{
+      width:var(--logo-w);
+      height:auto;
+      display:block;
+    }
+
+    /* ===== Κύριο περιεχόμενο ===== */
+    main{
+      max-width:1000px;
+      margin:0 auto;
+      padding:40px 20px 80px;
+    }
+
+    h1{margin-bottom:10px}
+    p.desc{
+      color:#333;
+      line-height:1.6;
+      max-width:750px;
+      margin:0 auto 50px;
+    }
+
+    /* --- Κουτί επιλογών αριστερά --- */
+    .scenario-section{
+      display:flex;
+      justify-content:space-around;
+      flex-wrap:wrap;
+      gap:30px;
+      align-items:flex-start;
+    }
+
+    .box-left{
+      background:var(--orange);
+      color:white;
+      padding:25px 20px;
+      border-radius:12px;
+      width:260px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .box-left h3{margin-top:0;font-size:18px}
+    .option-btn{
+      display:block;
+      background:var(--yellow);
+      border:none;
+      margin:10px auto;
+      padding:10px 0;
+      border-radius:10px;
+      width:80%;
+      cursor:pointer;
+      font-weight:bold;
+    }
+    .option-btn:hover{background:#f3d96a}
+
+    .apply-btn{
+      background:#f6e291;
+      border:none;
+      padding:10px 20px;
+      border-radius:10px;
+      margin-top:15px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+    .apply-btn:hover{background:#f3d96a}
+
+    /* --- Πίνακας δεξιά --- */
+    .box-right{
+      width:320px;
+      text-align:left;
+    }
+    .table-header{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .table-header div{
+      background:var(--yellow);
+      padding:8px 16px;
+      border-radius:8px;
+      font-weight:bold;
+    }
+    .result-box{
+      background:var(--orange);
+      border-radius:12px;
+      padding:20px;
+      color:white;
+      font-size:15px;
+      line-height:1.7;
+    }
+    .notes{
+      margin-top:10px;
+      font-size:14px;
+      color:#333;
+      text-align:left;
+    }
+
+    /* ===== About (ίδιο footer style) ===== */
+    .about{
+      background:var(--yellow);
+      border-top:2px solid var(--yellow-line);
+      padding:22px 24px 28px;
+    }
+    .about h2{margin:10px 0 8px}
+    .about p{max-width:900px;margin:0 auto;color:#2c2c2c;line-height:1.55}
+    .copyright{font-size:13px;color:#555;margin-top:14px}
+
+    @media (max-width:850px){
+      .scenario-section{flex-direction:column;align-items:center}
+      .box-right{width:100%;max-width:340px}
+      :root{--bar-h:82px;--logo-w:180px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (ίδιο με index) -->
+  <div class="bar">
+    <img class="brand-logo" src="assets/blenderlogo.png" alt="Blender">
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <h1>Ανάλυση Σεναρίων</h1>
+    <p class="desc">
+      Εξερευνήστε διαφορετικά οικονομικά σενάρια και δείτε πώς μικρές αλλαγές μπορούν να επηρεάσουν τον κρατικό προϋπολογισμό.
+      Πειραματιστείτε με ποσοστά, φόρους και δαπάνες για να δείτε άμεσα τα αποτελέσματα.
+    </p>
+
+    <section class="scenario-section">
+
+      <!-- Αριστερά -->
+      <div class="box-left">
+        <h3>Δημιουργία Σεναρίου</h3>
+        <p><b>Επιλέξτε Παράμετρο</b></p>
+        <button class="option-btn">ΦΠΑ</button>
+        <button class="option-btn">Μισθοί</button>
+        <button class="option-btn">Επιδότήσεις</button>
+        <button class="option-btn">Ποσοστό αλλαγής (%)</button>
+        <button class="apply-btn">Εφαρμογή Σεναρίου</button>
+      </div>
+
+      <!-- Δεξιά -->
+      <div class="box-right">
+        <div class="table-header">
+          <div>Παλιά Τιμή</div>
+          <div>Νέα Τιμή</div>
+        </div>
+        <div class="result-box">
+          <p>Έσοδα: 55 → 58 δισ. €</p>
+          <p>Έξοδα: 52 → 53 δισ. €</p>
+        </div>
+        <div class="notes">
+          Ισοζύγιο: +5% βελτίωση<br>
+          Αύξηση φόρτου για νοικοκυριά +1.2% (προαιρετικό)
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- FOOTER (ίδιο με index) -->
+  <div class="bar">
+    <img class="brand-logo" src="assets/blenderlogo.png" alt="Blender">
+  </div>
+
+  <section class="about">
+    <h2>About Us – Ομάδα Blender</h2>
+    <p>
+      Είμαστε η ομάδα Blender, φοιτητές του Τμήματος Διοικητικής Επιστήμης και Τεχνολογίας του ΟΠΑ, που μας ενώνει η δημιουργικότητα, η συνεργασία και η καινοτομία.
+      Μέσα από το project «Πρωθυπουργός για μία μέρα» προσεγγίσαμε με φρέσκια ματιά τον τρόπο που μπορεί να λειτουργήσει μια χώρα, δίνοντας έμφαση στη διαφάνεια,
+      την πρόοδο και τη συμμετοχικότητα. Η Blender συμβολίζει τη μίξη ιδεών και προσωπικοτήτων που, μέσα από ομαδική δουλειά, δημιουργούν κάτι νέο και ουσιαστικό.
+    </p>
+    <div class="copyright">© 2025 – Blender. All rights reserved.</div>
+  </section>
+
+</body>
+</html>

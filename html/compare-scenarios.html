@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <title>Σύγκριση Σεναρίων | Blender</title>
+  <style>
+    :root{
+      --cream:#fff8ec;
+      --yellow:#f9e59b;
+      --yellow-line:#f3d96a;
+      --text:#222;
+      --muted:#333;
+      --orange:#f07a36;
+      --orange2:#e9651b;
+      --radius:16px;
+      --bar-h:88px;      /* ίδιο ύψος μπάρας με όλες τις σελίδες */
+      --logo-w:210px;    /* ίδιο πλάτος λογοτύπου */
+      --max:1000px;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--cream);font-family:Arial,Helvetica,sans-serif;color:var(--text);text-align:center}
+
+    /* ===== Κοινή κίτρινη μπάρα (Header & Footer) ===== */
+    .bar{
+      background:var(--yellow);
+      height:var(--bar-h);
+      border-top:2px solid var(--yellow-line);
+      border-bottom:2px solid var(--yellow-line);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .brand-logo{width:var(--logo-w); height:auto; display:block}
+
+    /* ===== Κύριο περιεχόμενο ===== */
+    .wrap{max-width:var(--max); margin:0 auto; padding:40px 20px 70px}
+    h1{margin:0 0 10px}
+    .lead{max-width:760px; margin:0 auto 26px; line-height:1.6; color:#333}
+
+    /* controls */
+    .controls{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:18px 0 10px}
+    select{padding:10px 12px; border-radius:10px; border:1px solid #E3CF82; background:#fff; min-width:220px}
+    .btn{border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:bold}
+    .btn-primary{background:#F6E291}
+    .btn-primary:hover{background:#f3d96a}
+    .btn-accent{background:var(--orange); color:#fff}
+    .btn-accent:hover{background:var(--orange2)}
+
+    /* scenario cards */
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:26px; justify-items:center; margin:22px 0}
+    .card{
+      width:240px; background:var(--orange); color:#fff; border-radius:12px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08); padding:16px; text-align:left
+    }
+    .card h3{margin:0 0 8px; font-size:18px}
+    .row{display:flex; justify-content:space-between; margin:6px 0}
+    .row span{opacity:.95}
+
+    /* chart area */
+    .chart{
+      max-width:720px; margin:18px auto 8px; background:#fff; border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08); padding:28px; color:#666
+    }
+
+    /* footer "About" */
+    .about{background:var(--yellow); border-top:2px solid var(--yellow-line); padding:22px 24px 28px}
+    .about h2{margin:10px 0 8px}
+    .about p{max-width:900px; margin:0 auto; color:#2c2c2c; line-height:1.55}
+    .copyright{font-size:13px; color:#555; margin-top:14px}
+
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
+      :root{--bar-h:82px; --logo-w:180px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (ίδιο με όλες τις σελίδες) -->
+  <div class="bar">
+    <img class="brand-logo" src="assets/blenderlogo.png" alt="Blender">
+  </div>
+
+  <main class="wrap">
+    <h1>Σύγκριση Σεναρίων</h1>
+    <p class="lead">
+      Συγκρίνετε δύο ή περισσότερα σενάρια για να εντοπίσετε ποιο οδηγεί στο καλύτερο οικονομικό αποτέλεσμα.
+      Δείτε συγκριτικούς πίνακες και γραφήματα για να αναλύσετε τις διαφορές με μια ματιά.
+    </p>
+
+    <!-- Επιλογές σύγκρισης -->
+    <div class="controls">
+      <select>
+        <option>Επιλέξτε Σενάριο 1: Αύξηση ΦΠΑ</option>
+      </select>
+      <select>
+        <option>Επιλέξτε Σενάριο 2: Μείωση Δαπανών</option>
+      </select>
+      <button class="btn btn-primary">Σύγκριση Σεναρίων</button>
+    </div>
+
+    <!-- Κάρτες σεναρίων -->
+    <section class="grid">
+      <div class="card">
+        <h3>Σενάριο 1</h3>
+        <div class="row"><span>ΦΠΑ</span><strong>+2%</strong></div>
+        <div class="row"><span>Έσοδα</span><strong>58 δισ. €</strong></div>
+        <div class="row"><span>Έξοδα</span><strong>53 δισ. €</strong></div>
+        <div class="row"><span>Ισοζύγιο</span><strong>+5</strong></div>
+      </div>
+
+      <div class="card">
+        <h3>Σενάριο 2</h3>
+        <div class="row"><span>Δαπάνες</span><strong>-3%</strong></div>
+        <div class="row"><span>Έσοδα</span><strong>55 δισ. €</strong></div>
+        <div class="row"><span>Έξοδα</span><strong>51 δισ. €</strong></div>
+        <div class="row"><span>Ισοζύγιο</span><strong>+4</strong></div>
+      </div>
+    </section>
+
+    <!-- Placeholder για γράφημα -->
+    <div class="chart">Bar chart ή Column chart (placeholder)</div>
+
+    <div class="controls" style="margin-top:14px">
+      <a class="btn btn-accent" href="scenarios.html">+ Δημιουργία Νέου Σεναρίου</a>
+    </div>
+  </main>
+
+  <!-- FOOTER (ίδιο με όλες τις σελίδες) -->
+  <div class="bar">
+    <img class="brand-logo" src="assets/blenderlogo.png" alt="Blender">
+  </div>
+  <section class="about">
+    <h2>About Us – Ομάδα Blender</h2>
+    <p>
+      Είμαστε η ομάδα Blender, φοιτητές του Τμήματος Διοικητικής Επιστήμης και Τεχνολογίας του ΟΠΑ. Μας ενώνει η δημιουργικότητα, η συνεργασία και η καινοτομία.
+      Μέσα από το project «Πρωθυπουργός για μία μέρα» προσεγγίσαμε με φρέσκια ματιά τον τρόπο που μπορεί να λειτουργήσει μια χώρα, δίνοντας έμφαση στη διαφάνεια,
+      την πρόοδο και τη συμμετοχικότητα. Η Blender συμβολίζει τη μίξη ιδεών και προσωπικοτήτων που, μέσα από ομαδική δουλειά, δημιουργούν κάτι νέο και ουσιαστικό.
+    </p>
+    <div class="copyright">© 2025 – Blender. All rights reserved.</div>
+  </section>
+
+</body>
+</html>

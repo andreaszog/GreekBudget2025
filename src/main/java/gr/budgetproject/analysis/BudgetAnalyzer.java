@@ -1,5 +1,4 @@
-@"
-package gr.budgetproject.analysis;
+package gr.greekbudget.backend;
 import java.util.ArrayList;
 import java.util.List;
 public class BudgetAnalyzer {

@@ -1,4 +1,4 @@
-package gr.greekbudget.analytics;
+package gr. greekbudget.analytics;
 
 public enum BudgetClass { SURPLUS, DEFICIT, BALANCED }
 

@@ -1,5 +1,5 @@
 @"
-package gr.budgetproject.analysis;
+package gr.greekbudget.backend;
 public class Main {
  public static void main(String[] args) {
   BudgetAnalyzer analyzer = new BudgetAnalyzer();

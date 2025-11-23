@@ -1,4 +1,4 @@
-package gr.budgetproject.analysis;
+package gr.greekbudget.backend;
 public class GrantRevenue extends Revenue {
  public GrantRevenue(double amount) {
   super("Επιδοτήσεις/Grants", amount);

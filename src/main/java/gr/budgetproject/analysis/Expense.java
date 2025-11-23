@@ -1,5 +1,4 @@
-@"
-package gr.budgetproject.analysis;
+package gr.greekbudget.backend;
 public class Expense {
  private String category;
  private double amount;

@@ -1,4 +1,4 @@
-package gr.budgetproject.analysis;
+package gr.greekbudget.backend;
 public class Revenue {
  private String source;
  private double amount;

@@ -1,15 +1,15 @@
 package gr.greekbudget.backend;
 
 public class Expense {
-      private String category;
+      private int category;
     private double amount;
 
-    public Expense(String category, double amount) {
+    public Expense(int category, double amount) {
         this.category = category;
         this.amount = amount;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 

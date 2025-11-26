@@ -1,0 +1,20 @@
+package gr.budgetproject.analysis;
+
+public class Main {
+    public static void main(String[] args) {
+
+        BudgetAnalyzer analyzer = new BudgetAnalyzer();
+
+        // Προσθήκη εσόδων
+        analyzer.addRevenue(new TaxRevenue(1500000));
+        analyzer.addRevenue(new GrantRevenue(500000));
+
+        // Προσθήκη εξόδων
+        analyzer.addExpense(new HealthExpense(600000));
+        analyzer.addExpense(new EducationExpense(400000));
+        analyzer.addExpense(new DefenseExpense(300000));
+
+        // Εκτύπωση αναφοράς
+        analyzer.printReport();
+    }
+}

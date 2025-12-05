@@ -11,7 +11,15 @@ public class WelcomeController {
     @FXML
     private void onLoginClicked() {
         System.out.println("Login clicked");
-        // Αργότερα θα φτιάξουμε LoginView
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Login in");
+            stage.setScene(new Scene(root, 400, 400));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gr.greekbudget.SignUpController">
+
+    <children>
+        <Label text="Create Account" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+        <TextField fx:id="usernameField" promptText="Username" maxWidth="200"/>
+        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
+        <PasswordField fx:id="confirmField" promptText="Confirm Password" maxWidth="200"/>
+
+        <Button text="Register" onAction="#register" maxWidth="120"/>
+        <Button text="Back" onAction="#goBack" maxWidth="120"/>
+    </children>
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+</VBox>

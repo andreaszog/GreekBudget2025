@@ -29,18 +29,33 @@ public class MainController {
 
     @FXML
     private void logout(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText(null); // αφαιρεί την κενή γραμμή
+        alert.setContentText("Are you sure you want to log out?");
 
-            Scene scene = new Scene(root, 400, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No", ButtonType.CANCEL.getButtonData());
 
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+        alert.getButtonTypes().setAll(yesButton, noButton);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        alert.showAndWait().ifPresent(response -> {
+            if (response == yesButton) {
+                // Log out
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
+                    Scene scene = new Scene(root, 400, 400);
+                    scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+
+                    Stage stage = (Stage) usernameLabel.getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // If NO → do nothing
+        });
     }
 }

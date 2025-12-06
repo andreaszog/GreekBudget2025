@@ -4,10 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="10"
-      xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="gr.greekbudget.SignUpController">
+<VBox alignment="CENTER" spacing="20" styleClass="orange-background"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="gr.greekbudget.SignUpController">
 
     <children>
         <Label text="Create Account" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>

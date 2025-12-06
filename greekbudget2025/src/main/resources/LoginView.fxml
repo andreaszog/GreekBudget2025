@@ -4,23 +4,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="10"
-      xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="gr.greekbudget.LoginController">
+<VBox alignment="CENTER" spacing="20" styleClass="orange-background"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="gr.greekbudget.LoginController">
 
-    <children>
-        <Label text="Log In" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+    <Label text="Κρατικός Προϋπολογισμός"
+           style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
 
-        <TextField fx:id="usernameField" promptText="Username" maxWidth="200"/>
-        <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
+    <VBox spacing="12" alignment="CENTER" maxWidth="300" styleClass="login-box">
 
-        <Button text="Log In" onAction="#login" maxWidth="120"/>
-        <Button text="Back" onAction="#goBack" maxWidth="120"/>
-    </children>
+        <Label text="Username" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+        <TextField fx:id="usernameField" promptText="Εισάγετε όνομα χρήστη"
+                   maxWidth="220" styleClass="input"/>
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+        <Label text="Password" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+        <PasswordField fx:id="passwordField" promptText="Εισάγετε κωδικό"
+                       maxWidth="220" styleClass="input"/>
 
+        <Button text="Log In" onAction="#login" styleClass="btn-orange" maxWidth="150"/>
+    </VBox>
+
+    <Button text="Back" onAction="#goBack" styleClass="btn-back" maxWidth="100"/>
+    
 </VBox>

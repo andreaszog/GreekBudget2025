@@ -76,14 +76,18 @@ public class SignUpController {
     // ------------------------
     @FXML
     private void goBack() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, 400, 400));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            try {
+        Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
+
+        Scene scene = new Scene(root, 400, 400);
+        scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        stage.setScene(scene);
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
 
     // ------------------------
     // Helper popup alert

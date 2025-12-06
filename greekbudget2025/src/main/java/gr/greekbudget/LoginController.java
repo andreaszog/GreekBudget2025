@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,11 +54,23 @@ public class LoginController {
             showAlert("Success", "Welcome, " + username + "!");
 
             // Φόρτωση του MainView.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
+           // Φόρτωση του MainView.fxml με controller instance
+            URL fxml = getClass().getResource("/MainView.fxml");
+            FXMLLoader loader = new FXMLLoader(fxml);
+            Parent root = loader.load();
+
+            // Πάρε το controller και πέρασε το username
+            MainController controller = loader.getController();
+            controller.setUsername(username);
+
+            Scene scene = new Scene(root, 600, 400);
+            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setTitle("Blender Budget - Dashboard");
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(scene);
             stage.show();
+
 
         } catch (Exception e) {
             e.printStackTrace();

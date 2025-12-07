@@ -20,22 +20,17 @@ public class SignUpController {
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmField;
 
-    // ------------------------
-    // REGISTER BUTTON
-    // ------------------------
     @FXML
     private void register() {
         String username = usernameField.getText().trim();
         String pass = passwordField.getText().trim();
         String confirm = confirmField.getText().trim();
 
-        // 1️⃣ Empty fields
         if (username.isEmpty() || pass.isEmpty() || confirm.isEmpty()) {
             showAlert("Error", "Please fill all fields!");
             return;
         }
 
-        // 2️⃣ Passwords match?
         if (!pass.equals(confirm)) {
             showAlert("Error", "Passwords do not match!");
             return;
@@ -43,7 +38,6 @@ public class SignUpController {
 
         try (Connection conn = Database.getConnection()) {
 
-            // 3️⃣ Check if username exists
             PreparedStatement check = conn.prepareStatement(
                     "SELECT id FROM users WHERE username = ?"
             );
@@ -55,7 +49,6 @@ public class SignUpController {
                 return;
             }
 
-            // 4️⃣ Insert new user
             PreparedStatement insert = conn.prepareStatement(
                     "INSERT INTO users(username, password) VALUES (?, ?)"
             );
@@ -71,9 +64,6 @@ public class SignUpController {
         }
     }
 
-    // ------------------------
-    // BACK BUTTON
-    // ------------------------
     @FXML
     private void goBack() {
             try {
@@ -89,9 +79,6 @@ public class SignUpController {
     }
 }
 
-    // ------------------------
-    // Helper popup alert
-    // ------------------------
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

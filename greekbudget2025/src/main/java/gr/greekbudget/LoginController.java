@@ -50,16 +50,12 @@ public class LoginController {
                 return;
             }
 
-            // Αν όλα καλά, login επιτυχές
             showAlert("Success", "Welcome, " + username + "!");
 
-            // Φόρτωση του MainView.fxml
-           // Φόρτωση του MainView.fxml με controller instance
             URL fxml = getClass().getResource("/MainView.fxml");
             FXMLLoader loader = new FXMLLoader(fxml);
             Parent root = loader.load();
 
-            // Πάρε το controller και πέρασε το username
             MainController controller = loader.getController();
             controller.setUsername(username);
 
@@ -88,10 +84,10 @@ public class LoginController {
 
         Stage stage = (Stage) usernameField.getScene().getWindow();
         stage.setScene(scene);
-    } catch (Exception e) {
-        e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

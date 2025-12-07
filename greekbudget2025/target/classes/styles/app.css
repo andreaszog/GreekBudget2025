@@ -1,12 +1,10 @@
-/* ===== LOGIN BOX ===== */
 .login-box {
-    -fx-background-color: #e67e22;      /* πορτοκαλί */
+    -fx-background-color: #e67e22;      
     -fx-padding: 25;
     -fx-background-radius: 20;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
 }
 
-/* ===== ORANGE BUTTON ===== */
 .btn-orange {
     -fx-background-color: #e67e22;
     -fx-text-fill: white;
@@ -20,7 +18,6 @@
     -fx-background-color: #d35400;
 }
 
-/* White input fields */
 .input {
     -fx-background-color: white;
     -fx-border-radius: 12;
@@ -34,7 +31,7 @@
 }
 
 .orange-background {
-    -fx-background-color: #e67e22;  /* πορτοκαλί */
+    -fx-background-color: #e67e22;  
 }
 
 .btn-orange-small {

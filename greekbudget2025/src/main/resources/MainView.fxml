@@ -9,7 +9,6 @@
             fx:controller="gr.greekbudget.MainController"
             styleClass="orange-background">
 
-    <!-- ================= TOP BAR ================= -->
     <top>
         <HBox alignment="CENTER_RIGHT" spacing="10">
 
@@ -17,18 +16,14 @@
                 <Insets top="10" right="10" bottom="10" left="10"/>
              </padding>
 
-              <!-- Username -->
             <Label fx:id="usernameLabel"
                   style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
                   HBox.hgrow="ALWAYS"/>
 
-              <!-- Logout -->
             <Button text="Logout" onAction="#logout" styleClass="btn-orange-small"/>
         </HBox>
     </top>
 
-
-    <!-- ================= CENTER CONTENT ================= -->
     <center>
         <VBox alignment="CENTER" spacing="20">
 

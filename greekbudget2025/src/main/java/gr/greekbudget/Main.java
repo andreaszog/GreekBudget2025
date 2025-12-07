@@ -12,14 +12,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        // -------------------------
-        // 1. Αρχικοποίηση βάσης
-        // -------------------------
         CreateTables.initialize();
 
-        // -------------------------
-        // 2. Φορτώνουμε την αρχική οθόνη (Welcome)
-        // -------------------------
         Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
         Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());

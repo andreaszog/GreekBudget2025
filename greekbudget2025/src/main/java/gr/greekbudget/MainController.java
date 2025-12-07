@@ -31,7 +31,7 @@ public class MainController {
     private void logout(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
-        alert.setHeaderText(null); // αφαιρεί την κενή γραμμή
+        alert.setHeaderText(null); 
         alert.setContentText("Are you sure you want to log out?");
 
         ButtonType yesButton = new ButtonType("Yes");
@@ -41,7 +41,6 @@ public class MainController {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == yesButton) {
-                // Log out
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
                     Scene scene = new Scene(root, 400, 400);
@@ -55,7 +54,6 @@ public class MainController {
                     e.printStackTrace();
                 }
             }
-            // If NO → do nothing
         });
     }
 }

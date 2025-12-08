@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <title>Σύγκριση Σεναρίων - GreekBudget2025</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Σύγκριση Προϋπολογισμών - GreekBudget2025</title>
 
   <style>
     :root{
@@ -15,6 +15,12 @@
       --radius:12px;
       --container:900px;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+
+      /* COLORS FOR CARDS */
+      --orange:#f07a36;
+      --orange2:#99745e;
+      --yellow:#f9e59b;
+      --yellow-line:#f3d96a;
     }
 
     body{
@@ -35,7 +41,7 @@
       border-radius:14px;
     }
 
-    /* ✨ NEW HEADER (ίδιο με Scenarios Analysis) */
+    /* HEADER */
     header {
       display: flex;
       justify-content: space-between;
@@ -84,10 +90,6 @@
       font-size: 14px;
     }
 
-    .dropdown-user a:hover {
-      text-decoration: underline;
-    }
-
     /* Sidebar */
     .side-menu {
       position: fixed;
@@ -110,6 +112,7 @@
       background: #ffe4d4;
     }
 
+    /* MAIN TEXT */
     h1{
       font-size:20px;
       text-align:center;
@@ -118,43 +121,104 @@
       color:#d35400;
     }
 
-    h2{text-align:center; font-size:18px; color:#111; margin-top:20px;}
-    p{text-align:center; color:#333; font-size:15px; line-height:1.5; max-width:700px; margin:10px auto;}
+    p.lead{
+      text-align:center;
+      color:#333;
+      font-size:15px;
+      line-height:1.5;
+      max-width:700px;
+      margin:0 auto 28px;
+    }
+
+    /* CONTROLS */
+    .controls{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin:18px 0 10px;
+    }
 
     select{
-      display:block;
-      margin:20px auto;
-      padding:10px 20px;
-      border-radius:999px;
+      padding:10px 12px;
+      border-radius:10px;
       border:2px solid var(--accent);
-      font-weight:600;
       background:var(--accent);
       color:white;
-      font-size:15px;
+      font-weight:600;
       cursor:pointer;
-      transition:background 0.2s;
+      min-width:230px;
     }
 
     select:hover{ background:#ff814f; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 15px;
+    .btn{
+      border:none;
+      padding:10px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      text-align: center;
-    }
-    th {
-      background-color: var(--accent);
-      color: white;
-    }
-    tr:nth-child(even) { background-color: #f9f9f9; }
-    tr:hover { background-color: #ffe4d4; }
 
+    .btn-primary{
+      background:#F6E291;
+    }
+    .btn-primary:hover{
+      background:#f3d96a;
+    }
+
+    .btn-accent{
+      background:var(--orange);
+      color:#fff;
+    }
+    .btn-accent:hover{
+      background:var(--orange2);
+    }
+
+    /* SCENARIO CARDS */
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:26px;
+      justify-items:center;
+      margin:22px 0;
+    }
+
+    .card{
+      width:240px;
+      background:var(--orange);
+      color:#fff;
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      padding:16px;
+      text-align:left;
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:18px;
+    }
+
+    .row{
+      display:flex;
+      justify-content:space-between;
+      margin:6px 0;
+    }
+
+    /* CHART PLACEHOLDER */
+    .chart{
+      max-width:720px;
+      margin:18px auto 8px;
+      background:#fff;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      padding:28px;
+      color:#666;
+      text-align:center;
+      font-size:15px;
+    }
+
+    /* FOOTER */
     footer {
       margin-top:40px;
       background-color:white;
@@ -164,23 +228,30 @@
       color:#333;
       border-radius:12px;
     }
+
     footer img {
       height:160px;
       width:auto;
       display:block;
       margin:0 auto 10px;
     }
+
     footer h2 {
       margin-top:10px;
       color:#d35400;
+    }
+
+    @media (max-width:900px){
+      .grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 
 <body>
-<main class="page" role="main">
 
-<!-- ✨ UPDATED HEADER -->
+<main class="page">
+
+<!-- HEADER -->
 <header>
   <img class="logo" src="blender_logo.jfif" alt="Blender logo">
 
@@ -204,55 +275,52 @@
   <a href="charts.html">📈 Γραφήματα</a>
 </nav>
 
-<h1>Σύγκριση με Προϋπολογισμούς Άλλων Χωρών</h1>
-<p>
-  Επίλεξε μια χώρα για να συγκρίνεις τον κρατικό της προϋπολογισμό με αυτόν της Ελλάδας. Η λίστα περιλαμβάνει διαθέσιμες ευρωπαϊκές και διεθνείς οικονομίες για ανάλυση και αντιπαραβολή.
+<h1>Σύγκριση Σεναρίων</h1>
+<p class="lead">
+  Συγκρίνετε δύο ή περισσότερα σενάρια για να εντοπίσετε ποιο οδηγεί στο καλύτερο οικονομικό αποτέλεσμα. Δείτε συγκριτικούς πίνακες και γραφήματα για να αναλύσετε τις διαφορές με μια ματιά.
 </p>
 
-<select id="country-select">
-  <option selected disabled>Επιλέξτε Χώρα για Σύγκριση</option>
-  <option>Γερμανία</option>
-  <option>Γαλλία</option>
-  <option>Ιταλία</option>
-  <option>Ισπανία</option>
-  <option>Ολλανδία</option>
-</select>
+<!-- CONTROLS -->
+<div class="controls">
+  <select>
+    <option>Επιλέξτε Σενάριο 1: Αύξηση ΦΠΑ</option>
+  </select>
+  <select>
+    <option>Επιλέξτε Σενάριο 2: Μείωση Δαπανών</option>
+  </select>
 
-<h2>Πινάκας με διαφορές σε σημαντικούς δείκτες</h2>
+  <button class="btn btn-primary">Σύγκριση Σεναρίων</button>
+</div>
 
-<table>
-  <tr>
-    <th>Δείκτης</th>
-    <th>Ελλάδα</th>
-    <th>Επιλεγμένη Χώρα</th>
-  </tr>
-  <tr>
-    <td>ΑΕΠ (δισ. €)</td>
-    <td>224</td>
-    <td id="gdp">—</td>
-  </tr>
-  <tr>
-    <td>Έλλειμμα (% ΑΕΠ)</td>
-    <td>-1.5%</td>
-    <td id="deficit">—</td>
-  </tr>
-  <tr>
-    <td>Δημόσιο Χρέος (% ΑΕΠ)</td>
-    <td>161%</td>
-    <td id="debt">—</td>
-  </tr>
-  <tr>
-    <td>Δημόσιες Δαπάνες (% ΑΕΠ)</td>
-    <td>49%</td>
-    <td id="spending">—</td>
-  </tr>
-  <tr>
-    <td>Πληθυσμός (εκατ.)</td>
-    <td>10.4</td>
-    <td id="population">—</td>
-  </tr>
-</table>
+<!-- CARDS -->
+<section class="grid">
+  <div class="card">
+    <h3>Σενάριο 1</h3>
+    <div class="row"><span>ΦΠΑ</span><strong>+2%</strong></div>
+    <div class="row"><span>Έσοδα</span><strong>58 δισ. €</strong></div>
+    <div class="row"><span>Έξοδα</span><strong>53 δισ. €</strong></div>
+    <div class="row"><span>Ισοζύγιο</span><strong>+5</strong></div>
+  </div>
 
+  <div class="card">
+    <h3>Σενάριο 2</h3>
+    <div class="row"><span>Δαπάνες</span><strong>-3%</strong></div>
+    <div class="row"><span>Έσοδα</span><strong>55 δισ. €</strong></div>
+    <div class="row"><span>Έξοδα</span><strong>51 δισ. €</strong></div>
+    <div class="row"><span>Ισοζύγιο</span><strong>+4</strong></div>
+  </div>
+</section>
+
+<!-- CHART -->
+<div class="chart">
+  Bar chart ή Column chart (placeholder)
+</div>
+
+<div class="controls" style="margin-top:14px">
+  <a class="btn btn-accent" href="scenarios.html">+ Δημιουργία Νέου Σεναρίου</a>
+</div>
+
+<!-- FOOTER -->
 <footer>
   <img src="blender_logo.jfif" alt="Blender Logo">
   <h2>About Us – Ομάδα Blender</h2>
@@ -266,23 +334,6 @@
 </main>
 
 <script>
-  const data = {
-    "Γερμανία": {gdp:"4.5 τρισ.", deficit:"-0.3%", debt:"64%", spending:"46%", population:"83.2"},
-    "Γαλλία": {gdp:"3.2 τρισ.", deficit:"-4.5%", debt:"110%", spending:"58%", population:"68"},
-    "Ιταλία": {gdp:"2.1 τρισ.", deficit:"-5.3%", debt:"137%", spending:"50%", population:"59"},
-    "Ισπανία": {gdp:"1.6 τρισ.", deficit:"-3.6%", debt:"111%", spending:"48%", population:"47"},
-    "Ολλανδία": {gdp:"1.0 τρισ.", deficit:"-0.7%", debt:"48%", spending:"44%", population:"17.6"}
-  };
-
-  document.getElementById("country-select").addEventListener("change", function() {
-    const c = data[this.value];
-    document.getElementById("gdp").textContent = c.gdp;
-    document.getElementById("deficit").textContent = c.deficit;
-    document.getElementById("debt").textContent = c.debt;
-    document.getElementById("spending").textContent = c.spending;
-    document.getElementById("population").textContent = c.population;
-  });
-
   const userIcon = document.querySelector('.user-icon');
   const dropdown = document.getElementById('userDropdown');
 

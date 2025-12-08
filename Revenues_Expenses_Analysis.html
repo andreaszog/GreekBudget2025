@@ -16,6 +16,73 @@
       --container:900px;
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
     }
+      
+
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background: white;
+      padding-top: 70px;
+      box-shadow: 3px 0 15px rgba(0,0,0,0.1);
+    }
+
+    .side-menu a {
+      display: block;
+      padding: 16px 22px;
+      text-decoration: none;
+      font-size: 17px;
+      color: #333;
+    }
+
+    .side-menu a:hover {
+      background: #ffe4d4;
+    }
+
+    .user-info {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-icon {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .signed-in-text {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .dropdown-user {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: none;
+    }
+
+    .dropdown-user a {
+      text-decoration: none;
+      font-size: 14px;
+      color: black;
+    }
+    
     body{
       margin:0; background:var(--bg); color:#111; display:flex; justify-content:center; padding:36px 16px;
     }
@@ -24,7 +91,7 @@
       background:linear-gradient(#fff,#fff);
       padding:28px 36px 60px; box-shadow:0 8px 30px rgba(0,0,0,0.06); border-radius:14px;
     }
-    header{display:flex; align-items:center; justify-content:center; margin-bottom:18px}
+    
     .logo{height:160px}
     h1{font-size:20px; text-align:center; margin:6px 0 28px; font-weight:700; color:#d35400;}
 
@@ -86,9 +153,29 @@
 </head>
 <body>
   <main class="page" role="main">
-    <header>
-      <img class="logo" src="blender_logo.jfif" alt="Blender logo">
-    </header>
+<header>
+  <img class="logo" src="blender_logo.jfif" alt="Blender logo">
+
+  <div class="user-info">
+      <span class="signed-in-text">You are signed in as: <b>username</b></span>
+      <img src="user_icon.png" alt="User Icon" class="user-icon">
+
+      <div class="dropdown-user" id="userDropdown">
+          <a href="#" id="logoutBtn">Log out</a>
+      </div>
+  </div>
+</header>
+<nav id="side-menu" class="side-menu">
+  <a href="index.html">🏠 Home</a>
+  <a href="Country_Comparison.html">🌍 Σύγκριση Προϋπολογισμών</a>
+  <a href="Revenues_Expenses_Analysis.html">📊 Ανάλυση Εσόδων - Εξόδων</a>
+  <a href="multiple_years.html">📆 Πολλαπλά Έτη</a>
+  <a href="compare_scenarios.html">⚖️ Σύγκριση Σεναρίων</a>
+  <a href="Scenarios_Analysis.html">📂 Ανάλυση Σεναρίων</a>
+  <a href="charts.html">📈 Γραφήματα</a>
+
+
+</nav>
 
     <h1>Ανάλυση Εσόδων - Εξόδων</h1>
 

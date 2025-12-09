@@ -1,9 +1,9 @@
 package gr.greekbudget;
-import java.util.List;
-import java.util.ArrayList;
 
 public class statsChanges {
-    public static void comparison(float previousamount, float Revenue, float Expenses) {
-        
+    public static float comparison(float previousamount, float newAmount) {
+        float p = Math.abs(previousamount - newAmount);
+        return p;
     }
+    System.out.println(p);
 }

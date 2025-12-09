@@ -8,7 +8,7 @@ public class DemandAmount {
     public static String category;
     system.outprintln("Θέλετε να αλλάξετε έξοδα ή έσοδα και για  ποιά κατηγορία;");
     public static String categoryChoice = scanner.next();
-    public static void SuccessOrNo(boolean typeCategory) {
+    public static boolean SuccessOrNo(boolean typeCategory, String RevenuesName, String ExpensesName) {
         While (!typeCategory) {
             String category = scanner.next();
             if (categoryChoice == "Έσοδα") {
@@ -28,6 +28,7 @@ public class DemandAmount {
                 System.out.println("Δώσατε κατηγορία που δεν υπάρχει, παρακαλώ πληκτρολογείστε ξανά.");
             }
         }
+        return typeCategory;
     }
     private static void While(boolean b) {
         throw new UnsupportedOperationException("Unimplemented method 'While'");

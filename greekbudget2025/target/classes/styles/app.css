@@ -49,3 +49,15 @@
     -fx-background-color: #f39c12; 
     -fx-padding: 15;
 }
+
+.top-orange-section {
+    -fx-background-color: #FFA500; 
+}
+
+.yellow-background {
+    -fx-background: #FFE066; 
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #fff3b0;
+}

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
@@ -57,28 +58,16 @@ public class MainController {
         });
     }
 
-
-@FXML
+   @FXML
 private void openSummary() {
-    System.out.println("Το κουμπί πατήθηκε!");
-
     try {
-        URL url = getClass().getResource("/SummaryView.fxml");
-        System.out.println("URL: " + url);  // Αν είναι null, το path είναι λάθος
-
-        if (url == null) {
-            System.out.println("⚠️ Δεν βρέθηκε το αρχείο SummaryView.fxml! Ελέγξτε το path.");
-            return;
-        }
-
-        Parent root = FXMLLoader.load(url);
+        Parent root = FXMLLoader.load(getClass().getResource("/SummaryView.fxml"));
         Scene scene = new Scene(root, 800, 600);
-        Stage stage = new Stage();
-        stage.setTitle("Συγκεντρωτικά Στοιχεία Προϋπολογισμών");
+        Stage stage = (Stage) usernameLabel.getScene().getWindow();
+        scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-
-        } catch (Exception e) {
+    } catch (IOException e) {
             e.printStackTrace();
         }
     }

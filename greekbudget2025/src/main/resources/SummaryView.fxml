@@ -10,17 +10,30 @@
             styleClass="orange-background">
 
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="10">
-            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+        <VBox spacing="10">
+            <!-- Γραμμή με το κουμπί Back δεξιά -->
+            <HBox alignment="CENTER_RIGHT">
+                <padding>
+                    <Insets top="10" right="15" bottom="0" left="15"/>
+                </padding>
+                <Button text="Back" onAction="#goBack" styleClass="btn-orange-small"/>
+            </HBox>
 
-            <Label text="Έτος:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-            <ComboBox fx:id="yearComboBox" prefWidth="150"/>
+            <!-- Γραμμή με τα φίλτρα (έτος, υπουργείο, κουμπί φόρτωσης) -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <padding>
+                    <Insets top="0" right="15" bottom="15" left="15"/>
+                </padding>
 
-            <Label text="Υπουργείο (προαιρετικό):" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-            <ComboBox fx:id="ministryComboBox" prefWidth="250"/>
+                <Label text="Έτος:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                <ComboBox fx:id="yearComboBox" prefWidth="150"/>
 
-            <Button text="Φόρτωσε" onAction="#loadSummary" styleClass="btn-orange-small"/>
-        </HBox>
+                <Label text="Υπουργείο:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                <ComboBox fx:id="ministryComboBox" prefWidth="250"/>
+
+                <Button text="Φόρτωσε" onAction="#loadSummary" styleClass="btn-orange-small"/>
+            </HBox>
+        </VBox>
     </top>
 
     <center>

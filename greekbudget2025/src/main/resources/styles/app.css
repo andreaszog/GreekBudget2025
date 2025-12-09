@@ -45,3 +45,7 @@
     -fx-background-color: #e67e22;
 }
 
+.filter-bar {
+    -fx-background-color: #f39c12; 
+    -fx-padding: 15;
+}

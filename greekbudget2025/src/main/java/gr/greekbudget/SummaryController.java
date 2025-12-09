@@ -28,9 +28,17 @@ public class SummaryController {
         yearComboBox.getSelectionModel().selectFirst();
 
         loadMockBudget();
-
         updateMinistryOptions("2026");
+
+        ministryComboBox.setOnAction(event -> loadSummary());
+
+        yearComboBox.setOnAction(event -> {
+            updateMinistryOptions(yearComboBox.getValue());
+            loadSummary();
+        });
+        loadSummary();
     }
+
 
     private void updateMinistryOptions(String year) {
         ministryComboBox.getItems().clear();

@@ -1,3 +1,5 @@
+package gr.greekbudget;
+
 import java.util.Scanner;
 
 public class DemandAmount {
@@ -7,7 +9,7 @@ public class DemandAmount {
     system.outprintln("Θέλετε να αλλάξετε έξοδα ή έσοδα και για  ποιά κατηγορία;");
     public static String categoryChoice = scanner.next();
     public static void SuccessOrNo(boolean typeCategory) {
-        While (typeCategory == false) {
+        While (!typeCategory) {
             String category = scanner.next();
             if (categoryChoice == "Έσοδα") {
                 for (String item : RevenuesName() ) {
@@ -26,6 +28,9 @@ public class DemandAmount {
                 System.out.println("Δώσατε κατηγορία που δεν υπάρχει, παρακαλώ πληκτρολογείστε ξανά.");
             }
         }
+    }
+    private static void While(boolean b) {
+        throw new UnsupportedOperationException("Unimplemented method 'While'");
     }
     boolean typeAmount = false;
     public static float ValueControl (boolean typeAmount, float newAmount) throws ArithmeticException {

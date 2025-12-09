@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gr.greekbudget.SummaryController"
+            styleClass="orange-background">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+
+            <Label text="Έτος:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+            <ComboBox fx:id="yearComboBox" prefWidth="150"/>
+
+            <Label text="Υπουργείο (προαιρετικό):" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+            <ComboBox fx:id="ministryComboBox" prefWidth="250"/>
+
+            <Button text="Φόρτωσε" onAction="#loadSummary" styleClass="btn-orange-small"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox fx:id="summaryBox" spacing="10">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

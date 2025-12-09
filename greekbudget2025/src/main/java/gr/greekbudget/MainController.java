@@ -56,4 +56,30 @@ public class MainController {
             }
         });
     }
+
+
+@FXML
+private void openSummary() {
+    System.out.println("Το κουμπί πατήθηκε!");
+
+    try {
+        URL url = getClass().getResource("/SummaryView.fxml");
+        System.out.println("URL: " + url);  // Αν είναι null, το path είναι λάθος
+
+        if (url == null) {
+            System.out.println("⚠️ Δεν βρέθηκε το αρχείο SummaryView.fxml! Ελέγξτε το path.");
+            return;
+        }
+
+        Parent root = FXMLLoader.load(url);
+        Scene scene = new Scene(root, 800, 600);
+        Stage stage = new Stage();
+        stage.setTitle("Συγκεντρωτικά Στοιχεία Προϋπολογισμών");
+        stage.setScene(scene);
+        stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

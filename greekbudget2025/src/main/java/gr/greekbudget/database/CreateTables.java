@@ -19,10 +19,10 @@ public class CreateTables {
              Statement stmt = conn.createStatement()) {
 
             stmt.execute(sql);
-            System.out.println("✔ Table 'users' created (or already exists)");
+            System.out.println(" Table 'users' created (or already exists)");
 
         } catch (SQLException e) {
-            throw new RuntimeException("❌ Failed to create tables!", e);
+            throw new RuntimeException(" Failed to create tables!", e);
         }
     }
 }

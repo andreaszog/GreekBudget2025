@@ -31,6 +31,7 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
+            <Button text="Συγκεντρωτικά Στοιχεία" onAction="#openSummary" prefWidth="300" styleClass="btn-orange"/>
             <Button text="Επεξεργασία Προϋπολογισμού" prefWidth="300" styleClass="btn-orange"/>
             <Button text="Ανάλυση" prefWidth="300" styleClass="btn-orange"/>
             <Button text="Σενάρια" prefWidth="300" styleClass="btn-orange"/>

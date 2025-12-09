@@ -6,12 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
-
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.*;
 
 public class SummaryController {
@@ -19,6 +22,8 @@ public class SummaryController {
     @FXML private ComboBox<String> yearComboBox;
     @FXML private ComboBox<String> ministryComboBox;
     @FXML private VBox summaryBox;
+    @FXML private Label linkTextLabel;
+    @FXML private Hyperlink pdfLink;
 
     private final Map<String, Map<String, Object>> budgetData = new HashMap<>();
 
@@ -31,14 +36,27 @@ public class SummaryController {
         updateMinistryOptions("2026");
 
         ministryComboBox.setOnAction(event -> loadSummary());
-
         yearComboBox.setOnAction(event -> {
             updateMinistryOptions(yearComboBox.getValue());
             loadSummary();
         });
+
+        // PDF Link styling and action
+        linkTextLabel.setText("Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του έτους 2026, πατήστε ");
+        linkTextLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        pdfLink.setText("εδώ");
+        pdfLink.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        pdfLink.setOnAction(e -> {
+            try {
+                Desktop.getDesktop().browse(new URI("https://minfin.gov.gr/wp-content/uploads/2025/11/%CE%9A%CF%81%CE%B1%CF%84%CE%B9%CE%BA%CF%8C%CF%82-%CE%A0%CF%81%CE%BF%CF%8B%CF%80%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CF%83%CE%BC%CF%8C%CF%82-2026.pdf"));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // Load default summary
         loadSummary();
     }
-
 
     private void updateMinistryOptions(String year) {
         ministryComboBox.getItems().clear();
@@ -59,20 +77,22 @@ public class SummaryController {
 
         String year = yearComboBox.getValue();
         String ministry = ministryComboBox.getValue();
-
         Map<String, Object> yearData = budgetData.get(year);
         if (yearData == null) return;
 
         if ("Όλα τα υπουργεία".equals(ministry)) {
             for (Map.Entry<String, Object> entry : ((Map<String, Object>) yearData.get("Υπουργεία")).entrySet()) {
-                summaryBox.getChildren().add(new Label(entry.getKey()));
+                Label label = new Label(entry.getKey());
+                label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+                summaryBox.getChildren().add(label);
             }
         } else {
             Object data = ((Map<String, Object>) yearData.get("Υπουργεία")).get(ministry);
-            summaryBox.getChildren().add(new Label("Στοιχεία για: " + ministry));
-            summaryBox.getChildren().add(new Label(data.toString()));
+            Label title = new Label("Στοιχεία για: " + ministry);
+            title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+            Label content = new Label(data.toString());
+            summaryBox.getChildren().addAll(title, content);
         }
-
     }
 
     private void loadMockBudget() {
@@ -126,8 +146,8 @@ public class SummaryController {
             stage.setScene(scene);
             stage.show();
 
-         } catch (Exception e) {
-             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

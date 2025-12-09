@@ -37,5 +37,11 @@
             </VBox>
         </ScrollPane>
     </center>
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-padding: 20;">
+            <Label fx:id="linkTextLabel" />
+            <Hyperlink fx:id="pdfLink" />
+        </HBox>
+    </bottom>
 
 </BorderPane>

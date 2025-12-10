@@ -70,11 +70,8 @@ public class SummaryController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
             Parent root = loader.load();
 
-            // ΠΑΙΡΝΟΥΜΕ τον controller του MainView
             MainController mainController = loader.getController();
 
-            // ΠΕΡΝΑΜΕ το username ξανά
-            // (αν το κρατάς κάπου στο SummaryController)
             if (this.username != null) {
                 mainController.setUsername(this.username);
             }

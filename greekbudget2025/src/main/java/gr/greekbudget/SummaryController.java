@@ -47,7 +47,7 @@ public class SummaryController {
     public void initialize() {
         loadBudgetData();
 
-        yearCombo.getItems().addAll("2026", "2025", "2024", "2023", "2022", "2021", "2020");
+        yearCombo.getItems().addAll("2026", "2025", "2024", "2023", "2022");
         yearCombo.getSelectionModel().select("2026");
 
         ministryCombo.getItems().add("Όλα τα υπουργεία");

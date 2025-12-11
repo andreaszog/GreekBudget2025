@@ -30,16 +30,16 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <Button text="Δαπάνες ανά Υπουργείο"
+            <Button text="Δαπάνες/Έσοδα ανά Υπουργείο"
                     onAction="#openSummary"
                     prefWidth="350"
                     styleClass="btn-orange"/>
 
-            <Button text="Επεξεργασία Προϋπολογισμού"
+            <Button text="Επεξεργασία Τιμών"
                     prefWidth="300"
                     styleClass="btn-orange"/>
 
-            <Button text="Ανάλυση"
+            <Button text="Ανάλυση Προυπολογισμού"
                     onAction="#openAnalysis"
                     prefWidth="300"
                     styleClass="btn-orange"/>
@@ -48,7 +48,7 @@
                     prefWidth="300"
                     styleClass="btn-orange"/>
 
-            <Button text="Έτη"
+            <Button text="Γραφήματα/Στατιστικά Στοιχεία"
                     prefWidth="300"
                     styleClass="btn-orange"/>
 

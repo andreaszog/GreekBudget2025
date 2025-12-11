@@ -11,14 +11,13 @@
 
     <top>
         <HBox alignment="CENTER_RIGHT" spacing="10">
-
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
 
             <Label fx:id="usernameLabel"
-                   style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
-                   HBox.hgrow="ALWAYS"/>
+                  style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
+                  HBox.hgrow="ALWAYS"/>
 
             <Button text="Logout" onAction="#logout" styleClass="btn-orange-small"/>
         </HBox>
@@ -31,11 +30,27 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <Button text="Δαπάνες ανά Υπουργείο" onAction="#openSummary" prefWidth="350" styleClass="btn-orange"/>
-            <Button text="Επεξεργασία Προϋπολογισμού" prefWidth="300" styleClass="btn-orange"/>
-            <Button text="Ανάλυση" prefWidth="300" styleClass="btn-orange"/>
-            <Button text="Σενάρια" prefWidth="300" styleClass="btn-orange"/>
-            <Button text="Έτη" prefWidth="300" styleClass="btn-orange"/>
+            <Button text="Δαπάνες ανά Υπουργείο"
+                    onAction="#openSummary"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+
+            <Button text="Επεξεργασία Προϋπολογισμού"
+                    prefWidth="300"
+                    styleClass="btn-orange"/>
+
+            <Button text="Ανάλυση"
+                    onAction="#openAnalysis"
+                    prefWidth="300"
+                    styleClass="btn-orange"/>
+
+            <Button text="Σενάρια"
+                    prefWidth="300"
+                    styleClass="btn-orange"/>
+
+            <Button text="Έτη"
+                    prefWidth="300"
+                    styleClass="btn-orange"/>
 
         </VBox>
     </center>

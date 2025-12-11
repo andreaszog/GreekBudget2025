@@ -32,7 +32,28 @@ public class SummaryController {
     @FXML private Label linkTextLabel;
     @FXML private Hyperlink pdfLink;
 
+    // ------------------------------
+    //  🔥 THE DATA MODEL EXPENSES MAP
+    // ------------------------------
     private Map<String, Map<String, Long>> ministryExpenses;
+
+
+    // ==========================================================
+    //  METHOD REQUIRED BY AnalysisController
+    //  (AnalysisController calls this before reading expenses)
+    // ==========================================================
+    public void initializeInternalData() {
+        loadBudgetData();   // simply reloads the same expense structure
+    }
+
+
+    // ==========================================================
+    //  METHOD REQUIRED BY AnalysisController
+    // ==========================================================
+    public Map<String, Map<String, Long>> getMinistryExpenses() {
+        return ministryExpenses;
+    }
+
 
     @FXML
     public void initialize() {
@@ -54,6 +75,7 @@ public class SummaryController {
             pdfLink.setOnAction(e -> openPdf());
         }
     }
+
 
     @FXML
     private void goBack(ActionEvent event) {
@@ -79,6 +101,7 @@ public class SummaryController {
         }
     }
 
+
     private void openPdf() {
         String url = "https://minfin.gov.gr/wp-content/uploads/2025/11/Κρατικός-Προϋπολογισμός-2026.pdf";
         try {
@@ -90,7 +113,12 @@ public class SummaryController {
         }
     }
 
+
+    // ==========================================================
+    //  LOAD BUDGET DATA
+    // ==========================================================
     private void loadBudgetData() {
+
         ministryExpenses = new LinkedHashMap<>();
 
         ministryExpenses.put("Υπουργείο Εσωτερικών", Map.of(
@@ -195,8 +223,9 @@ public class SummaryController {
         ));
     }
 
+
     // ==========================================================
-    //   UPDATE EXPENSE — ΚΑΛΕΙΤΑΙ από EditExpenseController
+    //   UPDATE EXPENSE (used by EditExpenseController)
     // ==========================================================
     public void updateExpense(String ministry, String category, long newValue) {
 
@@ -212,10 +241,7 @@ public class SummaryController {
             return;
         }
 
-        // Ενημέρωση τιμής
         expenses.put(category, newValue);
-
-        // Ανανεώνουμε την προβολή
         updateView();
 
         System.out.println("UPDATED → " + ministry + " | " + category + " = " + newValue);
@@ -223,7 +249,7 @@ public class SummaryController {
 
 
     // ==========================================================
-    //                 UPDATE VIEW (refresher)
+    //                 UPDATE VIEW
     // ==========================================================
     private void updateView() {
 
@@ -232,7 +258,6 @@ public class SummaryController {
         String selected = ministryCombo.getValue();
         if (selected == null) return;
 
-        // ALL MINISTRIES
         if (selected.equals("Όλα τα υπουργεία")) {
 
             long grandTotal = 0L;
@@ -264,10 +289,7 @@ public class SummaryController {
                     grandTotal += amount;
 
                     Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
-                    line.setStyle(
-                            "-fx-font-size: 20px;" +
-                            "-fx-padding: 8 0 8 15;"
-                    );
+                    line.setStyle("-fx-font-size: 20px; -fx-padding: 8 0 8 15;");
 
                     resultsBox.getChildren().add(line);
                 }
@@ -294,7 +316,6 @@ public class SummaryController {
             return;
         }
 
-        // ONE MINISTRY
         Map<String, Long> expenses = ministryExpenses.get(selected);
 
         Label title = new Label(selected);

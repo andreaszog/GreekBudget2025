@@ -20,26 +20,17 @@ import java.util.Map;
 
 public class SummaryController {
 
-        private String username;
+    private String username;
 
-        public void setUsername(String username) {
-            this.username = username;
-        }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    @FXML
-    private ComboBox<String> yearCombo;
-
-    @FXML
-    private ComboBox<String> ministryCombo;
-
-    @FXML
-    private VBox resultsBox;
-
-    @FXML
-    private Label linkTextLabel;
-
-    @FXML
-    private Hyperlink pdfLink;
+    @FXML private ComboBox<String> yearCombo;
+    @FXML private ComboBox<String> ministryCombo;
+    @FXML private VBox resultsBox;
+    @FXML private Label linkTextLabel;
+    @FXML private Hyperlink pdfLink;
 
     private Map<String, Map<String, Long>> ministryExpenses;
 
@@ -64,7 +55,7 @@ public class SummaryController {
         }
     }
 
-   @FXML
+    @FXML
     private void goBack(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
@@ -72,9 +63,8 @@ public class SummaryController {
 
             MainController mainController = loader.getController();
 
-            if (this.username != null) {
+            if (this.username != null)
                 mainController.setUsername(this.username);
-            }
 
             Scene scene = new Scene(root, 600, 400);
             scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
@@ -85,11 +75,9 @@ public class SummaryController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(" Δεν μπορώ να φορτώσω το MainView.fxml");
+            System.out.println("Δεν μπορώ να φορτώσω το MainView.fxml");
         }
     }
-
-
 
     private void openPdf() {
         String url = "https://minfin.gov.gr/wp-content/uploads/2025/11/Κρατικός-Προϋπολογισμός-2026.pdf";
@@ -156,7 +144,7 @@ public class SummaryController {
 
         ministryExpenses.put("Υπουργείο Κλιματικής Κρίσης και Πολιτικής Προστασίας", Map.of(
                 "Παροχές σε εργαζομένους", 300000000L,
-                "Αγορές αγαθών και υπηρεσιών", 100000000L,
+                "Αγορές αγαθών και υπηρεσισιών", 100000000L,
                 "Λοιπές δαπάνες", 438000000L,
                 "Πάγια περιουσιακά στοιχεία", 600000000L
         ));
@@ -207,113 +195,143 @@ public class SummaryController {
         ));
     }
 
-  private void updateView() {
+    // ==========================================================
+    //   UPDATE EXPENSE — ΚΑΛΕΙΤΑΙ από EditExpenseController
+    // ==========================================================
+    public void updateExpense(String ministry, String category, long newValue) {
 
-    resultsBox.getChildren().clear();
-
-    String selected = ministryCombo.getValue();
-    if (selected == null) return;
-
-    if (selected.equals("Όλα τα υπουργεία")) {
-
-        long grandTotal = 0L;
-
-        for (var ministryEntry : ministryExpenses.entrySet()) {
-
-            String ministryName = ministryEntry.getKey();
-            Map<String, Long> expenses = ministryEntry.getValue();
-
-            Label ministryLabel = new Label(ministryName);
-            ministryLabel.setStyle(
-                    "-fx-font-size: 28px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-padding: 25 0 15 0;"
-            );
-            ministryLabel.setWrapText(true);
-            ministryLabel.setMaxWidth(Double.MAX_VALUE);
-
-            resultsBox.getChildren().add(ministryLabel);
-
-            long ministryTotal = 0L;
-
-            for (var entry : expenses.entrySet()) {
-
-                String category = entry.getKey();
-                Long amount = entry.getValue();
-
-                ministryTotal += amount;
-                grandTotal += amount;
-
-                Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
-                line.setStyle(
-                        "-fx-font-size: 20px;" +
-                        "-fx-padding: 8 0 8 15;"
-                );
-
-                resultsBox.getChildren().add(line);
-            }
-
-            Label ministrySum = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", ministryTotal));
-            ministrySum.setStyle(
-                    "-fx-font-size: 22px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-padding: 15 0 25 0;"
-            );
-
-            resultsBox.getChildren().add(ministrySum);
+        if (!ministryExpenses.containsKey(ministry)) {
+            System.out.println("ERROR: Υπουργείο δεν βρέθηκε: " + ministry);
+            return;
         }
 
-        Label allTotal = new Label("ΣΥΝΟΛΟ ΟΛΩΝ ΤΩΝ ΥΠΟΥΡΓΕΙΩΝ: " +
-                String.format("%,d €", grandTotal));
-        allTotal.setStyle(
+        Map<String, Long> expenses = ministryExpenses.get(ministry);
+
+        if (!expenses.containsKey(category)) {
+            System.out.println("ERROR: Κατηγορία δεν βρέθηκε: " + category);
+            return;
+        }
+
+        // Ενημέρωση τιμής
+        expenses.put(category, newValue);
+
+        // Ανανεώνουμε την προβολή
+        updateView();
+
+        System.out.println("UPDATED → " + ministry + " | " + category + " = " + newValue);
+    }
+
+
+    // ==========================================================
+    //                 UPDATE VIEW (refresher)
+    // ==========================================================
+    private void updateView() {
+
+        resultsBox.getChildren().clear();
+
+        String selected = ministryCombo.getValue();
+        if (selected == null) return;
+
+        // ALL MINISTRIES
+        if (selected.equals("Όλα τα υπουργεία")) {
+
+            long grandTotal = 0L;
+
+            for (var ministryEntry : ministryExpenses.entrySet()) {
+
+                String ministryName = ministryEntry.getKey();
+                Map<String, Long> expenses = ministryEntry.getValue();
+
+                Label ministryLabel = new Label(ministryName);
+                ministryLabel.setStyle(
+                        "-fx-font-size: 28px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 25 0 15 0;"
+                );
+                ministryLabel.setWrapText(true);
+                ministryLabel.setMaxWidth(Double.MAX_VALUE);
+
+                resultsBox.getChildren().add(ministryLabel);
+
+                long ministryTotal = 0L;
+
+                for (var entry : expenses.entrySet()) {
+
+                    String category = entry.getKey();
+                    Long amount = entry.getValue();
+
+                    ministryTotal += amount;
+                    grandTotal += amount;
+
+                    Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
+                    line.setStyle(
+                            "-fx-font-size: 20px;" +
+                            "-fx-padding: 8 0 8 15;"
+                    );
+
+                    resultsBox.getChildren().add(line);
+                }
+
+                Label ministrySum = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", ministryTotal));
+                ministrySum.setStyle(
+                        "-fx-font-size: 22px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 15 0 25 0;"
+                );
+
+                resultsBox.getChildren().add(ministrySum);
+            }
+
+            Label allTotal = new Label("ΣΥΝΟΛΟ ΟΛΩΝ ΤΩΝ ΥΠΟΥΡΓΕΙΩΝ: " +
+                    String.format("%,d €", grandTotal));
+            allTotal.setStyle(
+                    "-fx-font-size: 28px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-padding: 30 0 0 0;"
+            );
+
+            resultsBox.getChildren().add(allTotal);
+            return;
+        }
+
+        // ONE MINISTRY
+        Map<String, Long> expenses = ministryExpenses.get(selected);
+
+        Label title = new Label(selected);
+        title.setStyle(
                 "-fx-font-size: 28px;" +
                 "-fx-font-weight: bold;" +
-                "-fx-padding: 30 0 0 0;"
+                "-fx-padding: 20 0 20 0;"
+        );
+        title.setWrapText(true);
+        title.setMaxWidth(Double.MAX_VALUE);
+
+        resultsBox.getChildren().add(title);
+
+        long total = 0L;
+
+        for (var entry : expenses.entrySet()) {
+            String category = entry.getKey();
+            Long amount = entry.getValue();
+
+            total += amount;
+
+            Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
+            line.setStyle(
+                    "-fx-font-size: 20px;" +
+                    "-fx-padding: 12 0 12 15;"
+            );
+
+            resultsBox.getChildren().add(line);
+        }
+
+        Label totalLabel = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", total));
+        totalLabel.setStyle(
+                "-fx-font-size: 26px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-padding: 25 0 0 0;"
         );
 
-        resultsBox.getChildren().add(allTotal);
-
-        return;
-    }
-
-    Map<String, Long> expenses = ministryExpenses.get(selected);
-
-    Label title = new Label(selected);
-    title.setStyle(
-            "-fx-font-size: 28px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 20 0 20 0;"
-    );
-    title.setWrapText(true);
-    title.setMaxWidth(Double.MAX_VALUE);
-
-    resultsBox.getChildren().add(title);
-
-    long total = 0L;
-
-    for (var entry : expenses.entrySet()) {
-        String category = entry.getKey();
-        Long amount = entry.getValue();
-
-        total += amount;
-
-        Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
-        line.setStyle(
-                "-fx-font-size: 20px;" +
-                "-fx-padding: 12 0 12 15;"
-        );
-
-        resultsBox.getChildren().add(line);
-    }
-
-    Label totalLabel = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", total));
-    totalLabel.setStyle(
-            "-fx-font-size: 26px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 25 0 0 0;"
-    );
-
-    resultsBox.getChildren().add(totalLabel);
+        resultsBox.getChildren().add(totalLabel);
     }
 }
-

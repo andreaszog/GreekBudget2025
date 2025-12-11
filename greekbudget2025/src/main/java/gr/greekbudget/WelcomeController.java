@@ -10,15 +10,15 @@ import javafx.stage.Stage;
 
 public class WelcomeController {
 
-    // ============================
-    //        OPEN LOGIN VIEW
-    // ============================
+    // Ανοίγει το LoginView ΣΤΟ ΙΔΙΟ ΠΑΡΑΘΥΡΟ
     @FXML
     private void onLoginClicked(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/LoginView.fxml"));
             Scene scene = new Scene(root, 400, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+            scene.getStylesheets().add(
+                    getClass().getResource("/styles/app.css").toExternalForm()
+            );
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Log In");
@@ -30,15 +30,15 @@ public class WelcomeController {
         }
     }
 
-    // ============================
-    //       OPEN SIGNUP VIEW
-    // ============================
+    // Ανοίγει το SignUpView ΣΤΟ ΙΔΙΟ ΠΑΡΑΘΥΡΟ
     @FXML
     private void onSignupClicked(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/SignUpView.fxml"));
             Scene scene = new Scene(root, 400, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+            scene.getStylesheets().add(
+                    getClass().getResource("/styles/app.css").toExternalForm()
+            );
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("Create Account");

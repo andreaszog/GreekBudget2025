@@ -18,7 +18,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
 
-
         stage.setTitle("Blender Budget");
         stage.setScene(scene);
         stage.show();

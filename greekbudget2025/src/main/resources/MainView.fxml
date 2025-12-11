@@ -14,11 +14,11 @@
 
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
-             </padding>
+            </padding>
 
             <Label fx:id="usernameLabel"
-                  style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
-                  HBox.hgrow="ALWAYS"/>
+                   style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
+                   HBox.hgrow="ALWAYS"/>
 
             <Button text="Logout" onAction="#logout" styleClass="btn-orange-small"/>
         </HBox>

@@ -1,0 +1,8 @@
+gr\greekbudget\LoginController.class
+gr\greekbudget\MainController.class
+gr\greekbudget\database\Database.class
+gr\greekbudget\Main.class
+gr\greekbudget\WelcomeController.class
+gr\greekbudget\database\CreateTables.class
+gr\greekbudget\SignUpController.class
+gr\greekbudget\SummaryController.class

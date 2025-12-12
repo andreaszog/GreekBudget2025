@@ -19,16 +19,23 @@
                   style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
                   HBox.hgrow="ALWAYS"/>
 
-            <Button text="Logout" onAction="#logout" styleClass="btn-orange-small"/>
+            <Button text="Logout"
+                    onAction="#logout"
+                    styleClass="btn-orange-small"/>
         </HBox>
     </top>
 
     <center>
         <VBox alignment="CENTER" spacing="20">
-
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
+
+            <!-- ΝΕΟ ΚΟΥΜΠΙ -->
+            <Button text="Έσοδα - Έξοδα"
+                    onAction="#openIncomeExpense"
+                    prefWidth="300"
+                    styleClass="btn-orange"/>
 
             <Button text="Δαπάνες/Έσοδα ανά Υπουργείο"
                     onAction="#openSummary"
@@ -51,7 +58,6 @@
             <Button text="Γραφήματα/Στατιστικά Στοιχεία"
                     prefWidth="300"
                     styleClass="btn-orange"/>
-
         </VBox>
     </center>
 

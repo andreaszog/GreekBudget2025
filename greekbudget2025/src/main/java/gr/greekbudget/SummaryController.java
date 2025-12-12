@@ -26,7 +26,7 @@ public class SummaryController {
     @FXML private Label linkTextLabel;
     @FXML private Hyperlink pdfLink;
 
-    // ================= PDF TEXTS =================
+    // ================= PDF TEXT =================
     private final Map<Integer, String> pdfTexts = Map.of(
             2026, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2026, πατήστε ",
             2025, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2025, πατήστε ",
@@ -35,53 +35,49 @@ public class SummaryController {
             2022, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2022, πατήστε "
     );
 
-    // ================= PDF LINKS =================
+    // ================= PDF LINKS (ΜΟΝΟ URLs) =================
     private final Map<Integer, String> pdfLinks = Map.of(
-            2026, "https://minfin.gov.gr/wp-content/uploads/2025/11/Κρατικός-Προϋπολογισμός-2026.pdf",
-            2025, "file:/mnt/data/Κρατικός-Προϋπολογισμός-2025_ΟΕ.pdf",
-            2024, "file:/mnt/data/ΚΡΑΤΙΚΟΣ-ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ-2024.pdf",
-            2023, "file:/mnt/data/21-11-2022-ΚΡΑΤΙΚΟΣ-ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ-2023.pdf",
-            2022, "file:/mnt/data/ΚΡΑΤΙΚΟΣ-ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ_2022.pdf"
+            2026, "https://minfin.gov.gr/wp-content/uploads/2025/11/%CE%9A%CF%81%CE%B1%CF%84%CE%B9%CE%BA%CF%8C%CF%82-%CE%A0%CF%81%CE%BF%CF%8B%CF%80%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CF%83%CE%BC%CF%8C%CF%82-2026.pdf",
+            2025, "https://minfin.gov.gr/wp-content/uploads/2024/11/%CE%9A%CF%81%CE%B1%CF%84%CE%B9%CE%BA%CF%8C%CF%82-%CE%A0%CF%81%CE%BF%CF%8B%CF%80%CE%BF%CE%BB%CE%BF%CE%B3%CE%B9%CF%83%CE%BC%CF%8C%CF%82-2025_%CE%9F%CE%95.pdf",
+            2024, "https://minfin.gov.gr/wp-content/uploads/2023/11/%CE%9A%CE%A1%CE%91%CE%A4%CE%99%CE%9A%CE%9F%CE%A3-%CE%A0%CE%A1%CE%9F%CE%A5%CE%A0%CE%9F%CE%9B%CE%9F%CE%93%CE%99%CE%A3%CE%9C%CE%9F%CE%A3-2024.pdf",
+            2023, "https://minfin.gov.gr/wp-content/uploads/2023/11/21-11-2022-%CE%9A%CE%A1%CE%91%CE%A4%CE%99%CE%9A%CE%9F%CE%A3-%CE%A0%CE%A1%CE%9F%CE%AB%CE%A0%CE%9F%CE%9B%CE%9F%CE%93%CE%99%CE%A3%CE%9C%CE%9F%CE%A3-2023.pdf",
+            2022, "https://minfin.gov.gr/wp-content/uploads/2023/11/%CE%9A%CE%A1%CE%91%CE%A4%CE%99%CE%9A%CE%9F%CE%A3-%CE%A0%CE%A1%CE%9F%CE%A5%CE%A0%CE%9F%CE%9B%CE%9F%CE%93%CE%99%CE%A3%CE%9C%CE%9F%CE%A3_2022.pdf"
     );
 
-    // ================= INITIALIZE =================
+    // ================= INIT =================
     @FXML
     public void initialize() {
 
-        // Έτη
         yearCombo.getItems().addAll(2026, 2025, 2024, 2023, 2022);
         yearCombo.getSelectionModel().select(Integer.valueOf(2026));
-        yearCombo.setOnAction(e -> reloadMinistries());
+        yearCombo.setOnAction(e -> reloadView());
 
-        reloadMinistries();
+        reloadView();
     }
 
-    // ================= LOAD DATA =================
-    private void reloadMinistries() {
+    // ================= LOAD VIEW =================
+    private void reloadView() {
 
-        ministryCombo.getItems().clear();
         resultsBox.getChildren().clear();
+        ministryCombo.getItems().clear();
 
         int year = yearCombo.getValue();
 
         updatePdfSection(year);
 
         Map<String, Long> data = MinistryBudgetData.getTotalsForYear(year);
-        if (data == null) {
-            showNoDataMessage(year);
-            return;
-        }
+        if (data == null) return;
 
         ministryCombo.getItems().add("Όλα τα υπουργεία");
         ministryCombo.getItems().addAll(data.keySet());
         ministryCombo.getSelectionModel().selectFirst();
-        ministryCombo.setOnAction(e -> updateView());
 
-        updateView();
+        ministryCombo.setOnAction(e -> updateResults());
+        updateResults();
     }
 
-    // ================= UPDATE VIEW =================
-    private void updateView() {
+    // ================= UPDATE RESULTS =================
+    private void updateResults() {
 
         resultsBox.getChildren().clear();
 
@@ -92,14 +88,9 @@ public class SummaryController {
         if (data == null || selected == null) return;
 
         if (selected.equals("Όλα τα υπουργεία")) {
-            for (var entry : data.entrySet()) {
-                addMinistryBlock(entry.getKey(), entry.getValue());
-            }
+            data.forEach(this::addMinistryBlock);
         } else {
-            Long total = MinistryBudgetData.getTotal(year, selected);
-            if (total != null) {
-                addMinistryBlock(selected, total);
-            }
+            addMinistryBlock(selected, data.get(selected));
         }
     }
 
@@ -115,28 +106,11 @@ public class SummaryController {
         resultsBox.getChildren().addAll(name, sum);
     }
 
-    private void showNoDataMessage(int year) {
-
-        Label msg = new Label(
-                "Δεν υπάρχουν διαθέσιμα δεδομένα για το έτος " + year
-        );
-        msg.setStyle("-fx-font-size: 22px; -fx-font-style: italic;");
-
-        resultsBox.getChildren().add(msg);
-    }
-
-    // ================= PDF SECTION =================
+    // ================= PDF =================
     private void updatePdfSection(int year) {
-
-        if (!pdfTexts.containsKey(year)) {
-            linkTextLabel.setText("");
-            pdfLink.setVisible(false);
-            return;
-        }
 
         linkTextLabel.setText(pdfTexts.get(year));
         pdfLink.setText("εδώ");
-        pdfLink.setVisible(true);
 
         String url = pdfLinks.get(year);
         pdfLink.setOnAction(e -> openPdf(url));
@@ -144,9 +118,7 @@ public class SummaryController {
 
     private void openPdf(String url) {
         try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(url));
-            }
+            Desktop.getDesktop().browse(new URI(url));
         } catch (Exception e) {
             e.printStackTrace();
         }

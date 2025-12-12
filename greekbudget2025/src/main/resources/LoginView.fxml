@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 
-<VBox alignment="CENTER" spacing="20" styleClass="orange-background"
+<VBox alignment="CENTER" spacing="20"
+      styleClass="orange-background"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="gr.greekbudget.LoginController">
@@ -11,54 +13,53 @@
     <Label text="Κρατικός Προϋπολογισμός"
            style="-fx-font-size: 26px; -fx-font-weight: bold;"/>
 
-    <VBox spacing="12" alignment="CENTER" maxWidth="300" styleClass="login-box">
+    <VBox spacing="12" alignment="CENTER" maxWidth="320" styleClass="login-box">
 
         <!-- USERNAME -->
         <Label text="Username" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
         <TextField fx:id="usernameField"
                    promptText="Εισάγετε όνομα χρήστη"
-                   maxWidth="220"
+                   maxWidth="240"
                    styleClass="input"/>
 
         <!-- PASSWORD -->
         <Label text="Password" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
 
-        <HBox alignment="CENTER" spacing="5">
+        <HBox alignment="CENTER" spacing="6">
 
             <!-- Hidden password -->
             <PasswordField fx:id="passwordField"
                            promptText="Εισάγετε κωδικό"
-                           maxWidth="220"
+                           maxWidth="240"
                            styleClass="input"/>
 
-            <!-- Visible password (hidden initially) -->
+            <!-- Visible password -->
             <TextField fx:id="passwordVisibleField"
                        promptText="Εισάγετε κωδικό"
-                       maxWidth="220"
+                       maxWidth="240"
                        styleClass="input"
-                       visible="false" managed="false"/>
+                       visible="false"
+                       managed="false"/>
 
-            <!-- Toggle button -->
+            <!-- Eye button -->
             <Button fx:id="togglePasswordButton"
-                    text="◎"
+                    text="👁"
                     onAction="#togglePassword"
                     style="-fx-background-color: transparent;
-                           -fx-font-size: 20px;
+                           -fx-font-size: 18px;
                            -fx-text-fill: white;
                            -fx-padding: 0;"/>
         </HBox>
 
-        <!-- LOGIN -->
         <Button text="Log In"
                 onAction="#login"
                 styleClass="btn-orange"
                 maxWidth="150"/>
     </VBox>
 
-    <!-- BACK -->
     <Button text="Back"
             onAction="#goBack"
-            styleClass="btn-back"
+            styleClass="btn-orange-small"
             maxWidth="100"/>
 
 </VBox>

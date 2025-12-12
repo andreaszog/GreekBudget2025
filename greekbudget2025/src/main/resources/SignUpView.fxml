@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 
-<VBox alignment="CENTER" spacing="20" styleClass="orange-background"
+<VBox alignment="CENTER" spacing="18"
+      styleClass="orange-background"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="gr.greekbudget.SignUpController">
-
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
 
     <Label text="Create Account"
            style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
@@ -19,56 +16,65 @@
     <!-- USERNAME -->
     <TextField fx:id="usernameField"
                promptText="Username"
-               maxWidth="200"/>
+               maxWidth="220"
+               styleClass="input"/>
 
     <!-- PASSWORD -->
-    <HBox alignment="CENTER" spacing="5">
+    <HBox alignment="CENTER" spacing="6">
+
         <PasswordField fx:id="passwordField"
                        promptText="Password"
-                       maxWidth="200"/>
+                       maxWidth="220"
+                       styleClass="input"/>
 
         <TextField fx:id="passwordVisibleField"
                    promptText="Password"
-                   maxWidth="200"
+                   maxWidth="220"
+                   styleClass="input"
                    visible="false"
                    managed="false"/>
 
         <Button fx:id="togglePasswordButton"
-                text="◎"
+                text="👁"
                 onAction="#togglePassword"
                 style="-fx-background-color: transparent;
-                       -fx-font-size: 20px;
+                       -fx-font-size: 18px;
                        -fx-text-fill: white;
                        -fx-padding: 0;"/>
     </HBox>
 
     <!-- CONFIRM PASSWORD -->
-    <HBox alignment="CENTER" spacing="5">
+    <HBox alignment="CENTER" spacing="6">
+
         <PasswordField fx:id="confirmField"
                        promptText="Confirm Password"
-                       maxWidth="200"/>
+                       maxWidth="220"
+                       styleClass="input"/>
 
         <TextField fx:id="confirmVisibleField"
                    promptText="Confirm Password"
-                   maxWidth="200"
+                   maxWidth="220"
+                   styleClass="input"
                    visible="false"
                    managed="false"/>
 
         <Button fx:id="toggleConfirmButton"
-                text="◎"
+                text="👁"
                 onAction="#toggleConfirmPassword"
                 style="-fx-background-color: transparent;
-                       -fx-font-size: 20px;
+                       -fx-font-size: 18px;
                        -fx-text-fill: white;
                        -fx-padding: 0;"/>
     </HBox>
 
     <Button text="Register"
             onAction="#register"
-            maxWidth="120"/>
+            styleClass="btn-orange"
+            maxWidth="140"/>
 
     <Button text="Back"
             onAction="#goBack"
+            styleClass="btn-orange-small"
             maxWidth="120"/>
 
 </VBox>

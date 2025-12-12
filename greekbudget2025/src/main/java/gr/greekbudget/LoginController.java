@@ -39,7 +39,7 @@ public class LoginController {
             passwordField.setVisible(true);
             passwordField.setManaged(true);
 
-            togglePasswordButton.setText("◎"); // hide
+            togglePasswordButton.setText("👁"); // hide
             passwordVisible = false;
 
         } else {
@@ -52,7 +52,7 @@ public class LoginController {
             passwordVisibleField.setVisible(true);
             passwordVisibleField.setManaged(true);
 
-            togglePasswordButton.setText("◉"); // show
+            togglePasswordButton.setText("👁‍🗨"); // show
             passwordVisible = true;
         }
     }

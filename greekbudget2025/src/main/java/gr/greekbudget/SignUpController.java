@@ -41,7 +41,7 @@ public class SignUpController {
             passwordVisibleField.setManaged(false);
             passwordField.setVisible(true);
             passwordField.setManaged(true);
-            togglePasswordButton.setText("◎"); // hide
+            togglePasswordButton.setText("👁"); // hide
             passwordVisible = false;
 
         } else {
@@ -50,7 +50,7 @@ public class SignUpController {
             passwordField.setManaged(false);
             passwordVisibleField.setVisible(true);
             passwordVisibleField.setManaged(true);
-            togglePasswordButton.setText("◉"); // show
+            togglePasswordButton.setText("👁‍🗨"); // show
             passwordVisible = true;
         }
     }
@@ -64,7 +64,7 @@ public class SignUpController {
             confirmVisibleField.setManaged(false);
             confirmField.setVisible(true);
             confirmField.setManaged(true);
-            toggleConfirmButton.setText("◎"); // hide
+            toggleConfirmButton.setText("👁"); // hide
             confirmVisible = false;
 
         } else {
@@ -73,7 +73,7 @@ public class SignUpController {
             confirmField.setManaged(false);
             confirmVisibleField.setVisible(true);
             confirmVisibleField.setManaged(true);
-            toggleConfirmButton.setText("◉"); // show
+            toggleConfirmButton.setText("👁‍🗨"); // show
             confirmVisible = true;
         }
     }

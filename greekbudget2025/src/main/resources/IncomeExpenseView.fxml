@@ -1,43 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gr.greekbudget.IncomeExpenseController"
             styleClass="orange-background">
 
-    <!-- TOP BAR -->
-    <top>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
+    <!-- LEFT FILTER PANEL -->
+    <left>
+        <VBox spacing="15"
+              alignment="TOP_CENTER"
+              prefWidth="180"
+              styleClass="filter-bar">
+
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets top="20" left="10" right="10" bottom="20"/>
             </padding>
 
-            <Label text="Έτος:"
-                   style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label text="Φίλτρα"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-            <ComboBox fx:id="yearCombo" prefWidth="120"/>
+            <Label text="Έτος"
+                   style="-fx-font-size: 16px;"/>
+
+            <ComboBox fx:id="yearCombo"
+                      prefWidth="140"/>
+
+            <Separator/>
 
             <Button text="Back"
                     onAction="#goBack"
-                    styleClass="btn-orange-small"/>
-        </HBox>
-    </top>
+                    styleClass="btn-orange-small"
+                    prefWidth="120"/>
 
-    <!-- CENTER -->
+        </VBox>
+    </left>
+
+    <!-- CENTER CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
             <VBox fx:id="contentBox"
                   spacing="25"
                   alignment="TOP_CENTER">
+
                 <padding>
                     <Insets top="30" right="30" bottom="30" left="30"/>
                 </padding>
 
-                <Label text="Παρουσίαση Βασικών Εσόδων – Εξόδων"
+                <Label text="Παρουσίαση Εσόδων – Εξόδων"
                        style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
 
             </VBox>
@@ -45,3 +58,4 @@
     </center>
 
 </BorderPane>
+

@@ -1,51 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gr.greekbudget.SummaryController"
             styleClass="yellow-background">
 
-    <top>
-        <VBox>
+    <!-- LEFT FILTER PANEL -->
+    <left>
+        <VBox spacing="15"
+              alignment="TOP_CENTER"
+              prefWidth="220"
+              styleClass="filter-bar">
 
-            <!-- Back Button Row -->
-            <HBox alignment="CENTER_RIGHT" spacing="10" styleClass="orange-background">
-                <padding><Insets top="10" right="10" bottom="0" left="10"/></padding>
-                <Button text="Back" onAction="#goBack" styleClass="btn-orange-small"/>
-            </HBox>
+            <padding>
+                <Insets top="20" left="10" right="10" bottom="20"/>
+            </padding>
 
-            <!-- Year + Ministry Selection Row -->
-            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="orange-background">
-                <padding><Insets top="5" right="15" bottom="15" left="15"/></padding>
+            <Label text="Φίλτρα"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-                <Label text="Έτος:" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-                <ComboBox fx:id="yearCombo" prefWidth="150"/>
+            <!-- YEAR -->
+            <Label text="Έτος"
+                   style="-fx-font-size: 16px;"/>
 
-                <Label text="Υπουργείο :" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
-                <ComboBox fx:id="ministryCombo" prefWidth="250"/>
-            </HBox>
+            <ComboBox fx:id="yearCombo"
+                      prefWidth="170"/>
+
+            <!-- MINISTRY -->
+            <Label text="Υπουργείο"
+                   style="-fx-font-size: 16px;"/>
+
+            <ComboBox fx:id="ministryCombo"
+                      prefWidth="190"/>
+
+            <Separator/>
+
+            <Button text="Back"
+                    onAction="#goBack"
+                    styleClass="btn-orange-small"
+                    prefWidth="120"/>
 
         </VBox>
-    </top>
+    </left>
 
+    <!-- CENTER CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true" styleClass="yellow-background">
-            <VBox fx:id="resultsBox" spacing="10">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="yellow-background">
+            <VBox fx:id="resultsBox" spacing="15">
+
                 <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
+                    <Insets top="30" right="30" bottom="30" left="30"/>
                 </padding>
+
             </VBox>
         </ScrollPane>
     </center>
 
+    <!-- BOTTOM PDF LINK -->
     <bottom>
-        <HBox alignment="CENTER" style="-fx-padding: 20;">
-            <Label fx:id="linkTextLabel" />
-            <Hyperlink fx:id="pdfLink" />
+        <HBox alignment="CENTER" spacing="5" style="-fx-padding: 20;">
+            <Label fx:id="linkTextLabel"/>
+            <Hyperlink fx:id="pdfLink"/>
         </HBox>
     </bottom>
 

@@ -13,74 +13,136 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.Desktop;
-import java.io.IOException;
 import java.net.URI;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class SummaryController {
 
-    private String username;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @FXML private ComboBox<String> yearCombo;
+    // ================= UI =================
+    @FXML private ComboBox<Integer> yearCombo;
     @FXML private ComboBox<String> ministryCombo;
     @FXML private VBox resultsBox;
+
     @FXML private Label linkTextLabel;
     @FXML private Hyperlink pdfLink;
 
-    private Map<String, Map<String, Long>> ministryExpenses;
+    // ================= PDF TEXTS =================
+    private final Map<Integer, String> pdfTexts = Map.of(
+            2026, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2026, πατήστε ",
+            2025, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2025, πατήστε ",
+            2024, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2024, πατήστε ",
+            2023, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2023, πατήστε ",
+            2022, "Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του οικονομικού έτους 2022, πατήστε "
+    );
 
+    // ================= PDF LINKS =================
+    private final Map<Integer, String> pdfLinks = Map.of(
+            2026, "https://minfin.gov.gr/wp-content/uploads/2025/11/Κρατικός-Προϋπολογισμός-2026.pdf",
+            2025, "file:/mnt/data/Κρατικός-Προϋπολογισμός-2025_ΟΕ.pdf",
+            2024, "file:/mnt/data/ΚΡΑΤΙΚΟΣ-ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ-2024.pdf",
+            2023, "file:/mnt/data/21-11-2022-ΚΡΑΤΙΚΟΣ-ΠΡΟΫΠΟΛΟΓΙΣΜΟΣ-2023.pdf",
+            2022, "file:/mnt/data/ΚΡΑΤΙΚΟΣ-ΠΡΟΥΠΟΛΟΓΙΣΜΟΣ_2022.pdf"
+    );
+
+    // ================= INITIALIZE =================
     @FXML
     public void initialize() {
-        loadBudgetData();
 
-        yearCombo.getItems().addAll("2026", "2025", "2024", "2023", "2022");
-        yearCombo.getSelectionModel().select("2026");
+        // Έτη
+        yearCombo.getItems().addAll(2026, 2025, 2024, 2023, 2022);
+        yearCombo.getSelectionModel().select(Integer.valueOf(2026));
+        yearCombo.setOnAction(e -> reloadMinistries());
+
+        reloadMinistries();
+    }
+
+    // ================= LOAD DATA =================
+    private void reloadMinistries() {
+
+        ministryCombo.getItems().clear();
+        resultsBox.getChildren().clear();
+
+        int year = yearCombo.getValue();
+
+        updatePdfSection(year);
+
+        Map<String, Long> data = MinistryBudgetData.getTotalsForYear(year);
+        if (data == null) {
+            showNoDataMessage(year);
+            return;
+        }
 
         ministryCombo.getItems().add("Όλα τα υπουργεία");
-        ministryCombo.getItems().addAll(ministryExpenses.keySet());
-        ministryCombo.getSelectionModel().select("Όλα τα υπουργεία");
-
+        ministryCombo.getItems().addAll(data.keySet());
+        ministryCombo.getSelectionModel().selectFirst();
         ministryCombo.setOnAction(e -> updateView());
+
         updateView();
+    }
 
-        if (linkTextLabel != null && pdfLink != null) {
-            linkTextLabel.setText("Για να δείτε τον πλήρη Κρατικό Προϋπολογισμό του έτους 2026, πατήστε ");
-            pdfLink.setText("εδώ");
-            pdfLink.setOnAction(e -> openPdf());
+    // ================= UPDATE VIEW =================
+    private void updateView() {
+
+        resultsBox.getChildren().clear();
+
+        int year = yearCombo.getValue();
+        String selected = ministryCombo.getValue();
+
+        Map<String, Long> data = MinistryBudgetData.getTotalsForYear(year);
+        if (data == null || selected == null) return;
+
+        if (selected.equals("Όλα τα υπουργεία")) {
+            for (var entry : data.entrySet()) {
+                addMinistryBlock(entry.getKey(), entry.getValue());
+            }
+        } else {
+            Long total = MinistryBudgetData.getTotal(year, selected);
+            if (total != null) {
+                addMinistryBlock(selected, total);
+            }
         }
     }
 
-    @FXML
-    private void goBack(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainView.fxml"));
-            Parent root = loader.load();
+    // ================= UI HELPERS =================
+    private void addMinistryBlock(String ministry, long total) {
 
-            MainController mainController = loader.getController();
+        Label name = new Label(ministry);
+        name.setStyle("-fx-font-size: 26px; -fx-font-weight: bold;");
 
-            if (this.username != null)
-                mainController.setUsername(this.username);
+        Label sum = new Label("ΣΥΝΟΛΟ: " + String.format("%,d €", total));
+        sum.setStyle("-fx-font-size: 22px; -fx-padding: 5 0 25 0;");
 
-            Scene scene = new Scene(root, 600, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Δεν μπορώ να φορτώσω το MainView.fxml");
-        }
+        resultsBox.getChildren().addAll(name, sum);
     }
 
-    private void openPdf() {
-        String url = "https://minfin.gov.gr/wp-content/uploads/2025/11/Κρατικός-Προϋπολογισμός-2026.pdf";
+    private void showNoDataMessage(int year) {
+
+        Label msg = new Label(
+                "Δεν υπάρχουν διαθέσιμα δεδομένα για το έτος " + year
+        );
+        msg.setStyle("-fx-font-size: 22px; -fx-font-style: italic;");
+
+        resultsBox.getChildren().add(msg);
+    }
+
+    // ================= PDF SECTION =================
+    private void updatePdfSection(int year) {
+
+        if (!pdfTexts.containsKey(year)) {
+            linkTextLabel.setText("");
+            pdfLink.setVisible(false);
+            return;
+        }
+
+        linkTextLabel.setText(pdfTexts.get(year));
+        pdfLink.setText("εδώ");
+        pdfLink.setVisible(true);
+
+        String url = pdfLinks.get(year);
+        pdfLink.setOnAction(e -> openPdf(url));
+    }
+
+    private void openPdf(String url) {
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(url));
@@ -90,248 +152,22 @@ public class SummaryController {
         }
     }
 
-    private void loadBudgetData() {
-        ministryExpenses = new LinkedHashMap<>();
-
-        ministryExpenses.put("Υπουργείο Εσωτερικών", Map.of(
-                "Παροχές σε εργαζομένους", 60000000L,
-                "Μεταβιβάσεις", 3400000000L,
-                "Αγορές αγαθών και υπηρεσιών", 40000000L,
-                "Πάγια περιουσιακά στοιχεία", 432000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Εξωτερικών", Map.of(
-                "Παροχές σε εργαζομένους", 200000000L,
-                "Μεταβιβάσεις", 50000000L,
-                "Αγορές αγαθών και υπηρεσιών", 200000000L,
-                "Πάγια περιουσιακά στοιχεία", 30000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Εθνικής Άμυνας", Map.of(
-                "Παροχές σε εργαζομένους", 2500000000L,
-                "Μεταβιβάσεις", 1000000000L,
-                "Αγορές αγαθών και υπηρεσιών", 500000000L,
-                "Εξοπλισμοί", 3200000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Υγείας", Map.of(
-                "Παροχές σε εργαζομένους", 50000000L,
-                "Μεταβιβάσεις", 7000000000L,
-                "Αγορές αγαθών και υπηρεσιών", 150000000L,
-                "Πάγια περιουσιακά στοιχεία", 1000000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Παιδείας", Map.of(
-                "Παροχές σε εργαζομένους", 4200000000L,
-                "Μεταβιβάσεις", 1932000000L,
-                "Αγορές αγαθών και υπηρεσιών", 100000000L,
-                "Πάγια περιουσιακά στοιχεία", 645000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Πολιτισμού", Map.of(
-                "Παροχές σε εργαζομένους", 80000000L,
-                "Μεταβιβάσεις", 220000000L,
-                "Αγορές αγαθών και υπηρεσιών", 50000000L,
-                "Πάγια περιουσιακά στοιχεία", 150000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Δικαιοσύνης", Map.of(
-                "Παροχές σε εργαζομένους", 150000000L,
-                "Μεταβιβάσεις", 0L,
-                "Αγορές αγαθών και υπηρεσιών", 50000000L,
-                "Πάγια περιουσιακά στοιχεία", 1000000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Κλιματικής Κρίσης και Πολιτικής Προστασίας", Map.of(
-                "Παροχές σε εργαζομένους", 300000000L,
-                "Αγορές αγαθών και υπηρεσισιών", 100000000L,
-                "Λοιπές δαπάνες", 438000000L,
-                "Πάγια περιουσιακά στοιχεία", 600000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Προστασίας του Πολίτη", Map.of(
-                "Παροχές σε εργαζομένους", 1800000000L,
-                "Μεταβιβάσεις", 0L,
-                "Αγορές αγαθών και υπηρεσιών", 400000000L,
-                "Λοιπές δαπάνες", 210000000L,
-                "Πάγια περιουσιακά στοιχεία", 100000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Εργασίας & Κοινωνικής Ασφάλισης", Map.of(
-                "Παροχές σε εργαζομένους", 100000000L,
-                "Κοινωνικές παροχές", 2200000000L,
-                "Μεταβιβάσεις", 17000000000L,
-                "Αγορές αγαθών και υπηρεσιών", 50000000L,
-                "Πάγια περιουσιακά στοιχεία", 150000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Κοινωνικής Συνοχής & Οικογένειας", Map.of(
-                "Παροχές σε εργαζομένους", 20000000L,
-                "Κοινωνικές παροχές", 1500000000L,
-                "Μεταβιβάσεις", 300000000L,
-                "Αγορές αγαθών και υπηρεσιών", 10000000L,
-                "Πάγια περιουσιακά στοιχεία", 50000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Υποδομών & Μεταφορών", Map.of(
-                "Παροχές σε εργαζομένους", 200000000L,
-                "Μεταβιβάσεις", 800000000L,
-                "Αγορές αγαθών και υπηρεσιών", 30000000L,
-                "Πάγια περιουσιακά στοιχεία", 2360000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Ναυτιλίας & Νησιωτικής Πολιτικής", Map.of(
-                "Παροχές σε εργαζομένους", 80000000L,
-                "Μεταβιβάσεις", 268000000L,
-                "Αγορές αγαθών και υπηρεσιών", 20000000L,
-                "Πάγια περιουσιακά στοιχεία", 389000000L
-        ));
-
-        ministryExpenses.put("Υπουργείο Ψηφιακής Διακυβέρνησης", Map.of(
-                "Παροχές σε εργαζομένους", 50000000L,
-                "Μεταβιβάσεις", 20000000L,
-                "Αγορές αγαθών και υπηρεσιών", 30000000L,
-                "Πάγια περιουσιακά στοιχεία", 188000000L
-        ));
-    }
-
-    // ==========================================================
-    //   UPDATE EXPENSE — ΚΑΛΕΙΤΑΙ από EditExpenseController
-    // ==========================================================
-    public void updateExpense(String ministry, String category, long newValue) {
-
-        if (!ministryExpenses.containsKey(ministry)) {
-            System.out.println("ERROR: Υπουργείο δεν βρέθηκε: " + ministry);
-            return;
-        }
-
-        Map<String, Long> expenses = ministryExpenses.get(ministry);
-
-        if (!expenses.containsKey(category)) {
-            System.out.println("ERROR: Κατηγορία δεν βρέθηκε: " + category);
-            return;
-        }
-
-        // Ενημέρωση τιμής
-        expenses.put(category, newValue);
-
-        // Ανανεώνουμε την προβολή
-        updateView();
-
-        System.out.println("UPDATED → " + ministry + " | " + category + " = " + newValue);
-    }
-
-
-    // ==========================================================
-    //                 UPDATE VIEW (refresher)
-    // ==========================================================
-    private void updateView() {
-
-        resultsBox.getChildren().clear();
-
-        String selected = ministryCombo.getValue();
-        if (selected == null) return;
-
-        // ALL MINISTRIES
-        if (selected.equals("Όλα τα υπουργεία")) {
-
-            long grandTotal = 0L;
-
-            for (var ministryEntry : ministryExpenses.entrySet()) {
-
-                String ministryName = ministryEntry.getKey();
-                Map<String, Long> expenses = ministryEntry.getValue();
-
-                Label ministryLabel = new Label(ministryName);
-                ministryLabel.setStyle(
-                        "-fx-font-size: 28px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 25 0 15 0;"
-                );
-                ministryLabel.setWrapText(true);
-                ministryLabel.setMaxWidth(Double.MAX_VALUE);
-
-                resultsBox.getChildren().add(ministryLabel);
-
-                long ministryTotal = 0L;
-
-                for (var entry : expenses.entrySet()) {
-
-                    String category = entry.getKey();
-                    Long amount = entry.getValue();
-
-                    ministryTotal += amount;
-                    grandTotal += amount;
-
-                    Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
-                    line.setStyle(
-                            "-fx-font-size: 20px;" +
-                            "-fx-padding: 8 0 8 15;"
-                    );
-
-                    resultsBox.getChildren().add(line);
-                }
-
-                Label ministrySum = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", ministryTotal));
-                ministrySum.setStyle(
-                        "-fx-font-size: 22px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 15 0 25 0;"
-                );
-
-                resultsBox.getChildren().add(ministrySum);
-            }
-
-            Label allTotal = new Label("ΣΥΝΟΛΟ ΟΛΩΝ ΤΩΝ ΥΠΟΥΡΓΕΙΩΝ: " +
-                    String.format("%,d €", grandTotal));
-            allTotal.setStyle(
-                    "-fx-font-size: 28px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-padding: 30 0 0 0;"
+    // ================= BACK =================
+    @FXML
+    private void goBack(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
+            Scene scene = new Scene(root, 800, 600);
+            scene.getStylesheets().add(
+                    getClass().getResource("/styles/app.css").toExternalForm()
             );
 
-            resultsBox.getChildren().add(allTotal);
-            return;
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // ONE MINISTRY
-        Map<String, Long> expenses = ministryExpenses.get(selected);
-
-        Label title = new Label(selected);
-        title.setStyle(
-                "-fx-font-size: 28px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-padding: 20 0 20 0;"
-        );
-        title.setWrapText(true);
-        title.setMaxWidth(Double.MAX_VALUE);
-
-        resultsBox.getChildren().add(title);
-
-        long total = 0L;
-
-        for (var entry : expenses.entrySet()) {
-            String category = entry.getKey();
-            Long amount = entry.getValue();
-
-            total += amount;
-
-            Label line = new Label("• " + category + ": " + String.format("%,d €", amount));
-            line.setStyle(
-                    "-fx-font-size: 20px;" +
-                    "-fx-padding: 12 0 12 15;"
-            );
-
-            resultsBox.getChildren().add(line);
-        }
-
-        Label totalLabel = new Label("ΣΥΝΟΛΟ : " + String.format("%,d €", total));
-        totalLabel.setStyle(
-                "-fx-font-size: 26px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-padding: 25 0 0 0;"
-        );
-
-        resultsBox.getChildren().add(totalLabel);
     }
 }

@@ -65,7 +65,7 @@ public class MainController {
     // ======================
     @FXML
     private void openSummary() {
-        loadView("/SummaryView.fxml", "Δαπάνες / Έσοδα ανά Υπουργείο");
+        loadView("/SummaryView.fxml", "Δαπάνες ανά Υπουργείο");
     }
 
     // ======================
@@ -82,6 +82,14 @@ public class MainController {
     @FXML
     private void openIncomeExpense() {
         loadView("/IncomeExpenseView.fxml", "Έσοδα - Έξοδα");
+    }
+
+    // ======================
+    // CHARTS / STATISTICS  ✅ ΝΕΟ
+    // ======================
+    @FXML
+    private void openCharts() {
+        loadView("/ChartsView.fxml", "Γραφήματα & Στατιστικά");
     }
 
     // ======================

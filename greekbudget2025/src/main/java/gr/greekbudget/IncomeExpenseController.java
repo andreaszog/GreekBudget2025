@@ -1,76 +1,134 @@
 package gr.greekbudget;
 
-import gr.greekbudget.BudgetData;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class IncomeExpenseController {
 
     @FXML
-    private ComboBox<Integer> yearCombo;
+    private ComboBox<Integer> yearComboBox;
 
     @FXML
-    private VBox contentBox;
+    private TableView<CategoryAmount> revenueTable;
+
+    @FXML
+    private TableView<CategoryAmount> expenseTable;
+
+    @FXML
+    private Label totalRevenueLabel;
+
+    @FXML
+    private Label totalExpenseLabel;
+
+    @FXML
+    private Button editValuesButton;
+
+    @FXML
+    private Button resetValuesButton;
+
+    private Map<Integer, Map<String, Long>> originalRevenues;
+    private Map<Integer, Map<String, Long>> originalExpenses;
 
     @FXML
     public void initialize() {
-        yearCombo.getItems().addAll(BudgetData.getRevenues().keySet());
-        yearCombo.getSelectionModel().selectFirst();
+        originalRevenues = new LinkedHashMap<>();
+        originalExpenses = new LinkedHashMap<>();
 
-        yearCombo.setOnAction(e -> updateView());
-        updateView();
+        BudgetData.getRevenues().forEach((year, map) -> originalRevenues.put(year, new LinkedHashMap<>(map)));
+        BudgetData.getExpenses().forEach((year, map) -> originalExpenses.put(year, new LinkedHashMap<>(map)));
+
+        yearComboBox.getItems().addAll(BudgetData.getRevenues().keySet());
+        yearComboBox.getSelectionModel().selectFirst();
+        yearComboBox.setOnAction(e -> loadTables());
+
+        setupTable(revenueTable);
+        setupTable(expenseTable);
+
+        loadTables();
+
+        editValuesButton.setOnAction(e -> enableEditing(true));
+        resetValuesButton.setOnAction(e -> resetValues());
     }
 
-    private void updateView() {
-        contentBox.getChildren().removeIf(node -> node instanceof VBox);
+    private void setupTable(TableView<CategoryAmount> table) {
+        TableColumn<CategoryAmount, String> categoryCol = new TableColumn<>("Κατηγορία");
+        categoryCol.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
 
-        int year = yearCombo.getValue();
+        TableColumn<CategoryAmount, Long> amountCol = new TableColumn<>("Ποσό");
+        amountCol.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asObject());
+        amountCol.setCellFactory(TextFieldTableCell.forTableColumn(new javafx.util.converter.LongStringConverter()));
+        amountCol.setOnEditCommit(event -> {
+            long newValue = event.getNewValue();
+            if (newValue > 0) {
+                event.getRowValue().setAmount(newValue);
+                updateBudgetData(event.getRowValue(), table);
+                updateTotals();
+            } else {
+                event.getRowValue().setAmount(event.getOldValue());
+                table.refresh();
+            }
+        });
 
-        Map<String, Long> revenues = BudgetData.getRevenues().get(year);
-        Map<String, Long> expenses = BudgetData.getExpenses().get(year);
-
-        VBox revenuesBox = createSection("ΕΣΟΔΑ", revenues);
-        VBox expensesBox = createSection("ΕΞΟΔΑ", expenses);
-
-        contentBox.getChildren().addAll(revenuesBox, expensesBox);
+        table.getColumns().setAll(categoryCol, amountCol);
+        table.setEditable(false);
     }
 
-    private VBox createSection(String title, Map<String, Long> data) {
-        VBox box = new VBox(10);
+    private void loadTables() {
+        int year = yearComboBox.getValue();
 
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        revenueTable.setItems(toObservableList(BudgetData.getRevenues().get(year)));
+        expenseTable.setItems(toObservableList(BudgetData.getExpenses().get(year)));
 
-        box.getChildren().add(titleLabel);
+        updateTotals();
+    }
 
-        long total = 0;
+    private ObservableList<CategoryAmount> toObservableList(Map<String, Long> map) {
+        ObservableList<CategoryAmount> list = FXCollections.observableArrayList();
+        map.forEach((k, v) -> list.add(new CategoryAmount(k, v)));
+        return list;
+    }
 
-        for (var entry : data.entrySet()) {
-            total += entry.getValue();
+    private void enableEditing(boolean enable) {
+        revenueTable.setEditable(enable);
+        expenseTable.setEditable(enable);
+    }
 
-            Label line = new Label("• " + entry.getKey() + ": " +
-                    String.format("%,d €", entry.getValue()));
-            line.setStyle("-fx-font-size: 18px;");
-            box.getChildren().add(line);
+    private void updateBudgetData(CategoryAmount item, TableView<CategoryAmount> table) {
+        int year = yearComboBox.getValue();
+        if (table == revenueTable) {
+            BudgetData.getRevenues().get(year).put(item.getCategory(), item.getAmount());
+        } else {
+            BudgetData.getExpenses().get(year).put(item.getCategory(), item.getAmount());
         }
-
-        Label totalLabel = new Label("ΣΥΝΟΛΟ: " + String.format("%,d €", total));
-        totalLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
-        box.getChildren().add(totalLabel);
-        return box;
     }
 
+    private void updateTotals() {
+        int year = yearComboBox.getValue();
+        totalRevenueLabel.setText(String.valueOf(BudgetData.getTotalRevenues(year)));
+        totalExpenseLabel.setText(String.valueOf(BudgetData.getTotalExpenses(year)));
+    }
+
+    private void resetValues() {
+        int year = yearComboBox.getValue();
+        BudgetData.getRevenues().put(year, new LinkedHashMap<>(originalRevenues.get(year)));
+        BudgetData.getExpenses().put(year, new LinkedHashMap<>(originalExpenses.get(year)));
+
+        loadTables();
+    }
+
+    // ===== Προσθήκη μόνο για το Back button =====
     @FXML
     private void goBack(ActionEvent event) {
         try {

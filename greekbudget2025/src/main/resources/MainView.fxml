@@ -31,19 +31,14 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- ΝΕΟ ΚΟΥΜΠΙ -->
-            <Button text="Έσοδα - Έξοδα"
+            <Button text="Έσοδα - Έξοδα και Επεξεργασία"
                     onAction="#openIncomeExpense"
                     prefWidth="300"
                     styleClass="btn-orange"/>
 
-            <Button text="Δαπάνες/Έσοδα ανά Υπουργείο"
+            <Button text="Δαπάνες ανά Υπουργείο"
                     onAction="#openSummary"
                     prefWidth="350"
-                    styleClass="btn-orange"/>
-
-            <Button text="Επεξεργασία Τιμών"
-                    prefWidth="300"
                     styleClass="btn-orange"/>
 
             <Button text="Ανάλυση Προυπολογισμού"
@@ -55,7 +50,8 @@
                     prefWidth="300"
                     styleClass="btn-orange"/>
 
-            <Button text="Γραφήματα/Στατιστικά Στοιχεία"
+            <Button text="Γραφήματα"
+                    onAction="#openCharts"
                     prefWidth="300"
                     styleClass="btn-orange"/>
         </VBox>

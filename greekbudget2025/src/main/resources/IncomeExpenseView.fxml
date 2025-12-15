@@ -1,44 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="gr.greekbudget.IncomeExpenseController"
             styleClass="orange-background">
 
-    <!-- TOP BAR -->
-    <top>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
+    <!-- LEFT FILTER PANEL -->
+    <left>
+        <VBox spacing="15"
+              alignment="TOP_CENTER"
+              prefWidth="180"
+              styleClass="filter-bar">
+
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets top="20" left="10" right="10" bottom="20"/>
             </padding>
 
-            <Label text="Έτος:"
-                   style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label text="Φίλτρα"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-            <ComboBox fx:id="yearCombo" prefWidth="120"/>
+            <Label text="Έτος"
+                   style="-fx-font-size: 16px;"/>
+
+            <ComboBox fx:id="yearComboBox"
+                      prefWidth="140"/>
+
+            <Separator/>
 
             <Button text="Back"
                     onAction="#goBack"
-                    styleClass="btn-orange-small"/>
-        </HBox>
-    </top>
+                    styleClass="btn-orange-small"
+                    prefWidth="120"/>
 
-    <!-- CENTER -->
+        </VBox>
+    </left>
+
+    <!-- CENTER CONTENT -->
     <center>
-        <ScrollPane fitToWidth="true">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
             <VBox fx:id="contentBox"
                   spacing="25"
                   alignment="TOP_CENTER">
+
                 <padding>
                     <Insets top="30" right="30" bottom="30" left="30"/>
                 </padding>
 
-                <Label text="Παρουσίαση Βασικών Εσόδων – Εξόδων"
+                <Label text="Παρουσίαση Εσόδων – Εξόδων"
                        style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+
+                <!-- Revenue Table -->
+                <TitledPane text="Έσοδα" expanded="true" prefWidth="600">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <TableView fx:id="revenueTable" prefHeight="250" editable="false">
+                            <columns>
+                                <TableColumn text="Κατηγορία" fx:id="revCategoryCol" prefWidth="350"/>
+                                <TableColumn text="Ποσό" fx:id="revAmountCol" prefWidth="200"/>
+                            </columns>
+                        </TableView>
+                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                            <Button text="Edit" fx:id="editValuesButton"/>
+                            <Button text="Reset" fx:id="resetValuesButton"/>
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Expense Table -->
+                <TitledPane text="Έξοδα" expanded="true" prefWidth="600">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <TableView fx:id="expenseTable" prefHeight="250" editable="false">
+                            <columns>
+                                <TableColumn text="Κατηγορία" fx:id="expCategoryCol" prefWidth="350"/>
+                                <TableColumn text="Ποσό" fx:id="expAmountCol" prefWidth="200"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Totals -->
+                <GridPane hgap="10" vgap="5">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <Label text="Σύνολο Εσόδων:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="totalRevenueLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    
+                    <Label text="Σύνολο Εξόδων:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="totalExpenseLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                </GridPane>
 
             </VBox>
         </ScrollPane>

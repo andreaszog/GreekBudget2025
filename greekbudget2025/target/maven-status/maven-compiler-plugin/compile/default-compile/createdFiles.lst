@@ -7,6 +7,7 @@ gr\greekbudget\database\CreateTables.class
 gr\greekbudget\BudgetData.class
 gr\greekbudget\IncomeExpenseController.class
 gr\greekbudget\AnalysisController.class
+gr\greekbudget\ChartsController.class
 gr\greekbudget\LoginController.class
 gr\greekbudget\WelcomeController.class
 gr\greekbudget\BudgetDataService.class

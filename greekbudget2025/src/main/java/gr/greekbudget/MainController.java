@@ -85,6 +85,14 @@ public class MainController {
     }
 
     // ======================
+    // CHARTS / STATISTICS  ✅ ΝΕΟ
+    // ======================
+    @FXML
+    private void openCharts() {
+        loadView("/ChartsView.fxml", "Γραφήματα & Στατιστικά");
+    }
+
+    // ======================
     // GENERIC LOADER
     // ======================
     private void loadView(String fxml, String title) {

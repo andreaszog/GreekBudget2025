@@ -65,7 +65,7 @@ public class MainController {
     // ======================
     @FXML
     private void openSummary() {
-        loadView("/SummaryView.fxml", "Δαπάνες / Έσοδα ανά Υπουργείο");
+        loadView("/SummaryView.fxml", "Δαπάνες ανά Υπουργείο");
     }
 
     // ======================

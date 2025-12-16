@@ -48,7 +48,9 @@
 
                 <!-- REVENUES OVER YEARS -->
                 <TitledPane text="Έσοδα ανά Έτος" expanded="true" prefWidth="700">
-                    <LineChart fx:id="revenueChart" prefHeight="300">
+                    <LineChart fx:id="revenueChart"
+                        prefHeight="300"
+                        animated="false">
                         <xAxis>
                             <CategoryAxis label="Έτος"/>
                         </xAxis>
@@ -60,7 +62,9 @@
 
                 <!-- EXPENSES OVER YEARS -->
                 <TitledPane text="Έξοδα ανά Έτος" expanded="true" prefWidth="700">
-                    <LineChart fx:id="expenseChart" prefHeight="300">
+                    <LineChart fx:id="expenseChart"
+                        prefHeight="300"
+                        animated="false">
                         <xAxis>
                             <CategoryAxis label="Έτος"/>
                         </xAxis>

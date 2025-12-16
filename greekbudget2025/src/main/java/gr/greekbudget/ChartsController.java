@@ -12,32 +12,27 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Map;
 
 public class ChartsController {
 
-    @FXML
-    private LineChart<String, Number> revenueChart;
+    @FXML private LineChart<String, Number> revenueChart;
+    @FXML private LineChart<String, Number> expenseChart;
 
-    @FXML
-    private LineChart<String, Number> expenseChart;
+    @FXML private PieChart ministryChart;
+    @FXML private VBox legendBox;
 
-    @FXML
-    private PieChart ministryChart;
+    @FXML private ComboBox<Integer> yearComboBox;
 
-    @FXML
-    private VBox legendBox;
-
-    @FXML
-    private ComboBox<Integer> yearComboBox;
-
-    // 👉 Το έτος που είναι επιλεγμένο
+    // Επιλεγμένο έτος
     private Integer highlightedYear = null;
 
     // =========================================================
@@ -53,7 +48,6 @@ public class ChartsController {
                 MinistryBudgetData.getAvailableYears()
         );
         yearComboBox.getSelectionModel().selectFirst();
-
         highlightedYear = yearComboBox.getValue();
 
         yearComboBox.setOnAction(e -> {
@@ -64,19 +58,18 @@ public class ChartsController {
 
         loadMinistryChart();
 
-        // αρχικό highlight
+        // απαραίτητο για να υπάρχουν τα nodes των charts
         Platform.runLater(this::highlightYearOnCharts);
     }
 
     // =========================================================
-    // LINE CHART – ΕΣΟΔΑ (ΟΛΑ ΤΑ ΕΤΗ)
+    // LINE CHART – ΕΣΟΔΑ
     // =========================================================
     private void loadRevenueChart() {
 
         revenueChart.getData().clear();
 
-        XYChart.Series<String, Number> series =
-                new XYChart.Series<>();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Έσοδα");
 
         BudgetData.getRevenues().keySet().stream()
@@ -94,14 +87,13 @@ public class ChartsController {
     }
 
     // =========================================================
-    // LINE CHART – ΕΞΟΔΑ (ΟΛΑ ΤΑ ΕΤΗ)
+    // LINE CHART – ΕΞΟΔΑ
     // =========================================================
     private void loadExpenseChart() {
 
         expenseChart.getData().clear();
 
-        XYChart.Series<String, Number> series =
-                new XYChart.Series<>();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Έξοδα");
 
         BudgetData.getExpenses().keySet().stream()
@@ -119,15 +111,17 @@ public class ChartsController {
     }
 
     // =========================================================
-    // HIGHLIGHT ΕΠΙΛΕΓΜΕΝΟΥ ΕΤΟΥΣ
+    // HIGHLIGHT + TOOLTIP ΣΤΑ LINE CHARTS
     // =========================================================
     private void highlightYearOnCharts() {
-
-        highlightSeriesPoint(revenueChart);
-        highlightSeriesPoint(expenseChart);
+        highlightSeriesPoint(revenueChart, "Έσοδα");
+        highlightSeriesPoint(expenseChart, "Έξοδα");
     }
 
-    private void highlightSeriesPoint(LineChart<String, Number> chart) {
+    private void highlightSeriesPoint(
+            LineChart<String, Number> chart,
+            String labelText
+    ) {
 
         if (highlightedYear == null) return;
         if (chart.getData().isEmpty()) return;
@@ -140,12 +134,21 @@ public class ChartsController {
             Node node = data.getNode();
             if (node == null) continue;
 
-            // reset default style
+            // default style
             node.setStyle(
                     "-fx-background-radius: 5px;" +
                     "-fx-padding: 5px;" +
                     "-fx-background-color: #ff8c00;"
             );
+
+            // Tooltip για ΚΑΘΕ σημείο
+            Tooltip tooltip = new Tooltip(
+                    "Έτος: " + data.getXValue() + "\n" +
+                    labelText + ": " +
+                    String.format("%,d €", data.getYValue().longValue())
+            );
+            tooltip.setShowDelay(Duration.millis(100));
+            Tooltip.install(node, tooltip);
 
             // highlight επιλεγμένου έτους
             if (data.getXValue().equals(
@@ -161,7 +164,7 @@ public class ChartsController {
     }
 
     // =========================================================
-    // PIE CHART – ΔΑΠΑΝΕΣ ΑΝΑ ΥΠΟΥΡΓΕΙΟ
+    // PIE CHART – ΥΠΟΥΡΓΕΙΑ + TOOLTIP
     // =========================================================
     private void loadMinistryChart() {
 
@@ -184,25 +187,35 @@ public class ChartsController {
 
         for (Map.Entry<String, Long> entry : ministryExpenses.entrySet()) {
 
-            double value = entry.getValue() / 1_000_000_000.0;
+            double valueBillion = entry.getValue() / 1_000_000_000.0;
 
             PieChart.Data slice =
-                    new PieChart.Data(entry.getKey(), value);
+                    new PieChart.Data(entry.getKey(), valueBillion);
 
             ministryChart.getData().add(slice);
 
             Color color = colors[colorIndex % colors.length];
 
-            Platform.runLater(() ->
-                    slice.getNode().setStyle(
-                            "-fx-pie-color: " + toRgbString(color)
-                    )
-            );
+            // χρώμα + tooltip (μετά το layout)
+            Platform.runLater(() -> {
+                slice.getNode().setStyle(
+                        "-fx-pie-color: " + toRgbString(color)
+                );
 
+                Tooltip tooltip = new Tooltip(
+                        entry.getKey() + "\n" +
+                        "Σύνολο: " +
+                        String.format("%,d €", entry.getValue())
+                );
+                tooltip.setShowDelay(Duration.millis(100));
+                Tooltip.install(slice.getNode(), tooltip);
+            });
+
+            // legend
             Rectangle rect = new Rectangle(14, 14, color);
             Label label = new Label(
                     entry.getKey() + " : " +
-                    String.format("%.2f B €", value)
+                    String.format("%.2f B €", valueBillion)
             );
 
             legendBox.getChildren().add(

@@ -25,7 +25,7 @@
             <Label text="Γραφήματα"
                    style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
             <Separator/>
-            <Label text="Έτος (Υπουργεία)" style="-fx-font-size: 15px;"/>
+            <Label text="Έτος" style="-fx-font-size: 15px;"/>
             <ComboBox fx:id="yearComboBox" prefWidth="140"/>
             <Separator/>
             <Button text="Back"
@@ -72,11 +72,20 @@
 
                 <!-- EXPENSES BY MINISTRY -->
                 <TitledPane text="Δαπάνες ανά Υπουργείο" expanded="true" prefWidth="700">
-                    <HBox spacing="20">
-                        <PieChart fx:id="ministryChart" prefWidth="500" prefHeight="350"/>
-                        <VBox fx:id="legendBox" spacing="5"/>
-                    </HBox>
+                    <VBox spacing="10">
+
+                        <!-- ΕΤΟΣ ΠΑΝΩ ΑΠΟ ΤΗΝ ΠΙΤΑ -->
+                        <Label fx:id="ministryYearLabel"
+                            style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                        <HBox spacing="20">
+                            <PieChart fx:id="ministryChart" prefWidth="500" prefHeight="350"/>
+                            <VBox fx:id="legendBox" spacing="5"/>
+                        </HBox>
+
+                    </VBox>
                 </TitledPane>
+
 
             </VBox>
         </ScrollPane>

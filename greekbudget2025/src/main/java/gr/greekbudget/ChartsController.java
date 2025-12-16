@@ -18,59 +18,33 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ChartsController {
 
-    private static final double BILLION = 1_000_000_000.0;
+    @FXML
+    private LineChart<String, Number> revenueChart;
+
+    @FXML
+    private LineChart<String, Number> expenseChart;
+
+    @FXML
+    private PieChart ministryChart;
+
+    @FXML
+    private VBox legendBox;
+
+    @FXML
+    private ComboBox<Integer> yearComboBox;
+
+    // 👉 Το έτος που είναι επιλεγμένο
+    private Integer highlightedYear = null;
 
     // =========================================================
-    // ΧΕΙΡΟΚΙΝΗΤΑ, ΣΤΑΘΕΡΑ ΧΡΩΜΑΤΑ ΓΙΑ ΤΑ ΒΑΣΙΚΑ ΥΠΟΥΡΓΕΙΑ
+    // INIT
     // =========================================================
-    private static final Map<String, Color> MINISTRY_COLORS = Map.ofEntries(
-            Map.entry("Υπουργείο Εθνικής Οικονομίας και Οικονομικών", Color.DARKSLATEGRAY),
-            Map.entry("Υπουργείο Εσωτερικών", Color.CORNFLOWERBLUE),
-            Map.entry("Υπουργείο Εθνικής Άμυνας", Color.DARKGREEN),
-            Map.entry("Υπουργείο Υγείας", Color.INDIANRED),
-            Map.entry("Υπουργείο Παιδείας", Color.DARKORANGE),
-            Map.entry("Υπουργείο Εργασίας και Κοινωνικών Υποθέσεων", Color.TEAL),
-            Map.entry("Υπουργείο Υποδομών και Μεταφορών", Color.DARKBLUE),
-            Map.entry("Υπουργείο Περιβάλλοντος και Ενέργειας", Color.OLIVE),
-            Map.entry("Υπουργείο Πολιτισμού", Color.GOLDENROD),
-            Map.entry("Υπουργείο Μετανάστευσης και Ασύλου", Color.MEDIUMPURPLE)
-    );
-
-    // =========================================================
-    // ΠΑΛΕΤΑ ΓΙΑ ΤΑ ΥΠΟΛΟΙΠΑ (ΣΤΑΘΕΡΗ – ΟΧΙ RANDOM)
-    // =========================================================
-    private static final Color[] FALLBACK_PALETTE = {
-            Color.SKYBLUE,
-            Color.LIGHTGREEN,
-            Color.LIGHTCORAL,
-            Color.KHAKI,
-            Color.PLUM,
-            Color.PEACHPUFF,
-            Color.LIGHTSEAGREEN,
-            Color.LIGHTSALMON,
-            Color.LIGHTSTEELBLUE,
-            Color.LIGHTPINK,
-            Color.BURLYWOOD,
-            Color.PALEGOLDENROD
-    };
-
-    // ================= FXML =================
-    @FXML private LineChart<String, Number> revenueChart;
-    @FXML private LineChart<String, Number> expenseChart;
-    @FXML private PieChart ministryChart;
-    @FXML private VBox legendBox;
-    @FXML private ComboBox<Integer> yearComboBox;
-
-    // ================= INIT =================
     @FXML
     public void initialize() {
-
-        ministryChart.setLegendVisible(false);
 
         loadRevenueChart();
         loadExpenseChart();
@@ -79,22 +53,36 @@ public class ChartsController {
                 MinistryBudgetData.getAvailableYears()
         );
         yearComboBox.getSelectionModel().selectFirst();
-        yearComboBox.setOnAction(e -> loadMinistryChart());
+
+        highlightedYear = yearComboBox.getValue();
+
+        yearComboBox.setOnAction(e -> {
+            highlightedYear = yearComboBox.getValue();
+            highlightYearOnCharts();
+            loadMinistryChart();
+        });
 
         loadMinistryChart();
+
+        // αρχικό highlight
+        Platform.runLater(this::highlightYearOnCharts);
     }
 
-    // ================= LINE CHARTS =================
+    // =========================================================
+    // LINE CHART – ΕΣΟΔΑ (ΟΛΑ ΤΑ ΕΤΗ)
+    // =========================================================
     private void loadRevenueChart() {
+
         revenueChart.getData().clear();
 
-        XYChart.Series<String, Number> s = new XYChart.Series<>();
-        s.setName("Έσοδα");
+        XYChart.Series<String, Number> series =
+                new XYChart.Series<>();
+        series.setName("Έσοδα");
 
         BudgetData.getRevenues().keySet().stream()
                 .sorted()
                 .forEach(year ->
-                        s.getData().add(
+                        series.getData().add(
                                 new XYChart.Data<>(
                                         String.valueOf(year),
                                         BudgetData.getTotalRevenues(year)
@@ -102,19 +90,24 @@ public class ChartsController {
                         )
                 );
 
-        revenueChart.getData().add(s);
+        revenueChart.getData().add(series);
     }
 
+    // =========================================================
+    // LINE CHART – ΕΞΟΔΑ (ΟΛΑ ΤΑ ΕΤΗ)
+    // =========================================================
     private void loadExpenseChart() {
+
         expenseChart.getData().clear();
 
-        XYChart.Series<String, Number> s = new XYChart.Series<>();
-        s.setName("Έξοδα");
+        XYChart.Series<String, Number> series =
+                new XYChart.Series<>();
+        series.setName("Έξοδα");
 
         BudgetData.getExpenses().keySet().stream()
                 .sorted()
                 .forEach(year ->
-                        s.getData().add(
+                        series.getData().add(
                                 new XYChart.Data<>(
                                         String.valueOf(year),
                                         BudgetData.getTotalExpenses(year)
@@ -122,86 +115,105 @@ public class ChartsController {
                         )
                 );
 
-        expenseChart.getData().add(s);
+        expenseChart.getData().add(series);
     }
 
-    // ================= PIE CHART =================
+    // =========================================================
+    // HIGHLIGHT ΕΠΙΛΕΓΜΕΝΟΥ ΕΤΟΥΣ
+    // =========================================================
+    private void highlightYearOnCharts() {
+
+        highlightSeriesPoint(revenueChart);
+        highlightSeriesPoint(expenseChart);
+    }
+
+    private void highlightSeriesPoint(LineChart<String, Number> chart) {
+
+        if (highlightedYear == null) return;
+        if (chart.getData().isEmpty()) return;
+
+        XYChart.Series<String, Number> series =
+                chart.getData().get(0);
+
+        for (XYChart.Data<String, Number> data : series.getData()) {
+
+            Node node = data.getNode();
+            if (node == null) continue;
+
+            // reset default style
+            node.setStyle(
+                    "-fx-background-radius: 5px;" +
+                    "-fx-padding: 5px;" +
+                    "-fx-background-color: #ff8c00;"
+            );
+
+            // highlight επιλεγμένου έτους
+            if (data.getXValue().equals(
+                    String.valueOf(highlightedYear))) {
+
+                node.setStyle(
+                        "-fx-background-radius: 8px;" +
+                        "-fx-padding: 8px;" +
+                        "-fx-background-color: black;"
+                );
+            }
+        }
+    }
+
+    // =========================================================
+    // PIE CHART – ΔΑΠΑΝΕΣ ΑΝΑ ΥΠΟΥΡΓΕΙΟ
+    // =========================================================
     private void loadMinistryChart() {
 
         ministryChart.getData().clear();
         legendBox.getChildren().clear();
 
         int year = yearComboBox.getValue();
-        Map<String, Long> raw =
+        Map<String, Long> ministryExpenses =
                 MinistryBudgetData.getTotalsForYear(year);
 
-        if (raw == null) return;
+        if (ministryExpenses == null) return;
 
-        // 1️⃣ AGGREGATION ΑΝΑ CANONICAL ΥΠΟΥΡΓΕΙΟ
-        Map<String, Long> aggregated = new LinkedHashMap<>();
+        Color[] colors = {
+                Color.CORNFLOWERBLUE, Color.ORANGE, Color.GREEN,
+                Color.RED, Color.PURPLE, Color.BROWN,
+                Color.GOLD, Color.TEAL, Color.DARKCYAN
+        };
 
-        raw.forEach((name, value) -> {
-            String canonical =
-                    MinistryNameNormalizer.canonical(name);
-            aggregated.merge(canonical, value, Long::sum);
-        });
+        int colorIndex = 0;
 
-        // 2️⃣ PIE DATA
-        aggregated.forEach((ministry, value) ->
-                ministryChart.getData().add(
-                        new PieChart.Data(
-                                ministry,
-                                value / BILLION
-                        )
-                )
-        );
+        for (Map.Entry<String, Long> entry : ministryExpenses.entrySet()) {
 
-        // 3️⃣ ΧΡΩΜΑΤΑ + LEGEND ΜΕΤΑ ΤΟ LAYOUT
-        Platform.runLater(() -> {
+            double value = entry.getValue() / 1_000_000_000.0;
 
-            legendBox.getChildren().clear();
+            PieChart.Data slice =
+                    new PieChart.Data(entry.getKey(), value);
 
-            for (PieChart.Data slice : ministryChart.getData()) {
+            ministryChart.getData().add(slice);
 
-                String ministry = slice.getName();
-                Color color = getColorForMinistry(ministry);
+            Color color = colors[colorIndex % colors.length];
 
-                if (slice.getNode() != null) {
+            Platform.runLater(() ->
                     slice.getNode().setStyle(
-                            "-fx-pie-color: " + toRgb(color) + ";"
-                    );
-                }
+                            "-fx-pie-color: " + toRgbString(color)
+                    )
+            );
 
-                Rectangle rect = new Rectangle(15, 15, color);
+            Rectangle rect = new Rectangle(14, 14, color);
+            Label label = new Label(
+                    entry.getKey() + " : " +
+                    String.format("%.2f B €", value)
+            );
 
-                Label label = new Label(
-                        MinistryNameNormalizer.displayLabel(ministry)
-                                + " : "
-                                + String.format("%.2f", slice.getPieValue())
-                                + " B €"
-                );
+            legendBox.getChildren().add(
+                    new HBox(8, rect, label)
+            );
 
-                legendBox.getChildren().add(
-                        new HBox(8, rect, label)
-                );
-            }
-        });
-    }
-
-    // ================= COLOR LOGIC =================
-    private Color getColorForMinistry(String ministry) {
-
-        // Αν έχουμε χειροκίνητο χρώμα → παίρνουμε αυτό
-        if (MINISTRY_COLORS.containsKey(ministry)) {
-            return MINISTRY_COLORS.get(ministry);
+            colorIndex++;
         }
-
-        // Αλλιώς: σταθερό fallback από hash
-        int index = Math.abs(ministry.hashCode()) % FALLBACK_PALETTE.length;
-        return FALLBACK_PALETTE[index];
     }
 
-    private String toRgb(Color c) {
+    private String toRgbString(Color c) {
         return String.format(
                 "rgb(%d,%d,%d)",
                 (int)(c.getRed() * 255),
@@ -210,7 +222,9 @@ public class ChartsController {
         );
     }
 
-    // ================= BACK =================
+    // =========================================================
+    // BACK
+    // =========================================================
     @FXML
     private void goBack(ActionEvent event) {
         try {
@@ -219,11 +233,13 @@ public class ChartsController {
 
             Scene scene = new Scene(root, 800, 600);
             scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
+                    getClass().getResource("/styles/app.css")
+                            .toExternalForm()
             );
 
             Stage stage =
-                    (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    (Stage) ((Node) event.getSource())
+                            .getScene().getWindow();
 
             stage.setScene(scene);
             stage.show();

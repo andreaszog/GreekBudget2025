@@ -25,9 +25,12 @@
             <Label text="Γραφήματα"
                    style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
             <Separator/>
+
             <Label text="Έτος" style="-fx-font-size: 15px;"/>
             <ComboBox fx:id="yearComboBox" prefWidth="140"/>
+
             <Separator/>
+
             <Button text="Back"
                     onAction="#goBack"
                     prefWidth="120"
@@ -46,11 +49,9 @@
                 <Label text="Στατιστικά Προϋπολογισμού"
                        style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
 
-                <!-- REVENUES OVER YEARS -->
+                <!-- REVENUES -->
                 <TitledPane text="Έσοδα ανά Έτος" expanded="true" prefWidth="700">
-                    <LineChart fx:id="revenueChart"
-                        prefHeight="300"
-                        animated="false">
+                    <LineChart fx:id="revenueChart" prefHeight="300" animated="false">
                         <xAxis>
                             <CategoryAxis label="Έτος"/>
                         </xAxis>
@@ -60,11 +61,9 @@
                     </LineChart>
                 </TitledPane>
 
-                <!-- EXPENSES OVER YEARS -->
+                <!-- EXPENSES -->
                 <TitledPane text="Έξοδα ανά Έτος" expanded="true" prefWidth="700">
-                    <LineChart fx:id="expenseChart"
-                        prefHeight="300"
-                        animated="false">
+                    <LineChart fx:id="expenseChart" prefHeight="300" animated="false">
                         <xAxis>
                             <CategoryAxis label="Έτος"/>
                         </xAxis>
@@ -74,22 +73,34 @@
                     </LineChart>
                 </TitledPane>
 
-                <!-- EXPENSES BY MINISTRY -->
+                <!-- PIE CHARTS -->
                 <TitledPane text="Δαπάνες ανά Υπουργείο" expanded="true" prefWidth="700">
-                    <VBox spacing="10">
+                    <VBox spacing="25">
 
-                        <!-- ΕΤΟΣ ΠΑΝΩ ΑΠΟ ΤΗΝ ΠΙΤΑ -->
-                        <Label fx:id="ministryYearLabel"
-                            style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Label text="Όλα τα Υπουργεία"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
                         <HBox spacing="20">
-                            <PieChart fx:id="ministryChart" prefWidth="500" prefHeight="350"/>
-                            <VBox fx:id="legendBox" spacing="5"/>
+                            <PieChart fx:id="ministryChartAll"
+                                      prefWidth="500"
+                                      prefHeight="350"/>
+                            <VBox fx:id="legendBoxAll" spacing="5"/>
+                        </HBox>
+
+                        <Separator/>
+
+                        <Label text="Χωρίς Υπουργείο Οικονομικών"
+                               style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                        <HBox spacing="20">
+                            <PieChart fx:id="ministryChartNoFinance"
+                                      prefWidth="500"
+                                      prefHeight="350"/>
+                            <VBox fx:id="legendBoxNoFinance" spacing="5"/>
                         </HBox>
 
                     </VBox>
                 </TitledPane>
-
 
             </VBox>
         </ScrollPane>

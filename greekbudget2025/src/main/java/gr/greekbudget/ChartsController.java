@@ -210,17 +210,20 @@ public class ChartsController {
             Color color = colors[colorIndex % colors.length];
 
             Platform.runLater(() -> {
-                slice.getNode().setStyle(
-                        "-fx-pie-color: " + toRgb(color)
+
+                Node node = slice.getNode();
+                if (node == null) return;
+
+                node.setStyle("-fx-pie-color: " + toRgb(color));
+
+                Tooltip tooltip = new Tooltip(
+                        entry.getKey() + "\n" +
+                        String.format("%,d €", entry.getValue())
                 );
-                Tooltip.install(
-                        slice.getNode(),
-                        new Tooltip(
-                                entry.getKey() + "\n" +
-                                String.format("%,d €", entry.getValue())
-                        )
-                );
+                tooltip.setShowDelay(Duration.millis(100));
+                Tooltip.install(node, tooltip);
             });
+
 
             Rectangle rect = new Rectangle(14, 14, color);
             Label label = new Label(
@@ -313,26 +316,29 @@ public class ChartsController {
         );
     }
 
-    private void styleTrendBars(XYChart.Series<String, Number> series) {
+   private void styleTrendBars(XYChart.Series<String, Number> series) {
 
         Platform.runLater(() -> {
             for (XYChart.Data<String, Number> d : series.getData()) {
+
                 Node node = d.getNode();
                 if (node == null) continue;
 
                 node.setStyle("-fx-bar-fill: #ff8c00;");
-                Tooltip.install(
-                        node,
-                        new Tooltip(
-                                series.getName() + "\n" +
-                                "Έτος: " + d.getXValue() + "\n" +
-                                String.format("%,d €",
-                                        d.getYValue().longValue())
-                        )
+
+                Tooltip tooltip = new Tooltip(
+                        series.getName() + "\n" +
+                        "Έτος: " + d.getXValue() + "\n" +
+                        "Ποσό: " +
+                        String.format("%,d €",
+                                d.getYValue().longValue())
                 );
+                tooltip.setShowDelay(Duration.millis(100));
+                Tooltip.install(node, tooltip);
             }
         });
     }
+
 
     private String toRgb(Color c) {
         return String.format(

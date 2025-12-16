@@ -268,7 +268,10 @@ public class ChartsController {
 
         List<Long> values = new ArrayList<>();
 
-        for (Integer year : MinistryBudgetData.getAvailableYears()) {
+        for (Integer year : MinistryBudgetData.getAvailableYears()
+                                     .stream()
+                                     .sorted()
+                                     .toList()) {
             Map<String, Long> yearData =
                     MinistryBudgetData.getTotalsForYear(year);
             if (yearData == null) continue;

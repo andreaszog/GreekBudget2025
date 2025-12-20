@@ -1,3 +1,4 @@
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\AllScenariosController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\AnalysisController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\BasicBudgetController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\BudgetData.java
@@ -7,12 +8,16 @@ C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\Chart
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\database\CreateTables.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\database\Database.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\IncomeExpenseController.java
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\LoanScenariosController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\LoginController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\Main.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\MainController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\MinistryBudgetData.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\MinistryNameNormalizer.java
-C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\ScenariosController.java
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\MinistryScenariosController.java
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\RevExpScenarios.java
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\ScenariosInnerController.java
+C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\ScenariosMenuController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\SignUpController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\SummaryController.java
 C:\Projects\GreekBudget2025-1\greekbudget2025\src\main\java\gr\greekbudget\WelcomeController.java

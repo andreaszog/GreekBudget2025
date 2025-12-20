@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gr.greekbudget.ScenariosController"
+            fx:controller="gr.greekbudget.ScenariosMenuController"
             styleClass="orange-background">
 
-    <!-- TOP BAR -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="10"
-              styleClass="top-orange-section">
+        <HBox spacing="10"
+            alignment="CENTER_LEFT"
+            styleClass="top-orange-section">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
@@ -22,18 +22,34 @@
                     styleClass="btn-orange-small"/>
 
             <Label text="Σενάρια Προϋπολογισμού"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                style="-fx-text-fill: white;
+                        -fx-font-size: 20px;
+                        -fx-font-weight: bold;"/>
         </HBox>
     </top>
 
-    <!-- CENTER -->
-    <center>
-        <VBox alignment="CENTER" spacing="15">
-            <Label text="(Σελίδα Σενάριων)"
-                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
 
-            <Label text="Εδώ θα μπορείς να δοκιμάζεις εναλλακτικά σενάρια."
-                   style="-fx-font-size: 16px;"/>
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΕΣΟΔΑ - ΕΞΟΔΑ"
+                    onAction="#openRevenueScenarios"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+
+            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΥΠΟΥΡΓΙΚΕΣ ΔΑΠΑΝΕΣ"
+                    onAction="#openMinistryScenarios"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+
+            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΔΑΝΕΙΑ"
+                    onAction="#openLoanScenarios"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+
+            <Button text="ΠΟΛΛΑΠΛΑ ΣΕΝΑΡΙΑ ΣΕ ΟΛΕΣ ΤΙΣ ΚΑΤΗΓΟΡΙΕΣ"
+                    onAction="#openAllScenarios"
+                    prefWidth="420"
+                    styleClass="btn-orange"/>
         </VBox>
     </center>
 

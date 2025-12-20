@@ -95,6 +95,13 @@ public class MainController {
     // ======================
     // GENERIC LOADER
     // ======================
+
+    @FXML
+    private void openScenarios() {
+        loadView("/ScenariosView.fxml", "Σενάρια");
+    }
+
+
     private void loadView(String fxml, String title) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(fxml));

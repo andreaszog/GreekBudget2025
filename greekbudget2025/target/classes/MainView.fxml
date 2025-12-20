@@ -47,8 +47,9 @@
                     styleClass="btn-orange"/>
 
             <Button text="Σενάρια"
-                    prefWidth="300"
-                    styleClass="btn-orange"/>
+                onAction="#openScenarios"
+                prefWidth="300"
+                styleClass="btn-orange"/>
 
             <Button text="Γραφήματα"
                     onAction="#openCharts"

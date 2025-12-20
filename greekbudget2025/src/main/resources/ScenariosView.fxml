@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gr.greekbudget.ScenariosController"
+            styleClass="orange-background">
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10"
+              styleClass="top-orange-section">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button text="Back"
+                    onAction="#goBack"
+                    styleClass="btn-orange-small"/>
+
+            <Label text="Σενάρια Προϋπολογισμού"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER -->
+    <center>
+        <VBox alignment="CENTER" spacing="15">
+            <Label text="(Σελίδα Σενάριων)"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+            <Label text="Εδώ θα μπορείς να δοκιμάζεις εναλλακτικά σενάρια."
+                   style="-fx-font-size: 16px;"/>
+        </VBox>
+    </center>
+
+</BorderPane>

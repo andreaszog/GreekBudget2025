@@ -1,6 +1,5 @@
 package gr.greekbudget;
 
-import javafx.beans.value.ChangeListener;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import java.util.*;
 public class MinistryScenariosController {
 
     @FXML private ComboBox<Integer> yearBox;
+    @FXML private Label infoLabel;
 
     @FXML private TableView<MinistryRow> table;
     @FXML private TableColumn<MinistryRow, Boolean> selectCol;
@@ -34,8 +34,7 @@ public class MinistryScenariosController {
 
     private final ObservableList<MinistryRow> allRows = FXCollections.observableArrayList();
     private final ObservableList<ScenarioRow> scenarioRows = FXCollections.observableArrayList();
-
-    private final Map<String, ScenarioRow> scenarioByKey = new LinkedHashMap<>();
+    private final Map<String, ScenarioRow> scenarioByKey = new HashMap<>();
     private final Map<Integer, Set<String>> selectedByYear = new HashMap<>();
 
     private final NumberFormat fmt = NumberFormat.getInstance(new Locale("el", "GR"));
@@ -43,19 +42,18 @@ public class MinistryScenariosController {
     @FXML
     public void initialize() {
 
-        // ================= YEAR BOX =================
+        // ===== YEAR BOX =====
         List<Integer> years = new ArrayList<>(MinistryBudgetData.getAvailableYears());
         years.sort(Comparator.reverseOrder());
         yearBox.setItems(FXCollections.observableArrayList(years));
         yearBox.setValue(2026);
+        yearBox.valueProperty().addListener((o, a, b) -> loadYear(b));
 
-        yearBox.valueProperty().addListener((obs, o, n) -> loadYear(n));
-
-        // ================= LEFT TABLE =================
-        table.setEditable(true);              // 🔥 ΑΠΑΡΑΙΤΗΤΟ
-        selectCol.setEditable(true);          // 🔥 ΑΠΑΡΑΙΤΗΤΟ
+        // ===== LEFT TABLE =====
+        table.setEditable(true);
         table.setItems(allRows);
 
+        selectCol.setEditable(true);
         selectCol.setCellValueFactory(c -> c.getValue().selectedProperty());
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
 
@@ -63,14 +61,12 @@ public class MinistryScenariosController {
         amountCol.setCellValueFactory(c -> c.getValue().amountProperty());
 
         amountCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Number v, boolean empty) {
+            @Override protected void updateItem(Number v, boolean empty) {
                 super.updateItem(v, empty);
                 setText(empty || v == null ? null : fmt.format(v.longValue()));
             }
         });
 
-        // 👉 EXTRA UX: click anywhere on row toggles checkbox
         table.setRowFactory(tv -> {
             TableRow<MinistryRow> row = new TableRow<>();
             row.setOnMouseClicked(e -> {
@@ -82,7 +78,7 @@ public class MinistryScenariosController {
             return row;
         });
 
-        // ================= RIGHT TABLE =================
+        // ===== RIGHT TABLE =====
         selectedTable.setEditable(true);
         selectedTable.setItems(scenarioRows);
 
@@ -91,8 +87,7 @@ public class MinistryScenariosController {
         oldAmountCol.setCellValueFactory(c -> c.getValue().oldAmountProperty());
 
         oldAmountCol.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Number v, boolean empty) {
+            @Override protected void updateItem(Number v, boolean empty) {
                 super.updateItem(v, empty);
                 setText(empty || v == null ? null : fmt.format(v.longValue()));
             }
@@ -100,10 +95,9 @@ public class MinistryScenariosController {
 
         newAmountCol.setCellValueFactory(c -> c.getValue().newAmountProperty());
         newAmountCol.setCellFactory(TextFieldTableCell.forTableColumn(new LongConverter()));
-
         newAmountCol.setOnEditCommit(e -> {
             e.getRowValue().setNewAmount(e.getNewValue());
-            updateCompareButton();
+            compareBtn.setDisable(scenarioRows.isEmpty());
         });
 
         loadYear(2026);
@@ -128,7 +122,7 @@ public class MinistryScenariosController {
                     selected.remove(e.getKey());
                     removeScenario(row);
                 }
-                updateCompareButton();
+                compareBtn.setDisable(scenarioRows.isEmpty());
             });
 
             allRows.add(row);
@@ -138,7 +132,6 @@ public class MinistryScenariosController {
     private void addScenario(MinistryRow r) {
         String key = r.key();
         if (scenarioByKey.containsKey(key)) return;
-
         ScenarioRow sr = new ScenarioRow(r.getYear(), r.getMinistry(), r.getAmount());
         scenarioByKey.put(key, sr);
         scenarioRows.add(sr);
@@ -147,10 +140,6 @@ public class MinistryScenariosController {
     private void removeScenario(MinistryRow r) {
         ScenarioRow sr = scenarioByKey.remove(r.key());
         if (sr != null) scenarioRows.remove(sr);
-    }
-
-    private void updateCompareButton() {
-        compareBtn.setDisable(scenarioRows.isEmpty());
     }
 
     @FXML
@@ -172,7 +161,6 @@ public class MinistryScenariosController {
         }
     }
 
-    // ================= CONVERTER =================
     private static class LongConverter extends StringConverter<Long> {
         @Override public String toString(Long v) { return v == null ? "" : v.toString(); }
         @Override public Long fromString(String s) {

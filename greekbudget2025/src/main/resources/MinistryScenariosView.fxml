@@ -39,74 +39,79 @@
 
     <!-- ================= CENTER ================= -->
     <center>
-        <HBox spacing="18">
-
+        <VBox spacing="12">
             <padding>
-                <Insets top="18" right="18" bottom="18" left="18"/>
+                <Insets top="14" right="14" bottom="14" left="14"/>
             </padding>
 
-            <!-- ========== LEFT TABLE ========== -->
-            <VBox spacing="10" HBox.hgrow="ALWAYS">
-                <Label text="Όλες οι Δαπάνες (ανά Υπουργείο)"
-                       style="-fx-text-fill:white;
-                              -fx-font-size:14px;
-                              -fx-font-weight:bold"/>
+            <!-- INFO BUBBLE -->
+            <Label fx:id="infoLabel"
+                   text="Επίλεξε υπουργείο για τη χρονολογία που θέλεις και άλλαξε το ποσό του, για να δεις άμεσα την επίδραση στον Κρατικό Προϋπολογισμό."
+                   wrapText="true"
+                   maxWidth="1200"
+                   styleClass="info-bubble"/>
 
-                <TableView fx:id="table" prefHeight="520">
-                    <columns>
-                        <TableColumn fx:id="selectCol"
-                                     text=""
-                                     prefWidth="55"/>
+            <!-- TABLES -->
+            <HBox spacing="18">
 
-                        <TableColumn fx:id="nameCol"
-                                     text="Υπουργείο"
-                                     prefWidth="430"/>
+                <!-- LEFT TABLE -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Όλες οι Δαπάνες (ανά Υπουργείο)"
+                           style="-fx-text-fill:white;
+                                  -fx-font-size:14px;
+                                  -fx-font-weight:bold"/>
 
-                        <TableColumn fx:id="amountCol"
-                                     text="Ποσό"
-                                     prefWidth="170"/>
-                    </columns>
-                </TableView>
-            </VBox>
+                    <TableView fx:id="table" prefHeight="520">
+                        <columns>
+                            <TableColumn fx:id="selectCol"
+                                         text=""
+                                         prefWidth="55"/>
+                            <TableColumn fx:id="nameCol"
+                                         text="Υπουργείο"
+                                         prefWidth="430"/>
+                            <TableColumn fx:id="amountCol"
+                                         text="Ποσό"
+                                         prefWidth="170"/>
+                        </columns>
+                    </TableView>
+                </VBox>
 
-            <!-- ========== RIGHT TABLE (SCENARIO) ========== -->
-            <VBox spacing="10" prefWidth="520">
-                <Label text="Επιλεγμένα για Σενάριο"
-                       style="-fx-text-fill:white;
-                              -fx-font-size:14px;
-                              -fx-font-weight:bold"/>
+                <!-- RIGHT TABLE -->
+                <VBox spacing="10" prefWidth="520">
+                    <Label text="Επιλεγμένα για Σενάριο"
+                           style="-fx-text-fill:white;
+                                  -fx-font-size:14px;
+                                  -fx-font-weight:bold"/>
 
-                <TableView fx:id="selectedTable"
-                           prefHeight="460"
-                           editable="true">
-                    <columns>
-                        <TableColumn fx:id="selYearCol"
-                                     text="Έτος"
-                                     prefWidth="70"/>
+                    <TableView fx:id="selectedTable"
+                               prefHeight="460"
+                               editable="true">
+                        <columns>
+                            <TableColumn fx:id="selYearCol"
+                                         text="Έτος"
+                                         prefWidth="70"/>
+                            <TableColumn fx:id="selNameCol"
+                                         text="Υπουργείο"
+                                         prefWidth="250"/>
+                            <TableColumn fx:id="oldAmountCol"
+                                         text="Παλιό Ποσό"
+                                         prefWidth="110"/>
+                            <TableColumn fx:id="newAmountCol"
+                                         text="Νέο Ποσό"
+                                         prefWidth="110"/>
+                        </columns>
+                    </TableView>
 
-                        <TableColumn fx:id="selNameCol"
-                                     text="Υπουργείο"
-                                     prefWidth="250"/>
+                    <Button fx:id="compareBtn"
+                            text="ΣΥΓΚΡΙΣΗ"
+                            disable="true"
+                            onAction="#compare"
+                            styleClass="btn-orange"
+                            maxWidth="Infinity"/>
+                </VBox>
 
-                        <TableColumn fx:id="oldAmountCol"
-                                     text="Παλιό Ποσό"
-                                     prefWidth="110"/>
-
-                        <TableColumn fx:id="newAmountCol"
-                                     text="Νέο Ποσό"
-                                     prefWidth="110"/>
-                    </columns>
-                </TableView>
-
-                <Button fx:id="compareBtn"
-                        text="ΣΥΓΚΡΙΣΗ"
-                        disable="true"
-                        onAction="#compare"
-                        styleClass="btn-orange"
-                        maxWidth="Infinity"/>
-            </VBox>
-
-        </HBox>
+            </HBox>
+        </VBox>
     </center>
 
 </BorderPane>

@@ -8,6 +8,7 @@ public class BudgetData {
     // year -> (category -> amount)
     private static final Map<Integer, Map<String, Long>> revenues = new LinkedHashMap<>();
     private static final Map<Integer, Map<String, Long>> expenses = new LinkedHashMap<>();
+    private static final Map<Integer, Long> results = new LinkedHashMap<>();
 
     static {
         // =========================
@@ -192,6 +193,13 @@ public class BudgetData {
         exp2022.put("Δάνεια (αποπληρωμή)", 703_687_130_000L);
         exp2022.put("Χρηματοοικονομικά παράγωγα", 1_400_000_000L);
         expenses.put(2022, exp2022);
+
+        for (Integer year : revenues.keySet()) {
+            long totalRev = getTotalRevenues(year);
+            long totalExp = getTotalExpenses(year);
+            results.put(year, totalRev - totalExp);
+
+        }
     }
 
     public static Map<Integer, Map<String, Long>> getRevenues() {
@@ -210,5 +218,14 @@ public class BudgetData {
     public static long getTotalExpenses(int year) {
         return expenses.getOrDefault(year, Map.of())
                 .values().stream().mapToLong(Long::longValue).sum();
+    }
+
+    public static long getBudgetResult(int year) {
+        return results.getOrDefault(year, 0L);
+    }
+
+    // (προαιρετικό)
+    public static Map<Integer, Long> getAllBudgetResults() {
+        return results;
     }
 }

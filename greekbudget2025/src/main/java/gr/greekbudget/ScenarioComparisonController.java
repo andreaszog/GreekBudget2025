@@ -66,35 +66,47 @@ public class ScenarioComparisonController {
     // ================= DATA FROM PREVIOUS SCREEN =================
 
     public void setData(
-            List<ScenarioComparisonRow> comparisonRows,
-            List<BudgetImpactRow> impacts
+        List<ScenarioComparisonRow> rowsData,
+        List<BudgetImpactRow> impacts
     ) {
-        // ----- table -----
-        rows.setAll(comparisonRows);
+        rows.setAll(rowsData);
+        table.setItems(rows);
 
-        // ----- bottom summary -----
         budgetImpactBox.getChildren().clear();
 
         for (BudgetImpactRow r : impacts) {
 
             Label yearLbl = new Label("ΕΤΟΣ " + r.getYear());
-            yearLbl.setStyle("-fx-text-fill:white; -fx-font-weight:bold;");
+            yearLbl.setStyle("-fx-text-fill:white; -fx-font-size:14px; -fx-font-weight:bold;");
 
             Label beforeLbl = new Label(
-                    "ΑΠΟΤΕΛΕΣΜΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ ΠΡΙΝ ΤΙΣ ΤΡΟΠΟΠΟΙΗΣΕΙΣ: " + MoneyUtil.formatSignedEuro(r.getBefore())
+                    "ΠΡΙΝ: " + MoneyUtil.formatSignedEuro(r.getBefore())
             );
             beforeLbl.setStyle("-fx-text-fill:white;");
 
             Label afterLbl = new Label(
-                    "ΑΠΟΤΕΛΕΣΜΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ ΜΕΤΑ ΤΙΣ ΤΡΟΠΟΠΟΙΗΣΕΙΣ: " + MoneyUtil.formatSignedEuro(r.getAfter())
+                    "ΜΕΤΑ: " + MoneyUtil.formatSignedEuro(r.getAfter())
             );
             afterLbl.setStyle("-fx-text-fill:white;");
 
+            long finalResult = r.getAfter();
+
+            String status;
+            if (finalResult > 0) {
+                status = "ΠΛΕΟΝΑΣΜΑΤΙΚΟΣ";
+            } else if (finalResult < 0) {
+                status = "ΕΛΛΕΙΜΜΑΤΙΚΟΣ";
+            } else {
+                status = "ΙΣΟΣΚΕΛΙΣΜΕΝΟΣ";
+            }
+
             Label diffLbl = new Label(
-                    "ΑΠΟΤΕΛΕΣΜΑ ΚΡΑΤΙΚΟΥ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ (ΕΣΟΔΑ - ΕΞΟΔΑ): " +
-                    MoneyUtil.formatSignedEuro(r.getAfter() - r.getBefore())
+                    "ΑΠΟΤΕΛΕΣΜΑ ΚΡΑΤΙΚΟΥ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ (ΕΣΟΔΑ - ΕΞΟΔΑ): "
+                            + MoneyUtil.formatSignedEuro(finalResult)
+                            + "  →  "
+                            + status
             );
-            diffLbl.setStyle("-fx-text-fill:white;");
+            diffLbl.setStyle("-fx-text-fill:white; -fx-font-weight:bold;");
 
             budgetImpactBox.getChildren().addAll(
                     yearLbl,
@@ -105,6 +117,7 @@ public class ScenarioComparisonController {
             );
         }
     }
+
 
     // ================= BACK =================
 

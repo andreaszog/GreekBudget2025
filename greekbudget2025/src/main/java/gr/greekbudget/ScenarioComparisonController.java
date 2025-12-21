@@ -66,26 +66,39 @@ public class ScenarioComparisonController {
     // ================= DATA FROM PREVIOUS SCREEN =================
 
     public void setData(
-        List<ScenarioComparisonRow> rowsData,
+        List<ScenarioComparisonRow> comparisonRows,
         List<BudgetImpactRow> impacts
     ) {
-        rows.setAll(rowsData);
-        table.setItems(rows);
+        // ===== TABLE DATA =====
+        rows.setAll(comparisonRows);
 
+        // ===== AUTO HEIGHT TABLE =====
+        table.setFixedCellSize(28);
+        table.prefHeightProperty().bind(
+                table.fixedCellSizeProperty()
+                        .multiply(
+                                javafx.beans.binding.Bindings.size(table.getItems()).add(1.2)
+                        )
+        );
+
+        // ===== CLEAR SUMMARY =====
         budgetImpactBox.getChildren().clear();
 
+        // ===== SUMMARY PER YEAR =====
         for (BudgetImpactRow r : impacts) {
 
             Label yearLbl = new Label("ΕΤΟΣ " + r.getYear());
-            yearLbl.setStyle("-fx-text-fill:white; -fx-font-size:14px; -fx-font-weight:bold;");
+            yearLbl.setStyle("-fx-text-fill:white; -fx-font-weight:bold;");
 
             Label beforeLbl = new Label(
-                    "ΠΡΙΝ: " + MoneyUtil.formatSignedEuro(r.getBefore())
+                    "ΑΠΟΤΕΛΕΣΜΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ ΠΡΙΝ ΤΙΣ ΤΡΟΠΟΠΟΙΗΣΕΙΣ: "
+                            + MoneyUtil.formatSignedEuro(r.getBefore())
             );
             beforeLbl.setStyle("-fx-text-fill:white;");
 
             Label afterLbl = new Label(
-                    "ΜΕΤΑ: " + MoneyUtil.formatSignedEuro(r.getAfter())
+                    "ΑΠΟΤΕΛΕΣΜΑ ΠΡΟΫΠΟΛΟΓΙΣΜΟΥ ΜΕΤΑ ΤΙΣ ΤΡΟΠΟΠΟΙΗΣΕΙΣ: "
+                            + MoneyUtil.formatSignedEuro(r.getAfter())
             );
             afterLbl.setStyle("-fx-text-fill:white;");
 
@@ -108,15 +121,20 @@ public class ScenarioComparisonController {
             );
             diffLbl.setStyle("-fx-text-fill:white; -fx-font-weight:bold;");
 
+            Separator midSep = new Separator();
+            midSep.setOpacity(0.6);
+
             budgetImpactBox.getChildren().addAll(
                     yearLbl,
                     beforeLbl,
                     afterLbl,
+                    midSep,
                     diffLbl,
                     new Separator()
             );
         }
     }
+
 
 
     // ================= BACK =================

@@ -44,6 +44,7 @@
     <center>
         <ScrollPane fitToWidth="true"
                     hbarPolicy="NEVER">
+
             <VBox spacing="30"
                   alignment="TOP_CENTER"
                   fillWidth="true">
@@ -57,12 +58,12 @@
                        style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
 
                 <!-- ================================================= -->
-                <!-- 1️⃣ OVERVIEW -->
+                <!-- 1️⃣ REVENUE LINE CHART -->
                 <!-- ================================================= -->
 
                 <TitledPane text="Έσοδα ανά Έτος"
                             expanded="true"
-                            prefWidth="700">
+                            prefWidth="900">
 
                     <LineChart fx:id="revenueChart"
                                prefHeight="280"
@@ -76,9 +77,15 @@
                     </LineChart>
                 </TitledPane>
 
+                
+
+                <!-- ================================================= -->
+                <!-- 2️⃣ EXPENSE LINE CHART -->
+                <!-- ================================================= -->
+
                 <TitledPane text="Έξοδα ανά Έτος"
                             expanded="true"
-                            prefWidth="700">
+                            prefWidth="900">
 
                     <LineChart fx:id="expenseChart"
                                prefHeight="280"
@@ -92,13 +99,33 @@
                     </LineChart>
                 </TitledPane>
 
+
                 <!-- ================================================= -->
-                <!-- 2️⃣ COMPOSITION -->
+                <!-- 🟡 BUDGET DONUT OVERVIEW (NEW) -->
+                <!-- ================================================= -->
+
+                <TitledPane text="Σύνοψη Προϋπολογισμού ανά Έτος"
+                            expanded="true"
+                            prefWidth="900">
+
+                    <HBox fx:id="budgetDonutBox"
+                          spacing="30"
+                          alignment="CENTER">
+
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+
+                    </HBox>
+                </TitledPane>
+
+                <!-- ================================================= -->
+                <!-- 3️⃣ MINISTRY COMPOSITION -->
                 <!-- ================================================= -->
 
                 <TitledPane text="Δαπάνες ανά Υπουργείο"
                             expanded="true"
-                            prefWidth="700">
+                            prefWidth="900">
 
                     <VBox spacing="25"
                           alignment="TOP_CENTER">
@@ -133,11 +160,11 @@
                                   spacing="6"/>
                         </HBox>
 
-                        <!-- ================================================= -->
-                        <!-- 3️⃣ CONTEXTUAL TREND -->
-                        <!-- ================================================= -->
-
                         <Separator/>
+
+                        <!-- ================================================= -->
+                        <!-- 4️⃣ TREND -->
+                        <!-- ================================================= -->
 
                         <Label text="Εξέλιξη Υπουργείου στον Χρόνο"
                                style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
@@ -149,19 +176,18 @@
                                maxWidth="650"/>
 
                         <HBox spacing="10"
-                            alignment="CENTER_LEFT">
+                              alignment="CENTER_LEFT">
                             <Label text="Υπουργείο:"/>
                             <ComboBox fx:id="trendMinistryComboBox"
-                                    prefWidth="300"/>
+                                      prefWidth="300"/>
 
                             <Button text="Reset"
                                     fx:id="trendResetButton"
                                     styleClass="btn-orange-small"/>
                         </HBox>
 
-
                         <BarChart fx:id="ministryTrendChart"
-                                  prefWidth="700"
+                                  prefWidth="900"
                                   prefHeight="320"
                                   animated="false"
                                   visible="false"

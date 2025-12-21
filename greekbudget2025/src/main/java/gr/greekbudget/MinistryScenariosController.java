@@ -150,16 +150,22 @@ public class MinistryScenariosController {
     @FXML
     private void goBack(ActionEvent e) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/ScenariosView.fxml"));
-            Scene scene = new Scene(root, 900, 600);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/ScenariosView.fxml")
+            );
+
+            Stage stage = (Stage) ((Node) e.getSource())
+                    .getScene()
+                    .getWindow();
+
+            stage.getScene().setRoot(root);   // ✅ ΚΡΑΤΑ fullscreen / maximized
+            stage.setTitle("Σενάρια");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
 
     private static class LongConverter extends StringConverter<Long> {
         @Override public String toString(Long v) { return v == null ? "" : v.toString(); }

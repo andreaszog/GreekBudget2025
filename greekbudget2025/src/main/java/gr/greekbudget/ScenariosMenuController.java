@@ -3,7 +3,8 @@ package gr.greekbudget;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
 public class ScenariosMenuController {
@@ -29,44 +30,25 @@ public class ScenariosMenuController {
     }
 
     @FXML
-    private void goBack(javafx.event.ActionEvent e) {
-        try {
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/MainView.fxml")
-            );
-
-            Scene scene = new Scene(root, 900, 600);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
-            );
-
-            Stage stage = (Stage) ((Node) e.getSource())
-                    .getScene().getWindow();
-
-            stage.setScene(scene);
-            stage.setTitle("Dashboard");
-            stage.show();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    private void goBack(ActionEvent e) {
+        load(e, "/MainView.fxml", "Dashboard");
     }
 
+    // ======================
+    // SINGLE CORRECT LOADER
+    // ======================
     private void load(ActionEvent e, String fxml, String title) {
         try {
             Parent root = FXMLLoader.load(
                     getClass().getResource(fxml)
             );
 
-            Scene scene = new Scene(root, 900, 600);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
-            );
+            Stage stage = (Stage) ((Node) e.getSource())
+                    .getScene()
+                    .getWindow();
 
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            stage.setScene(scene);
+            stage.getScene().setRoot(root);   // ✅ ΜΟΝΟ ROOT
             stage.setTitle(title);
-            stage.show();
 
         } catch (Exception ex) {
             ex.printStackTrace();

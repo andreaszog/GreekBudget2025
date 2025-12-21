@@ -360,17 +360,18 @@ public class ChartsController {
         try {
             Parent root =
                     FXMLLoader.load(getClass().getResource("/MainView.fxml"));
-            Scene scene = new Scene(root, 800, 600);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
-            );
+
             Stage stage =
                     (Stage) ((Node) event.getSource())
-                            .getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+                            .getScene()
+                            .getWindow();
+
+            stage.getScene().setRoot(root);   // ⬅ ΔΕΝ ΧΑΝΕΤΑΙ ΤΟ FULLSCREEN
+            stage.setTitle("Dashboard");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+

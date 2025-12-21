@@ -61,8 +61,9 @@ public class LoginController {
     private void login() {
 
         String username = usernameField.getText().trim();
-        String pass = passwordVisible ? passwordVisibleField.getText().trim()
-                                      : passwordField.getText().trim();
+        String pass = passwordVisible
+                ? passwordVisibleField.getText().trim()
+                : passwordField.getText().trim();
 
         if (username.isEmpty() || pass.isEmpty()) {
             showAlert("Error", "Please fill all fields!");
@@ -78,30 +79,26 @@ public class LoginController {
 
             ResultSet rs = stmt.executeQuery();
 
-            if (!rs.next()) {
-                showAlert("Error", "Wrong username or password!");
-                return;
-            }
-
-            if (!rs.getString("password").equals(pass)) {
+            if (!rs.next() || !rs.getString("password").equals(pass)) {
                 showAlert("Error", "Wrong username or password!");
                 return;
             }
 
             showAlert("Success", "Welcome, " + username + "!");
 
-            URL fxml = getClass().getResource("/MainView.fxml");
-            FXMLLoader loader = new FXMLLoader(fxml);
+            // ===== LOAD MAIN VIEW =====
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/MainView.fxml")
+            );
             Parent root = loader.load();
 
             MainController controller = loader.getController();
             controller.setUsername(username);
 
+            // ===== SWITCH ROOT (ΟΧΙ NEW SCENE) =====
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Scene scene = new Scene(root, 600, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
-            stage.setScene(scene);
-            stage.show();
+            stage.getScene().setRoot(root);    // ⬅ ΚΡΑΤΑ FULLSCREEN
+            stage.setTitle("Dashboard");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,20 +106,26 @@ public class LoginController {
         }
     }
 
+
     @FXML
     private void goBack() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
-            Scene scene = new Scene(root, 400, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/WelcomeView.fxml")
+            );
 
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
+            Stage stage = (Stage) usernameField
+                    .getScene()
+                    .getWindow();
+
+            stage.getScene().setRoot(root);   // ⬅ ΚΡΑΤΑ FULLSCREEN
+            stage.setTitle("Welcome");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

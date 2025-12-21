@@ -260,14 +260,17 @@ public class AnalysisController {
     @FXML
     private void goBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/MainView.fxml"));
-            Scene scene = new Scene(root, 800, 600);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/MainView.fxml")
             );
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+
+            Stage stage = (Stage) ((Node) event.getSource())
+                    .getScene()
+                    .getWindow();
+
+            stage.getScene().setRoot(root);   // ⬅ ΚΡΑΤΑΕΙ FULLSCREEN
+            stage.setTitle("Dashboard");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

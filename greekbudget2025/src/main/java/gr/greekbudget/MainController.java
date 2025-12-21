@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -46,7 +45,7 @@ public class MainController {
 
         alert.showAndWait().ifPresent(r -> {
             if (r == yes) {
-                loadView(event, "/WelcomeView.fxml", "Welcome", 400, 400);
+                loadView(event, "/WelcomeView.fxml", "Welcome");
             }
         });
     }
@@ -80,26 +79,21 @@ public class MainController {
     }
 
     // ======================
-    // GENERIC LOADER (ΣΩΣΤΟΣ)
+    // SINGLE & CORRECT LOADER
     // ======================
     private void loadView(ActionEvent event, String fxml, String title) {
-        loadView(event, fxml, title, 800, 600);
-    }
-
-    private void loadView(ActionEvent event, String fxml, String title, int w, int h) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            Scene scene = new Scene(root, w, h);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
+            Parent root = FXMLLoader.load(
+                    getClass().getResource(fxml)
             );
 
             Stage stage = (Stage) ((Node) event.getSource())
-                    .getScene().getWindow();
+                    .getScene()
+                    .getWindow();
 
-            stage.setScene(scene);
+            // ✅ ΚΡΑΤΑΕΙ fullscreen / maximized
+            stage.getScene().setRoot(root);
             stage.setTitle(title);
-            stage.show();
 
         } catch (IOException ex) {
             ex.printStackTrace();

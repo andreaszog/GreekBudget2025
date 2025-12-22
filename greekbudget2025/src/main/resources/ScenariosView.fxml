@@ -40,16 +40,7 @@
                     onAction="#openMinistryScenarios"
                     prefWidth="350"
                     styleClass="btn-orange"/>
-
-            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΔΑΝΕΙΑ"
-                    onAction="#openLoanScenarios"
-                    prefWidth="350"
-                    styleClass="btn-orange"/>
-
-            <Button text="ΠΟΛΛΑΠΛΑ ΣΕΝΑΡΙΑ ΣΕ ΟΛΕΣ ΤΙΣ ΚΑΤΗΓΟΡΙΕΣ"
-                    onAction="#openAllScenarios"
-                    prefWidth="420"
-                    styleClass="btn-orange"/>
+                    
         </VBox>
     </center>
 

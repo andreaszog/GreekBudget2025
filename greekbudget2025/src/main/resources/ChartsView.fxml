@@ -31,12 +31,49 @@
             <ComboBox fx:id="yearComboBox"
                       prefWidth="140"/>
 
-            <Separator/>
+            <!-- Instruction -->
 
             <Button text="Back"
                     onAction="#goBack"
                     prefWidth="120"
                     styleClass="btn-orange-small"/>
+
+            <Separator/>
+
+            <!-- Spacer για να κατέβει πιο χαμηλά -->
+            <Region prefHeight="40"/>
+
+            <!-- Instruction box -->
+            <VBox spacing="6"
+                alignment="CENTER"
+                style="
+                    -fx-background-color: rgba(255,255,255,0.25);
+                    -fx-background-radius: 10;
+                    -fx-padding: 10;
+                "
+                maxWidth="160">
+
+                <Label text="πάτα το κουμπί και επίλεξε ποια διαγράμματα θες να κατεβάσεις σε pdf για προσωπική χρήση"
+                    wrapText="true"
+                    textAlignment="CENTER"
+                    style="
+                        -fx-font-size: 13px;
+                        -fx-font-weight: bold;
+                        -fx-text-fill: #4a2600;
+                    "/>
+            </VBox>
+
+            <!-- μικρό κενό -->
+            <Region prefHeight="10"/>
+
+            <!-- Export button -->
+            <Button text="Export to PDF"
+                    onAction="#exportPdf"
+                    prefWidth="150"
+                    styleClass="btn-orange-small"/>
+
+            <Separator/>
+
         </VBox>
     </left>
 
@@ -77,8 +114,6 @@
                     </LineChart>
                 </TitledPane>
 
-                
-
                 <!-- ================================================= -->
                 <!-- 2️⃣ EXPENSE LINE CHART -->
                 <!-- ================================================= -->
@@ -99,9 +134,8 @@
                     </LineChart>
                 </TitledPane>
 
-
                 <!-- ================================================= -->
-                <!-- 🟡 BUDGET DONUT OVERVIEW (NEW) -->
+                <!-- 🟡 BUDGET OVERVIEW -->
                 <!-- ================================================= -->
 
                 <TitledPane text="Σύνοψη Προϋπολογισμού ανά Έτος"
@@ -130,7 +164,6 @@
                     <VBox spacing="25"
                           alignment="TOP_CENTER">
 
-                        <!-- PIE ALL -->
                         <Label text="Όλα τα Υπουργεία"
                                style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
@@ -146,7 +179,6 @@
 
                         <Separator/>
 
-                        <!-- PIE WITHOUT FINANCE -->
                         <Label text="Χωρίς Υπουργείο Οικονομικών"
                                style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 

@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,10 +20,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import gr.greekbudget.export.ExportContentProvider;
+import gr.greekbudget.export.ExportDialogController;
+import gr.greekbudget.export.ExportOptions;
+import gr.greekbudget.export.PdfExportService;
+import gr.greekbudget.export.ChartSnapshotUtil;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import java.awt.image.BufferedImage;
 
+import java.io.File;
 import java.util.*;
 
-public class ChartsController {
+public class ChartsController implements ExportContentProvider {
 
     // ================= LINE CHARTS =================
     @FXML private LineChart<String, Number> revenueChart;
@@ -412,6 +423,37 @@ public class ChartsController {
         }
     }
 
+   @Override
+    public BufferedImage getRevenueChartImage() {
+        return ChartSnapshotUtil.snapshot(revenueChart);
+    }
+
+    @Override
+    public BufferedImage getExpenseChartImage() {
+        return ChartSnapshotUtil.snapshot(expenseChart);
+    }
+
+    @Override
+    public BufferedImage getSummaryBarsImage() {
+        return ChartSnapshotUtil.snapshot(budgetDonutBox);
+    }
+
+    @Override
+    public BufferedImage getPieAllImage() {
+        return ChartSnapshotUtil.snapshot(ministryChartAll);
+    }
+
+    @Override
+    public BufferedImage getPieNoFinanceImage() {
+        return ChartSnapshotUtil.snapshot(ministryChartNoFinance);
+    }
+
+    @Override
+    public BufferedImage getMinistryTrendImage(String ministry) {
+        return ChartSnapshotUtil.snapshot(ministryTrendChart);
+    }
+
+
     // =========================================================
     // TREND BAR CHART (Ministry over time)
     // =========================================================
@@ -434,6 +476,82 @@ public class ChartsController {
             }
         });
     }
+
+    private Optional<ExportOptions> showExportDialog() {
+        try {
+            FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/ExportDialog.fxml"));
+
+            Parent root = loader.load();
+            ExportDialogController controller = loader.getController();
+
+            // ⬅️ ΠΟΛΥ ΣΗΜΑΝΤΙΚΟ
+            controller.setYear(yearComboBox.getValue());
+
+           Stage stage = new Stage();
+            stage.setTitle("Export to PDF");
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.initOwner(yearComboBox.getScene().getWindow());
+            stage.setMaximized(true);     // 🔥 FULL SCREEN
+            stage.showAndWait();
+
+
+            // ⬅️ ΕΔΩ Η ΔΙΟΡΘΩΣΗ
+            return Optional.ofNullable(controller.getResult());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+
+    @FXML
+    private void exportPdf() {
+
+        // 1️⃣ Άνοιγμα dialog επιλογής τι θα γίνει export
+        Optional<ExportOptions> optionsOpt = showExportDialog();
+        if (optionsOpt.isEmpty()) {
+            return;
+        }
+
+        // 2️⃣ File chooser για αποθήκευση PDF
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Αποθήκευση PDF");
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
+
+        Stage stage = (Stage) yearComboBox.getScene().getWindow();
+        File file = fc.showSaveDialog(stage);
+
+        if (file == null) {
+            return;
+        }
+
+        // 3️⃣ Αν δεν τελειώνει σε .pdf → το προσθέτουμε
+        if (!file.getName().toLowerCase().endsWith(".pdf")) {
+            file = new File(file.getAbsolutePath() + ".pdf");
+        }
+
+        // 4️⃣ Δημιουργία PDF
+        try {
+            PdfExportService.export(file, optionsOpt.get(), this);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Σφάλμα κατά τη δημιουργία PDF\n\n"
+                    + ex.getClass().getSimpleName() + "\n"
+                    + (ex.getMessage() != null ? ex.getMessage() : "")
+            ).showAndWait();
+        }
+    }
+
 
     private void loadTrendChart(String ministry) {
 

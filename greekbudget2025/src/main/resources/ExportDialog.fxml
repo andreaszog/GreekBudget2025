@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="15"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gr.greekbudget.export.ExportDialogController"
+      prefWidth="420">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Επιλογή Διαγραμμάτων για Export"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <Separator/>
+
+    <CheckBox fx:id="revenueCheck" text="Έσοδα (Line Chart)"/>
+    <CheckBox fx:id="expenseCheck" text="Έξοδα (Line Chart)"/>
+    <CheckBox fx:id="summaryCheck" text="Σύνοψη Προϋπολογισμού"/>
+
+    <Separator/>
+
+    <CheckBox fx:id="pieAllCheck" text="Δαπάνες ανά Υπουργείο"/>
+    <CheckBox fx:id="pieNoFinanceCheck" text="Χωρίς Υπουργείο Οικονομικών"/>
+
+    <Separator/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Ακύρωση" onAction="#cancel"/>
+        <Button text="Export" onAction="#confirm" style="-fx-font-weight: bold;"/>
+    </HBox>
+
+</VBox>

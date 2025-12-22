@@ -9,67 +9,43 @@ public class ScenarioComparisonRow {
     private final LongProperty oldAmount = new SimpleLongProperty();
     private final LongProperty newAmount = new SimpleLongProperty();
 
-    public ScenarioComparisonRow(
-            int year,
-            String ministry,
-            long oldAmount,
-            long newAmount
-    ) {
+    // computed read-only
+    private final ReadOnlyLongWrapper delta = new ReadOnlyLongWrapper();
+    private final ReadOnlyDoubleWrapper deltaPct = new ReadOnlyDoubleWrapper();
+
+    public ScenarioComparisonRow(int year, String ministry, long oldAmount, long newAmount) {
         this.year.set(year);
         this.ministry.set(ministry);
         this.oldAmount.set(oldAmount);
         this.newAmount.set(newAmount);
+
+        recompute();
+
+        this.oldAmount.addListener((obs, o, n) -> recompute());
+        this.newAmount.addListener((obs, o, n) -> recompute());
     }
 
-    // ===== GETTERS =====
-    public int getYear() {
-        return year.get();
+    private void recompute() {
+        long d = getNewAmount() - getOldAmount();
+        delta.set(d);
+
+        double pct = (getOldAmount() == 0) ? 0.0 : (d * 100.0 / getOldAmount());
+        deltaPct.set(pct);
     }
 
-    public String getMinistry() {
-        return ministry.get();
-    }
+    public int getYear() { return year.get(); }
+    public String getMinistry() { return ministry.get(); }
+    public long getOldAmount() { return oldAmount.get(); }
+    public long getNewAmount() { return newAmount.get(); }
 
-    public long getOldAmount() {
-        return oldAmount.get();
-    }
+    public IntegerProperty yearProperty() { return year; }
+    public StringProperty ministryProperty() { return ministry; }
+    public LongProperty oldAmountProperty() { return oldAmount; }
+    public LongProperty newAmountProperty() { return newAmount; }
 
-    public long getNewAmount() {
-        return newAmount.get();
-    }
+    public long getDelta() { return delta.get(); }
+    public ReadOnlyLongProperty deltaProperty() { return delta.getReadOnlyProperty(); }
 
-    // ===== PROPERTIES (για TableView) =====
-    public IntegerProperty yearProperty() {
-        return year;
-    }
-
-    public StringProperty ministryProperty() {
-        return ministry;
-    }
-
-    public LongProperty oldAmountProperty() {
-        return oldAmount;
-    }
-
-    public LongProperty newAmountProperty() {
-        return newAmount;
-    }
-
-    // ===== ΥΠΟΛΟΓΙΣΜΟΙ =====
-    public long getDelta() {
-        return newAmount.get() - oldAmount.get();
-    }
-
-    public LongProperty deltaProperty() {
-        return new SimpleLongProperty(getDelta());
-    }
-
-    public double getDeltaPct() {
-        if (oldAmount.get() == 0) return 0;
-        return getDelta() * 100.0 / oldAmount.get();
-    }
-
-    public DoubleProperty deltaPctProperty() {
-        return new SimpleDoubleProperty(getDeltaPct());
-    }
+    public double getDeltaPct() { return deltaPct.get(); }
+    public ReadOnlyDoubleProperty deltaPctProperty() { return deltaPct.getReadOnlyProperty(); }
 }

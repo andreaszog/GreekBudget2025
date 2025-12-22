@@ -1,10 +1,58 @@
-.login-box {
-    -fx-background-color: #e67e22;      
-    -fx-padding: 25;
-    -fx-background-radius: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
+/* =====================================================
+   GLOBAL BACKGROUND
+   ===================================================== */
+.orange-background {
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #e67e22,
+        #d35400
+    );
 }
 
+/* ScrollPane viewport */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* =====================================================
+   TOP BAR
+   ===================================================== */
+.top-orange-section {
+    -fx-background-color: #c0392b;
+}
+
+/* =====================================================
+   TITLES & LABELS
+   ===================================================== */
+.label {
+    -fx-text-fill: white;
+}
+
+.page-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.chart-subtitle {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.hint {
+    -fx-text-fill: rgba(255,255,255,0.85);
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
 .btn-orange {
     -fx-background-color: #e67e22;
     -fx-text-fill: white;
@@ -18,22 +66,6 @@
     -fx-background-color: #d35400;
 }
 
-.input {
-    -fx-background-color: white;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
-    -fx-padding: 8;
-    -fx-border-color: transparent;
-}
-
-.title-bold {
-    -fx-font-weight: bold;
-}
-
-.orange-background {
-    -fx-background-color: #e67e22;  
-}
-
 .btn-orange-small {
     -fx-background-color: #d35400;
     -fx-text-fill: white;
@@ -41,25 +73,58 @@
     -fx-background-radius: 12;
     -fx-padding: 4 10;
 }
+
 .btn-orange-small:hover {
     -fx-background-color: #e67e22;
 }
 
-.filter-bar {
-    -fx-background-color: #f39c12; 
-    -fx-padding: 15;
+/* =====================================================
+   KPI CARDS
+   ===================================================== */
+.kpi-row { }
+
+.kpi-card {
+    -fx-background-color: rgba(0,0,0,0.25);
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-border-color: rgba(255,255,255,0.20);
+    -fx-border-radius: 14;
+    -fx-min-width: 210;
 }
 
-.top-orange-section {
-    -fx-background-color: #FFA500; 
+.kpi-title {
+    -fx-text-fill: rgba(255,255,255,0.85);
+    -fx-font-size: 12px;
 }
 
-.yellow-background {
-    -fx-background: #FFE066; 
+.kpi-value {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
 }
 
-.scroll-pane .viewport {
-    -fx-background-color: #fff3b0;
+.kpi-good {
+    -fx-text-fill: #2ecc71;
+}
+
+.kpi-bad {
+    -fx-text-fill: #ff7675;
+}
+
+/* =====================================================
+   TABLE
+   ===================================================== */
+.table-view {
+    -fx-background-color: white;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e67e22;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }
 
 .table-view .check-box {
@@ -86,31 +151,97 @@
     -fx-border-color: #6fb6ff;
 }
 
-.info-bubble {
-    -fx-background-color: white;          /* ⬅ άσπρο συννεφάκι */
-    -fx-text-fill: #111111;               /* ⬅ μαύρα γράμματα */
-
-    -fx-padding: 16 22 16 22;
-    -fx-background-radius: 14;
-
-    -fx-font-size: 16px;                  /* ευανάγνωστο */
-    -fx-font-weight: 600;                 /* καθαρό & σοβαρό */
-    -fx-line-spacing: 1.25;
-
-    -fx-border-color: #dddddd;             /* λεπτό περίγραμμα */
-    -fx-border-width: 1;
-    -fx-border-radius: 14;
-
-    -fx-effect: dropshadow(
-        gaussian,
-        rgba(0,0,0,0.18),
-        12,
-        0.3,
-        0,
-        4
-    );
+/* =====================================================
+   CHARTS
+   ===================================================== */
+.chart {
+    -fx-background-color: transparent;
 }
 
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-background-radius: 14;
+}
 
+.axis,
+.axis-label {
+    -fx-tick-label-fill: rgba(255,255,255,0.95);
+}
 
+/* Bar colors */
+.bar-positive {
+    -fx-bar-fill: #2ecc71;
+}
 
+.bar-negative {
+    -fx-bar-fill: #e74c3c;
+}
+
+/* Pie legend */
+.chart-legend-item {
+    -fx-text-fill: white;
+}
+
+/* =====================================================
+   LOGIN / INFO
+   ===================================================== */
+.login-box {
+    -fx-background-color: #e67e22;
+    -fx-padding: 25;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
+}
+
+.input {
+    -fx-background-color: white;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 8;
+    -fx-border-color: transparent;
+}
+
+.info-bubble {
+    -fx-background-color: white;
+    -fx-text-fill: #111111;
+    -fx-padding: 16 22;
+    -fx-background-radius: 14;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 12, 0.3, 0, 4);
+}
+
+/* =====================================================
+   FORCE ORANGE BACKGROUND IN SCENARIO COMPARISON
+   ===================================================== */
+
+/* ScrollPane background */
+.scroll-pane {
+    -fx-background: #e67e22;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #e67e22;
+}
+
+/* VBox μέσα στο ScrollPane */
+.scroll-pane VBox {
+    -fx-background-color: transparent;
+}
+
+/* Charts area */
+.chart {
+    -fx-background-color: transparent;
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.10);
+}
+
+/* Axis text (για να φαίνεται) */
+.axis,
+.axis-label {
+    -fx-tick-label-fill: white;
+}

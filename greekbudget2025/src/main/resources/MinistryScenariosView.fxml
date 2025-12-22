@@ -78,10 +78,30 @@
 
                 <!-- RIGHT TABLE -->
                 <VBox spacing="10" prefWidth="520">
+
+                    <!-- WHITE MESSAGE BOX (LIKE BUTTON) -->
+                    <Label text="Συμπλήρωσε ποσό και πάτα Enter"
+                           wrapText="true"
+                           alignment="CENTER"
+                           maxWidth="Infinity"
+                           style="
+                               -fx-background-color: white;
+                               -fx-text-fill: black;
+                               -fx-font-size: 14px;
+                               -fx-font-weight: bold;
+                               -fx-padding: 10 14 10 14;
+                               -fx-background-radius: 8;
+                               -fx-border-color: #cccccc;
+                               -fx-border-radius: 8;
+                           "/>
+
+                    <!-- TITLE -->
                     <Label text="Επιλεγμένα για Σενάριο"
-                           style="-fx-text-fill:white;
-                                  -fx-font-size:14px;
-                                  -fx-font-weight:bold"/>
+                           style="
+                               -fx-text-fill:white;
+                               -fx-font-size:15px;
+                               -fx-font-weight:bold;
+                           "/>
 
                     <TableView fx:id="selectedTable"
                                prefHeight="460"

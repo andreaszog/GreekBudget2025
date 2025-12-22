@@ -1,11 +1,13 @@
 package gr.greekbudget;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -33,6 +35,7 @@ public class MinistryScenariosController {
 
     private final ObservableList<MinistryRow> allRows =
             FXCollections.observableArrayList();
+
     private final ObservableList<ScenarioRow> scenarioRows =
             FXCollections.observableArrayList();
 
@@ -48,12 +51,14 @@ public class MinistryScenariosController {
     @FXML
     public void initialize() {
 
+        // Years
         List<Integer> years = new ArrayList<>(MinistryBudgetData.getAvailableYears());
         years.sort(Comparator.reverseOrder());
         yearBox.setItems(FXCollections.observableArrayList(years));
         yearBox.setValue(2026);
         yearBox.valueProperty().addListener((o, a, b) -> loadYear(b));
 
+        // LEFT TABLE
         table.setItems(allRows);
         table.setEditable(true);
 
@@ -64,18 +69,30 @@ public class MinistryScenariosController {
         amountCol.setCellValueFactory(c -> c.getValue().amountProperty());
 
         amountCol.setCellFactory(col -> new TableCell<>() {
-            @Override protected void updateItem(Number v, boolean empty) {
+            @Override
+            protected void updateItem(Number v, boolean empty) {
                 super.updateItem(v, empty);
                 setText(empty || v == null ? null : fmt.format(v.longValue()));
             }
         });
 
+        // RIGHT TABLE
         selectedTable.setItems(scenarioRows);
+        selectedTable.setEditable(true);
+
         selYearCol.setCellValueFactory(c -> c.getValue().yearProperty());
         selNameCol.setCellValueFactory(c -> c.getValue().ministryProperty());
         oldAmountCol.setCellValueFactory(c -> c.getValue().oldAmountProperty());
+
         newAmountCol.setCellValueFactory(c -> c.getValue().newAmountProperty());
-        newAmountCol.setCellFactory(TextFieldTableCell.forTableColumn(new LongConverter()));
+        newAmountCol.setCellFactory(
+                TextFieldTableCell.forTableColumn(new LongConverter())
+        );
+
+        // ✅ ΣΩΣΤΟ enable / disable (ΔΕΝ ΞΑΝΑΧΑΛΑΕΙ)
+        compareBtn.disableProperty().bind(
+                Bindings.isEmpty(scenarioRows)
+        );
 
         loadYear(2026);
     }
@@ -84,6 +101,7 @@ public class MinistryScenariosController {
     // LOAD YEAR
     // ===============================
     private void loadYear(int year) {
+
         allRows.clear();
 
         Map<String, Long> data = MinistryBudgetData.getTotalsForYear(year);
@@ -93,13 +111,18 @@ public class MinistryScenariosController {
                 selectedByYear.computeIfAbsent(year, y -> new HashSet<>());
 
         for (var e : data.entrySet()) {
+
             MinistryRow r = new MinistryRow(year, e.getKey(), e.getValue());
             r.setSelected(selected.contains(e.getKey()));
 
-            r.selectedProperty().addListener((obs, o, n) -> {
-                if (n) addScenario(r);
-                else removeScenario(r);
-                compareBtn.setDisable(scenarioRows.isEmpty());
+            r.selectedProperty().addListener((obs, oldV, newV) -> {
+                if (newV) {
+                    addScenario(r);
+                    selected.add(r.getMinistry());
+                } else {
+                    removeScenario(r);
+                    selected.remove(r.getMinistry());
+                }
             });
 
             allRows.add(r);
@@ -107,14 +130,20 @@ public class MinistryScenariosController {
     }
 
     private void addScenario(MinistryRow r) {
-        ScenarioRow sr = new ScenarioRow(r.getYear(), r.getMinistry(), r.getAmount());
+        if (scenarioByKey.containsKey(r.key())) return;
+
+        ScenarioRow sr =
+                new ScenarioRow(r.getYear(), r.getMinistry(), r.getAmount());
+
         scenarioByKey.put(r.key(), sr);
         scenarioRows.add(sr);
     }
 
     private void removeScenario(MinistryRow r) {
         ScenarioRow sr = scenarioByKey.remove(r.key());
-        if (sr != null) scenarioRows.remove(sr);
+        if (sr != null) {
+            scenarioRows.remove(sr);
+        }
     }
 
     // ===============================
@@ -125,9 +154,10 @@ public class MinistryScenariosController {
 
         for (ScenarioRow r : scenarioRows) {
             if (r.getNewAmount() == null) {
-                new Alert(Alert.AlertType.WARNING,
-                        "Συμπλήρωσε νέο ποσό για όλα τα υπουργεία.")
-                        .showAndWait();
+                new Alert(
+                        Alert.AlertType.WARNING,
+                        "Συμπλήρωσε νέο ποσό για όλα τα υπουργεία."
+                ).showAndWait();
                 return;
             }
         }
@@ -159,15 +189,15 @@ public class MinistryScenariosController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/ScenarioComparisonView.fxml")
-            );
+            FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/ScenarioComparisonView.fxml"));
             Parent root = loader.load();
 
             ScenarioComparisonController ctrl = loader.getController();
             ctrl.setData(comparisonRows, impacts);
 
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            Stage stage =
+                    (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.getScene().setRoot(root);
             stage.setTitle("Σύγκριση Σεναρίου");
 
@@ -180,13 +210,21 @@ public class MinistryScenariosController {
     // CONVERTER
     // ===============================
     private static class LongConverter extends StringConverter<Long> {
-        @Override public String toString(Long v) { return v == null ? "" : v.toString(); }
-        @Override public Long fromString(String s) {
+        @Override
+        public String toString(Long v) {
+            return v == null ? "" : v.toString();
+        }
+
+        @Override
+        public Long fromString(String s) {
             if (s == null || s.isBlank()) return null;
             return Long.parseLong(s.replace(".", "").replace(",", ""));
         }
     }
 
+    // ===============================
+    // BACK
+    // ===============================
     @FXML
     private void goBack(ActionEvent e) {
         try {
@@ -194,9 +232,8 @@ public class MinistryScenariosController {
                     getClass().getResource("/ScenariosView.fxml")
             );
 
-            Stage stage = (Stage) ((Node) e.getSource())
-                    .getScene()
-                    .getWindow();
+            Stage stage =
+                    (Stage) ((Node) e.getSource()).getScene().getWindow();
 
             stage.getScene().setRoot(root);
             stage.setTitle("Σενάρια");

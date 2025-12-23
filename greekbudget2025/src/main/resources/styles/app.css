@@ -4,7 +4,7 @@
 .orange-background {
     -fx-background-color: linear-gradient(
         to bottom,
-        #e67e22,
+        #be7636,
         #d35400
     );
 }
@@ -18,7 +18,7 @@
    TOP BAR
    ===================================================== */
 .top-orange-section {
-    -fx-background-color: #c0392b;
+    -fx-background-color: #1f1f1f;
 }
 
 /* =====================================================
@@ -54,7 +54,7 @@
    BUTTONS
    ===================================================== */
 .btn-orange {
-    -fx-background-color: #e67e22;
+    -fx-background-color: #034f9c;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-background-radius: 20;
@@ -63,11 +63,11 @@
 }
 
 .btn-orange:hover {
-    -fx-background-color: #d35400;
+    -fx-background-color: #176fa1;
 }
 
 .btn-orange-small {
-    -fx-background-color: #d35400;
+    -fx-background-color: #034f9c;
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-background-radius: 12;
@@ -75,7 +75,7 @@
 }
 
 .btn-orange-small:hover {
-    -fx-background-color: #e67e22;
+    -fx-background-color: #176fa1;
 }
 
 /* =====================================================
@@ -201,7 +201,7 @@
 }
 
 .info-bubble {
-    -fx-background-color: white;
+    -fx-background-color: rgb(255, 255, 255);
     -fx-text-fill: #111111;
     -fx-padding: 16 22;
     -fx-background-radius: 14;
@@ -245,3 +245,46 @@
 .axis-label {
     -fx-tick-label-fill: white;
 }
+
+/* =====================================================
+   FILTER PANEL – OWN BACKGROUND (NO INHERIT)
+   ===================================================== */
+
+.filter-bar {
+    -fx-background-color: #2c3e50
+ /* π.χ. ανοιχτό γκρι */
+}
+
+.scroll-pane {
+    -fx-background: #1f1f1f;
+}
+
+/* =====================================================
+   CENTER SCROLL – CONTENT + BOTTOM BAR
+   ===================================================== */
+
+.center-scroll {
+    -fx-background: #1f1f1f; /* ΚΑΤΩ μπάρα */
+}
+
+.center-scroll .viewport {
+    -fx-background-color: #e67e22; /* ΚΕΝΤΡΙΚΟ content */
+}
+
+.root {
+    -fx-background-color: #e67e22;
+}
+
+.border-pane {
+    -fx-background-color: transparent;
+}
+
+.border-pane > .bottom {
+    -fx-background-color: #1f1f1f;
+}
+
+.text {
+    -fx-fill: #222222;
+}
+
+

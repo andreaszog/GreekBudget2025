@@ -4,11 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.io.IOException;
 
@@ -24,7 +24,9 @@ public class MainController {
     // ======================
     public void setUsername(String username) {
         this.username = username;
-        usernameLabel.setText("Logged in as: " + username);
+        if (usernameLabel != null) {
+            usernameLabel.setText("Logged in as: " + username);
+        }
     }
 
     // ======================
@@ -37,78 +39,64 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to log out?");
 
-        ButtonType yesButton = new ButtonType("Yes");
-        ButtonType noButton = new ButtonType("No", ButtonType.CANCEL.getButtonData());
-        alert.getButtonTypes().setAll(yesButton, noButton);
+        ButtonType yes = new ButtonType("Yes");
+        ButtonType no = new ButtonType("No", ButtonType.CANCEL.getButtonData());
+        alert.getButtonTypes().setAll(yes, no);
 
-        alert.showAndWait().ifPresent(response -> {
-            if (response == yesButton) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
-                    Scene scene = new Scene(root, 400, 400);
-                    scene.getStylesheets().add(
-                            getClass().getResource("/styles/app.css").toExternalForm()
-                    );
-
-                    Stage stage = (Stage) usernameLabel.getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        alert.showAndWait().ifPresent(r -> {
+            if (r == yes) {
+                loadView(event, "/WelcomeView.fxml", "Welcome");
             }
         });
     }
 
     // ======================
-    // SUMMARY
+    // NAVIGATION
     // ======================
     @FXML
-    private void openSummary() {
-        loadView("/SummaryView.fxml", "Δαπάνες ανά Υπουργείο");
+    private void openSummary(ActionEvent e) {
+        loadView(e, "/SummaryView.fxml", "Δαπάνες ανά Υπουργείο");
+    }
+
+    @FXML
+    private void openAnalysis(ActionEvent e) {
+        loadView(e, "/AnalysisView.fxml", "Ανάλυση Προϋπολογισμού");
+    }
+
+    @FXML
+    private void openIncomeExpense(ActionEvent e) {
+        loadView(e, "/IncomeExpenseView.fxml", "Έσοδα - Έξοδα");
+    }
+
+    @FXML
+    private void openCharts(ActionEvent e) {
+        loadView(e, "/ChartsView.fxml", "Γραφήματα & Στατιστικά");
+    }
+
+    @FXML
+    private void openScenarios(ActionEvent e) {
+        loadView(e, "/ScenariosView.fxml", "Σενάρια");
     }
 
     // ======================
-    // ANALYSIS
+    // SINGLE & CORRECT LOADER
     // ======================
-    @FXML
-    private void openAnalysis() {
-        loadView("/AnalysisView.fxml", "Ανάλυση Προϋπολογισμού");
-    }
-
-    // ======================
-    // INCOME - EXPENSE
-    // ======================
-    @FXML
-    private void openIncomeExpense() {
-        loadView("/IncomeExpenseView.fxml", "Έσοδα - Έξοδα");
-    }
-
-    // ======================
-    // CHARTS / STATISTICS  ✅ ΝΕΟ
-    // ======================
-    @FXML
-    private void openCharts() {
-        loadView("/ChartsView.fxml", "Γραφήματα & Στατιστικά");
-    }
-
-    // ======================
-    // GENERIC LOADER
-    // ======================
-    private void loadView(String fxml, String title) {
+    private void loadView(ActionEvent event, String fxml, String title) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            Scene scene = new Scene(root, 800, 600);
-            scene.getStylesheets().add(
-                    getClass().getResource("/styles/app.css").toExternalForm()
+            Parent root = FXMLLoader.load(
+                    getClass().getResource(fxml)
             );
 
-            Stage stage = (Stage) usernameLabel.getScene().getWindow();
-            stage.setScene(scene);
+            Stage stage = (Stage) ((Node) event.getSource())
+                    .getScene()
+                    .getWindow();
+
+            // ✅ ΚΡΑΤΑΕΙ fullscreen / maximized
+            stage.getScene().setRoot(root);
             stage.setTitle(title);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

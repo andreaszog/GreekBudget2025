@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gr.greekbudget.ScenariosMenuController"
+            styleClass="orange-background">
+
+    <top>
+        <HBox spacing="10"
+            alignment="CENTER_LEFT"
+            styleClass="top-orange-section">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button text="Back"
+                    onAction="#goBack"
+                    styleClass="btn-orange-small"/>
+
+            <Label text="Σενάρια Προϋπολογισμού"
+                style="-fx-text-fill: white;
+                        -fx-font-size: 20px;
+                        -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+
+    <center>
+        <VBox spacing="20" alignment="CENTER">
+            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΕΣΟΔΑ - ΕΞΟΔΑ"
+                    onAction="#openRevenueScenarios"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+
+            <Button text="ΣΕΝΑΡΙΑ ΣΕ ΥΠΟΥΡΓΙΚΕΣ ΔΑΠΑΝΕΣ"
+                    onAction="#openMinistryScenarios"
+                    prefWidth="350"
+                    styleClass="btn-orange"/>
+                    
+        </VBox>
+    </center>
+
+</BorderPane>

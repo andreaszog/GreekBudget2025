@@ -1,6 +1,5 @@
 package gr.greekbudget;
 
-import gr.greekbudget.database.CreateTables;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,16 +11,21 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        CreateTables.initialize();
+        Parent root = FXMLLoader.load(
+                getClass().getResource("/WelcomeView.fxml")
+        );
 
-        Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
-        Scene scene = new Scene(root, 400, 400);
-        scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(
+                getClass().getResource("/styles/app.css").toExternalForm()
+        );
 
-        stage.setTitle("Blender Budget");
         stage.setScene(scene);
+        stage.setTitle("Greek Budget");
+        stage.setMaximized(true);   // ✅ ΣΩΣΤΟ ΣΗΜΕΙΟ
         stage.show();
     }
+
 
     public static void main(String[] args) {
         launch(args);

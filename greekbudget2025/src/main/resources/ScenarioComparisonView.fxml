@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="gr.greekbudget.ScenarioComparisonController"
+            styleClass="orange-background">
+
+    <!-- ===== TOP BAR ===== -->
+    <top>
+        <HBox spacing="10"
+              alignment="CENTER_LEFT"
+              styleClass="top-orange-section">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button text="Back"
+                    onAction="#goBack"
+                    styleClass="btn-orange-small"/>
+
+            <Label text="Σύγκριση Σεναρίου"
+                   styleClass="page-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <!-- ===== CENTER ===== -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <VBox spacing="22">
+                    <padding>
+                        <Insets top="14" right="14" bottom="14" left="14"/>
+                    </padding>
+
+                    <!-- ===== KPI CARDS ===== -->
+                    <HBox spacing="12" styleClass="kpi-row">
+                        <VBox styleClass="kpi-card" spacing="4">
+                            <Label text="Υπουργεία που άλλαξαν" styleClass="kpi-title"/>
+                            <Label fx:id="kpiChangedMinistries" text="-" styleClass="kpi-value"/>
+                        </VBox>
+
+                        <VBox styleClass="kpi-card" spacing="4">
+                            <Label text="Συνολική μεταβολή δαπανών (ανά έτος)" styleClass="kpi-title"/>
+                            <Label fx:id="kpiTotalDelta" text="-" styleClass="kpi-value"/>
+                        </VBox>
+
+                        <VBox styleClass="kpi-card" spacing="4">
+                            <Label text="Αποτέλεσμα προϋπολογισμού (ανά έτος)" styleClass="kpi-title"/>
+                            <Label fx:id="kpiFinalResult" text="-" styleClass="kpi-value"/>
+                        </VBox>
+
+                        <VBox styleClass="kpi-card" spacing="4">
+                            <Label text="Χαρακτηρισμός" styleClass="kpi-title"/>
+                            <Label fx:id="kpiStatus" text="-" styleClass="kpi-value"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ===== TABLE ===== -->
+                    <TableView fx:id="table">
+                        <columns>
+                            <TableColumn fx:id="yearCol" text="Έτος" prefWidth="70"/>
+                            <TableColumn fx:id="ministryCol" text="Υπουργείο" prefWidth="320"/>
+                            <TableColumn fx:id="oldCol" text="Παλαιό Ποσό" prefWidth="140"/>
+                            <TableColumn fx:id="newCol" text="Νέο Ποσό" prefWidth="140"/>
+                            <TableColumn fx:id="deltaCol" text="Μεταβολή (€)" prefWidth="140"/>
+                            <TableColumn fx:id="deltaPctCol" text="Μεταβολή (%)" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+
+                    <!-- ===== BUDGET IMPACT TEXT ===== -->
+                    <VBox fx:id="budgetImpactBox" spacing="10"/>
+
+                    <!-- ===== OLD VS NEW ===== -->
+                    <Label text="Παλαιό vs Νέο" styleClass="chart-title"/>
+                    <BarChart fx:id="amountChart">
+                        <xAxis>
+                            <CategoryAxis/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis/>
+                        </yAxis>
+                    </BarChart>
+
+                    <!-- ===== DELTA ===== -->
+                    <Label text="Μεταβολές Δαπανών" styleClass="chart-title"/>
+                    <BarChart fx:id="deltaChart">
+                        <xAxis>
+                            <CategoryAxis/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis/>
+                        </yAxis>
+                    </BarChart>
+
+                    <!-- ===== PIE ===== -->
+                    <Label text="Κατανομή Δαπανών" styleClass="chart-title"/>
+                    <HBox spacing="20">
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="ΠΡΙΝ" styleClass="chart-subtitle"/>
+                            <PieChart fx:id="pieBefore" prefHeight="360"/>
+                        </VBox>
+
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="ΜΕΤΑ" styleClass="chart-subtitle"/>
+                            <PieChart fx:id="pieAfter" prefHeight="360"/>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

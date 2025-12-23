@@ -131,17 +131,22 @@ public class SignUpController {
     @FXML
     private void goBack() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/WelcomeView.fxml"));
-            Scene scene = new Scene(root, 400, 400);
-            scene.getStylesheets().add(getClass().getResource("/styles/app.css").toExternalForm());
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/WelcomeView.fxml")
+            );
 
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
+            Stage stage = (Stage) usernameField
+                    .getScene()
+                    .getWindow();
+
+            stage.getScene().setRoot(root);   // ✅ ΜΟΝΟ ROOT
+            stage.setTitle("Welcome");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

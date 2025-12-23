@@ -1,21 +1,196 @@
-.login-box {
-    -fx-background-color: #e67e22;      
-    -fx-padding: 25;
-    -fx-background-radius: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
+/* =====================================================
+   GLOBAL BACKGROUND
+   ===================================================== */
+.orange-background {
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #be7636,
+        #d35400
+    );
 }
 
-.btn-orange {
-    -fx-background-color: #e67e22;
+/* ScrollPane viewport */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* =====================================================
+   TOP BAR
+   ===================================================== */
+.top-orange-section {
+    -fx-background-color: #1f1f1f;
+}
+
+/* =====================================================
+   TITLES & LABELS
+   ===================================================== */
+.label {
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-background-radius: 20;
-    -fx-padding: 8 22;
+}
+
+.page-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
 }
 
-.btn-orange:hover {
-    -fx-background-color: #d35400;
+.chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.chart-subtitle {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.hint {
+    -fx-text-fill: rgba(255,255,255,0.85);
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+.button {
+    -fx-background-color: #d96d0f; /* λίγο πιο σκούρο πορτοκαλί */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 8 22;
+}
+
+.button:hover {
+    -fx-background-color: #c85a00; /* hover λίγο πιο σκούρο */
+}
+
+/* μικρά κουμπιά */
+.btn-orange-small {
+    -fx-background-color: #d96d0f; /* λίγο πιο σκούρο πορτοκαλί */
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 12;
+    -fx-padding: 4 10;
+}
+
+.btn-orange-small:hover {
+    -fx-background-color: #c85a00; /* hover λίγο πιο σκούρο */
+}
+
+/* =====================================================
+   KPI CARDS
+   ===================================================== */
+.kpi-row { }
+
+.kpi-card {
+    -fx-background-color: rgba(0,0,0,0.25);
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+    -fx-border-color: rgba(255,255,255,0.20);
+    -fx-border-radius: 14;
+    -fx-min-width: 210;
+}
+
+.kpi-title {
+    -fx-text-fill: rgba(255,255,255,0.85);
+    -fx-font-size: 12px;
+}
+
+.kpi-value {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.kpi-good {
+    -fx-text-fill: #2ecc71;
+}
+
+.kpi-bad {
+    -fx-text-fill: #ff7675;
+}
+
+/* =====================================================
+   TABLE
+   ===================================================== */
+.table-view {
+    -fx-background-color: white;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e67e22;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-view .check-box {
+    -fx-padding: 0 0 0 6;
+}
+
+.table-view .check-box .box {
+    -fx-background-color: transparent;
+    -fx-border-color: #e67e22; /* πορτοκαλί αντί για μπλε */
+    -fx-border-radius: 3;
+    -fx-border-width: 1.5;
+}
+
+.table-view .check-box:selected .box {
+    -fx-background-color: #e67e22; /* πορτοκαλί αντί για μπλε */
+    -fx-border-color: #e67e22;
+}
+
+.table-view .check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.table-view .check-box:hover .box {
+    -fx-border-color: #ff9c50; /* λίγο πιο ανοιχτό πορτοκαλί για hover */
+}
+
+/* =====================================================
+   CHARTS
+   ===================================================== */
+.chart {
+    -fx-background-color: transparent;
+}
+
+/* Plot area λευκό */
+.chart-plot-background {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+}
+
+.axis,
+.axis-label {
+    -fx-tick-label-fill: rgba(0,0,0,0.95); /* για να φαίνεται στο λευκό */
+}
+
+/* Bar colors */
+.bar-positive {
+    -fx-bar-fill: #2ecc71;
+}
+
+.bar-negative {
+    -fx-bar-fill: #e74c3c;
+}
+
+/* Pie legend */
+.chart-legend-item {
+    -fx-text-fill: black; /* για να φαίνεται στο λευκό φόντο */
+}
+
+/* =====================================================
+   LOGIN / INFO
+   ===================================================== */
+.login-box {
+    -fx-background-color: #e67e22;
+    -fx-padding: 25;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
 }
 
 .input {
@@ -26,38 +201,70 @@
     -fx-border-color: transparent;
 }
 
-.title-bold {
-    -fx-font-weight: bold;
+.info-bubble {
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-text-fill: #111111;
+    -fx-padding: 16 22;
+    -fx-background-radius: 14;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 12, 0.3, 0, 4);
 }
 
-.orange-background {
-    -fx-background-color: #e67e22;  
-}
-
-.btn-orange-small {
-    -fx-background-color: #d35400;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-background-radius: 12;
-    -fx-padding: 4 10;
-}
-.btn-orange-small:hover {
-    -fx-background-color: #e67e22;
-}
-
-.filter-bar {
-    -fx-background-color: #f39c12; 
-    -fx-padding: 15;
-}
-
-.top-orange-section {
-    -fx-background-color: #FFA500; 
-}
-
-.yellow-background {
-    -fx-background: #FFE066; 
+/* =====================================================
+   FORCE ORANGE BACKGROUND IN SCENARIO COMPARISON
+   ===================================================== */
+.scroll-pane {
+    -fx-background: #e67e22;
 }
 
 .scroll-pane .viewport {
-    -fx-background-color: #fff3b0;
+    -fx-background-color: #e67e22;
+}
+
+.scroll-pane VBox {
+    -fx-background-color: transparent;
+}
+
+.chart {
+    -fx-background-color: transparent;
+}
+
+.axis,
+.axis-label {
+    -fx-tick-label-fill: black; /* για να φαίνεται στο λευκό φόντο */
+}
+
+/* =====================================================
+   FILTER PANEL / SIDEBARS
+   ===================================================== */
+.filter-bar {
+    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+}
+
+.center-scroll {
+    -fx-background: #be7636; /* πορτοκαλί gradient-ish αντί για μπλε */
+}
+
+.center-scroll .viewport {
+    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+}
+
+.root {
+    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+}
+
+.border-pane {
+    -fx-background-color: transparent;
+}
+
+.border-pane > .bottom {
+    -fx-background-color: #1f1f1f;
+}
+
+.text {
+    -fx-fill: #222222;
 }

@@ -30,21 +30,18 @@ public class MainController {
     }
 
     // ======================
-    // LOGOUT
+    // LOGOUT (FIXED)
     // ======================
     @FXML
     private void logout(ActionEvent event) {
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to log out?");
 
-        ButtonType yes = new ButtonType("Yes");
-        ButtonType no = new ButtonType("No", ButtonType.CANCEL.getButtonData());
-        alert.getButtonTypes().setAll(yes, no);
-
         alert.showAndWait().ifPresent(r -> {
-            if (r == yes) {
+            if (r == ButtonType.OK) {
                 loadView(event, "/WelcomeView.fxml", "Welcome");
             }
         });
@@ -75,24 +72,21 @@ public class MainController {
 
     @FXML
     private void openScenarios(ActionEvent e) {
-        loadView(e, "/ScenariosView.fxml", "Σενάρια");
+        loadView(e, "/ScenariosMenuView.fxml", "Σενάρια");
     }
 
     // ======================
-    // SINGLE & CORRECT LOADER
+    // SINGLE CORRECT LOADER
     // ======================
     private void loadView(ActionEvent event, String fxml, String title) {
         try {
-            Parent root = FXMLLoader.load(
-                    getClass().getResource(fxml)
-            );
+            Parent root = FXMLLoader.load(getClass().getResource(fxml));
 
             Stage stage = (Stage) ((Node) event.getSource())
                     .getScene()
                     .getWindow();
 
-            // ✅ ΚΡΑΤΑΕΙ fullscreen / maximized
-            stage.getScene().setRoot(root);
+            stage.getScene().setRoot(root);   // ✅ ΙΔΙΑ SCENE
             stage.setTitle(title);
 
         } catch (IOException ex) {

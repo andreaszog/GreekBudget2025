@@ -38,7 +38,7 @@
 
             <Button text="Δαπάνες ανά Υπουργείο"
                     onAction="#openSummary"
-                    prefWidth="350"
+                    prefWidth="300"
                     styleClass="btn-orange"/>
 
             <Button text="Ανάλυση Προυπολογισμού"

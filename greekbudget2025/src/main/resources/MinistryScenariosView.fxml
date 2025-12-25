@@ -46,7 +46,7 @@
 
             <!-- INFO BUBBLE -->
             <Label fx:id="infoLabel"
-                   text="Επίλεξε υπουργείο για τη χρονολογία που θέλεις και άλλαξε το ποσό του, για να δεις άμεσα την επίδραση στον Κρατικό Προϋπολογισμό."
+                   text="Επιλέξτε υπουργείο για τη χρονολογία που θέλετε και αλλάξτε το ποσό του, για να δείτε άμεσα την επίδραση στον Κρατικό Προϋπολογισμό."
                    wrapText="true"
                    maxWidth="1200"
                    styleClass="info-bubble"/>
@@ -79,8 +79,8 @@
                 <!-- RIGHT TABLE -->
                 <VBox spacing="10" prefWidth="520">
 
-                    <!-- WHITE MESSAGE BOX (LIKE BUTTON) -->
-                    <Label text="Συμπλήρωσε ποσό και πάτα Enter"
+                    <!-- WHITE MESSAGE BOX -->
+                    <Label text="Συμπληρώστε ποσό και πατήστε Enter"
                            wrapText="true"
                            alignment="CENTER"
                            maxWidth="Infinity"

@@ -61,6 +61,37 @@ public class ChartsController implements ExportContentProvider {
     @FXML private HBox budgetDonutBox;
 
     // =========================================================
+    // ✅ NEW: NICER TOOLTIPS FOR PIE SLICES (PROJECT THEME)
+    // =========================================================
+    private Tooltip createNiceTooltip(String text) {
+        Tooltip tooltip = new Tooltip(text);
+
+        tooltip.setShowDelay(Duration.millis(120));
+        tooltip.setHideDelay(Duration.millis(80));
+
+        // theme-friendly, readable
+        tooltip.setStyle(
+                "-fx-background-color: #fff7e6;" +
+                "-fx-text-fill: #4a2600;" +
+                "-fx-font-size: 13px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-padding: 8 10 8 10;" +
+                "-fx-background-radius: 8;" +
+                "-fx-border-color: #f0a500;" +
+                "-fx-border-radius: 8;" +
+                "-fx-border-width: 1;" +
+                "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0.3, 0, 2);"
+        );
+
+        return tooltip;
+    }
+
+    private void installNiceTooltip(Node node, String text) {
+        if (node == null) return;
+        Tooltip.install(node, createNiceTooltip(text));
+    }
+
+    // =========================================================
     // INIT
     // =========================================================
     @FXML
@@ -185,134 +216,132 @@ public class ChartsController implements ExportContentProvider {
 
     private VBox createYearBars(int year) {
 
-    long revenues = BudgetData.getTotalRevenues(year);
-    long expenses = BudgetData.getTotalExpenses(year);
-    long result   = BudgetData.getBudgetResult(year);
+        long revenues = BudgetData.getTotalRevenues(year);
+        long expenses = BudgetData.getTotalExpenses(year);
+        long result   = BudgetData.getBudgetResult(year);
 
-    // =========================
-    // AXES
-    // =========================
-    CategoryAxis xAxis = new CategoryAxis();
-    xAxis.setTickLabelsVisible(false);
-    xAxis.setTickMarkVisible(false);
+        // =========================
+        // AXES
+        // =========================
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setTickLabelsVisible(false);
+        xAxis.setTickMarkVisible(false);
 
-    NumberAxis yAxis = new NumberAxis();
-    yAxis.setMinorTickVisible(false);
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setMinorTickVisible(false);
 
-    // 🔧 Tick formatter (μόνο παρουσίαση)
-    yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis) {
-        @Override
-        public String toString(Number value) {
-            double display = value.doubleValue();
-            if (year == 2025) {
-                display -= 1.0; // 👉 μόνο αυτό ζήτησες
+        // 🔧 Tick formatter (μόνο παρουσίαση)
+        yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis) {
+            @Override
+            public String toString(Number value) {
+                double display = value.doubleValue();
+                if (year == 2025) {
+                    display -= 1.0; // 👉 μόνο αυτό ζήτησες
+                }
+                return String.format("%.0f B €", display);
             }
-            return String.format("%.0f B €", display);
-        }
-    });
+        });
 
-    // =========================
-    // BAR CHART
-    // =========================
-    BarChart<String, Number> barChart =
-            new BarChart<>(xAxis, yAxis);
+        // =========================
+        // BAR CHART
+        // =========================
+        BarChart<String, Number> barChart =
+                new BarChart<>(xAxis, yAxis);
 
-    barChart.setLegendVisible(false);
-    barChart.setAnimated(false);
-    barChart.setCategoryGap(14);
-    barChart.setBarGap(10);
-    barChart.setPrefSize(190, 360);
+        barChart.setLegendVisible(false);
+        barChart.setAnimated(false);
+        barChart.setCategoryGap(14);
+        barChart.setBarGap(10);
+        barChart.setPrefSize(190, 360);
 
-    barChart.setHorizontalGridLinesVisible(true);
-    barChart.setVerticalGridLinesVisible(false);
-    barChart.setStyle("-fx-background-color: transparent;");
+        barChart.setHorizontalGridLinesVisible(true);
+        barChart.setVerticalGridLinesVisible(false);
+        barChart.setStyle("-fx-background-color: transparent;");
 
-    // =========================
-    // DATA (BILLIONS €)
-    // =========================
-    double revB = revenues / 1_000_000_000.0;
-    double expB = expenses / 1_000_000_000.0;
+        // =========================
+        // DATA (BILLIONS €)
+        // =========================
+        double revB = revenues / 1_000_000_000.0;
+        double expB = expenses / 1_000_000_000.0;
 
-    XYChart.Data<String, Number> revData =
-            new XYChart.Data<>("", revB);
-    XYChart.Data<String, Number> expData =
-            new XYChart.Data<>("", expB);
+        XYChart.Data<String, Number> revData =
+                new XYChart.Data<>("", revB);
+        XYChart.Data<String, Number> expData =
+                new XYChart.Data<>("", expB);
 
-    XYChart.Series<String, Number> revSeries = new XYChart.Series<>();
-    XYChart.Series<String, Number> expSeries = new XYChart.Series<>();
+        XYChart.Series<String, Number> revSeries = new XYChart.Series<>();
+        XYChart.Series<String, Number> expSeries = new XYChart.Series<>();
 
-    revSeries.getData().add(revData);
-    expSeries.getData().add(expData);
+        revSeries.getData().add(revData);
+        expSeries.getData().add(expData);
 
-    barChart.getData().addAll(revSeries, expSeries);
+        barChart.getData().addAll(revSeries, expSeries);
 
-    // =========================
-    // Y AXIS RANGE (per year)
-    // =========================
-    double min = Math.min(revB, expB);
-    double max = Math.max(revB, expB);
+        // =========================
+        // Y AXIS RANGE (per year)
+        // =========================
+        double min = Math.min(revB, expB);
+        double max = Math.max(revB, expB);
 
-    double range = max - min;
-    if (range <= 0) range = max * 0.05;
+        double range = max - min;
+        if (range <= 0) range = max * 0.05;
 
-    double padding = range * 0.45;
+        double padding = range * 0.45;
 
-    yAxis.setAutoRanging(false);
-    yAxis.setLowerBound(Math.max(0, min - padding));
-    yAxis.setUpperBound(max + padding);
-    yAxis.setTickUnit(
-            (yAxis.getUpperBound() - yAxis.getLowerBound()) / 4
-    );
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(Math.max(0, min - padding));
+        yAxis.setUpperBound(max + padding);
+        yAxis.setTickUnit(
+                (yAxis.getUpperBound() - yAxis.getLowerBound()) / 4
+        );
 
-    // =========================
-    // COLORS + TOOLTIPS (ΣΤΑΘΕΡΑ)
-    // =========================
-    Platform.runLater(() -> {
+        // =========================
+        // COLORS + TOOLTIPS (ΣΤΑΘΕΡΑ)
+        // =========================
+        Platform.runLater(() -> {
 
-        Node revNode = revData.getNode();
-        if (revNode != null) {
-            revNode.setStyle("-fx-bar-fill: #1e90ff;");
-            Tooltip t = new Tooltip(
-                    String.format("Έσοδα\n%,d €", revenues)
-            );
-            t.setShowDelay(Duration.millis(120));
-            Tooltip.install(revNode, t);
-        }
+            Node revNode = revData.getNode();
+            if (revNode != null) {
+                revNode.setStyle("-fx-bar-fill: #1e90ff;");
+                Tooltip t = new Tooltip(
+                        String.format("Έσοδα\n%,d €", revenues)
+                );
+                t.setShowDelay(Duration.millis(120));
+                Tooltip.install(revNode, t);
+            }
 
-        Node expNode = expData.getNode();
-        if (expNode != null) {
-            expNode.setStyle("-fx-bar-fill: #e74c3c;");
-            Tooltip t = new Tooltip(
-                    String.format("Έξοδα\n%,d €", expenses)
-            );
-            t.setShowDelay(Duration.millis(120));
-            Tooltip.install(expNode, t);
-        }
-    });
+            Node expNode = expData.getNode();
+            if (expNode != null) {
+                expNode.setStyle("-fx-bar-fill: #e74c3c;");
+                Tooltip t = new Tooltip(
+                        String.format("Έξοδα\n%,d €", expenses)
+                );
+                t.setShowDelay(Duration.millis(120));
+                Tooltip.install(expNode, t);
+            }
+        });
 
-    // =========================
-    // LABELS
-    // =========================
-    Label yearLabel = new Label("Έτος " + year);
-    yearLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        // =========================
+        // LABELS
+        // =========================
+        Label yearLabel = new Label("Έτος " + year);
+        yearLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
-    Label resultLabel = new Label(formatResult(result));
-    resultLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;");
+        Label resultLabel = new Label(formatResult(result));
+        resultLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold;");
 
-    if (result > 0)
-        resultLabel.setTextFill(Color.FORESTGREEN);
-    else if (result < 0)
-        resultLabel.setTextFill(Color.FIREBRICK);
-    else
-        resultLabel.setTextFill(Color.GRAY);
+        if (result > 0)
+            resultLabel.setTextFill(Color.FORESTGREEN);
+        else if (result < 0)
+            resultLabel.setTextFill(Color.FIREBRICK);
+        else
+            resultLabel.setTextFill(Color.GRAY);
 
-    VBox box = new VBox(8, barChart, yearLabel, resultLabel);
-    box.setAlignment(Pos.CENTER);
+        VBox box = new VBox(8, barChart, yearLabel, resultLabel);
+        box.setAlignment(Pos.CENTER);
 
-    return box;
-}
-
-
+        return box;
+    }
 
     private String formatResult(long value) {
 
@@ -404,12 +433,12 @@ public class ChartsController implements ExportContentProvider {
 
                 node.setStyle("-fx-pie-color: " + toRgb(color));
 
-                Tooltip tooltip = new Tooltip(
+                // ✅ CHANGED: Nice readable tooltip (instead of default dark one)
+                installNiceTooltip(
+                        node,
                         entry.getKey() + "\n" +
                         String.format("%,d €", entry.getValue())
                 );
-                tooltip.setShowDelay(Duration.millis(100));
-                Tooltip.install(node, tooltip);
             });
 
             Rectangle rect = new Rectangle(14, 14, color);
@@ -423,7 +452,7 @@ public class ChartsController implements ExportContentProvider {
         }
     }
 
-   @Override
+    @Override
     public BufferedImage getRevenueChartImage() {
         return ChartSnapshotUtil.snapshot(revenueChart);
     }
@@ -452,7 +481,6 @@ public class ChartsController implements ExportContentProvider {
     public BufferedImage getMinistryTrendImage(String ministry) {
         return ChartSnapshotUtil.snapshot(ministryTrendChart);
     }
-
 
     // =========================================================
     // TREND BAR CHART (Ministry over time)
@@ -488,7 +516,7 @@ public class ChartsController implements ExportContentProvider {
             // ⬅️ ΠΟΛΥ ΣΗΜΑΝΤΙΚΟ
             controller.setYear(yearComboBox.getValue());
 
-           Stage stage = new Stage();
+            Stage stage = new Stage();
             stage.setTitle("Export to PDF");
 
             Scene scene = new Scene(root);
@@ -498,8 +526,6 @@ public class ChartsController implements ExportContentProvider {
             stage.setMaximized(true);     // 🔥 FULL SCREEN
             stage.showAndWait();
 
-
-            // ⬅️ ΕΔΩ Η ΔΙΟΡΘΩΣΗ
             return Optional.ofNullable(controller.getResult());
 
         } catch (Exception e) {
@@ -507,7 +533,6 @@ public class ChartsController implements ExportContentProvider {
             return Optional.empty();
         }
     }
-
 
     @FXML
     private void exportPdf() {
@@ -546,12 +571,11 @@ public class ChartsController implements ExportContentProvider {
             new Alert(
                     Alert.AlertType.ERROR,
                     "Σφάλμα κατά τη δημιουργία PDF\n\n"
-                    + ex.getClass().getSimpleName() + "\n"
-                    + (ex.getMessage() != null ? ex.getMessage() : "")
+                            + ex.getClass().getSimpleName() + "\n"
+                            + (ex.getMessage() != null ? ex.getMessage() : "")
             ).showAndWait();
         }
     }
-
 
     private void loadTrendChart(String ministry) {
 
@@ -617,9 +641,9 @@ public class ChartsController implements ExportContentProvider {
 
                 Tooltip tooltip = new Tooltip(
                         series.getName() + "\n" +
-                        "Έτος: " + d.getXValue() + "\n" +
-                        "Ποσό: " +
-                        String.format("%,d €", d.getYValue().longValue())
+                                "Έτος: " + d.getXValue() + "\n" +
+                                "Ποσό: " +
+                                String.format("%,d €", d.getYValue().longValue())
                 );
                 tooltip.setShowDelay(Duration.millis(100));
                 Tooltip.install(node, tooltip);

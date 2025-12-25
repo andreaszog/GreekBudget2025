@@ -13,26 +13,24 @@
     <left>
         <VBox spacing="15"
               alignment="TOP_CENTER"
-              prefWidth="220"
+              prefWidth="240"
               styleClass="filter-bar">
 
             <padding>
-                <Insets top="20" left="10" right="10" bottom="20"/>
+                <Insets top="20" left="12" right="12" bottom="20"/>
             </padding>
 
             <Label text="Φίλτρα"
                    style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-            <!-- YEAR -->
             <Label text="Έτος"
-                   style="-fx-font-size: 16px;"/>
+                   style="-fx-font-size: 15px;"/>
 
             <ComboBox fx:id="yearCombo"
-                      prefWidth="170"/>
+                      prefWidth="190"/>
 
-            <!-- MINISTRY -->
             <Label text="Υπουργείο"
-                   style="-fx-font-size: 16px;"/>
+                   style="-fx-font-size: 15px;"/>
 
             <ComboBox fx:id="ministryCombo"
                       prefWidth="190"/>
@@ -42,18 +40,19 @@
             <Button text="Back"
                     onAction="#goBack"
                     styleClass="btn-orange-small"
-                    prefWidth="120"/>
-
+                    prefWidth="130"/>
         </VBox>
     </left>
 
     <!-- CENTER CONTENT -->
     <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
-            <VBox fx:id="resultsBox" spacing="15">
+            <VBox fx:id="resultsBox"
+                  spacing="20"
+                  alignment="TOP_CENTER">
 
                 <padding>
-                    <Insets top="30" right="30" bottom="30" left="30"/>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
                 </padding>
 
             </VBox>
@@ -62,11 +61,12 @@
 
     <!-- BOTTOM PDF LINK -->
     <bottom>
-        <HBox alignment="CENTER" spacing="5" style="-fx-padding: 20;">
+        <HBox alignment="CENTER"
+              spacing="6"
+              style="-fx-padding: 18;">
             <Label fx:id="linkTextLabel"/>
             <Hyperlink fx:id="pdfLink"/>
         </HBox>
     </bottom>
-
 
 </BorderPane>

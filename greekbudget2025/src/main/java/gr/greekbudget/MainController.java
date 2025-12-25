@@ -30,7 +30,7 @@ public class MainController {
     }
 
     // ======================
-    // LOGOUT (FIXED)
+    // LOGOUT
     // ======================
     @FXML
     private void logout(ActionEvent event) {
@@ -40,8 +40,12 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to log out?");
 
+        ButtonType yes = new ButtonType("Yes");
+        ButtonType no = new ButtonType("No", ButtonType.CANCEL.getButtonData());
+        alert.getButtonTypes().setAll(yes, no);
+
         alert.showAndWait().ifPresent(r -> {
-            if (r == ButtonType.OK) {
+            if (r == yes) {
                 loadView(event, "/WelcomeView.fxml", "Welcome");
             }
         });
@@ -70,27 +74,35 @@ public class MainController {
         loadView(e, "/ChartsView.fxml", "Γραφήματα & Στατιστικά");
     }
 
+    // 🔥 ΟΠΩΣ ΗΤΑΝ ΑΡΧΙΚΑ 🔥
     @FXML
     private void openScenarios(ActionEvent e) {
-        loadView(e, "/ScenariosMenuView.fxml", "Σενάρια");
+        loadView(e, "/ScenariosView.fxml", "Σενάρια");
     }
 
     // ======================
-    // SINGLE CORRECT LOADER
+    // SINGLE & CORRECT LOADER
     // ======================
     private void loadView(ActionEvent event, String fxml, String title) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
+            Parent root = FXMLLoader.load(
+                    getClass().getResource(fxml)
+            );
 
             Stage stage = (Stage) ((Node) event.getSource())
                     .getScene()
                     .getWindow();
 
-            stage.getScene().setRoot(root);   // ✅ ΙΔΙΑ SCENE
+            stage.getScene().setRoot(root);   // ✅ ΚΡΑΤΑ fullscreen
             stage.setTitle(title);
 
         } catch (IOException ex) {
             ex.printStackTrace();
+
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "ΔΕΝ ΒΡΕΘΗΚΕ ΤΟ FXML:\n" + fxml
+            ).showAndWait();
         }
     }
 }

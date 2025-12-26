@@ -15,6 +15,22 @@
 }
 
 /* =====================================================
+   APP HEADER (LOGO – GLOBAL)
+   ===================================================== */
+.app-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent rgba(255,255,255,0.25) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Μεγαλύτερο λογότυπο σε όλες τις σελίδες */
+.app-header ImageView {
+    -fx-fit-height: 48; /* Αύξηση ύψους λογότυπου */
+    -fx-preserve-ratio: true;
+    -fx-smooth: true;
+}
+
+/* =====================================================
    TOP BAR
    ===================================================== */
 .top-orange-section {
@@ -54,7 +70,7 @@
    BUTTONS
    ===================================================== */
 .button {
-    -fx-background-color: #d96d0f; /* λίγο πιο σκούρο πορτοκαλί */
+    -fx-background-color: #d96d0f;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 20;
@@ -62,12 +78,12 @@
 }
 
 .button:hover {
-    -fx-background-color: #c85a00; /* hover λίγο πιο σκούρο */
+    -fx-background-color: #c85a00;
 }
 
 /* μικρά κουμπιά */
 .btn-orange-small {
-    -fx-background-color: #d96d0f; /* λίγο πιο σκούρο πορτοκαλί */
+    -fx-background-color: #d96d0f;
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-background-radius: 12;
@@ -75,7 +91,7 @@
 }
 
 .btn-orange-small:hover {
-    -fx-background-color: #c85a00; /* hover λίγο πιο σκούρο */
+    -fx-background-color: #c85a00;
 }
 
 /* =====================================================
@@ -133,13 +149,13 @@
 
 .table-view .check-box .box {
     -fx-background-color: transparent;
-    -fx-border-color: #e67e22; /* πορτοκαλί αντί για μπλε */
+    -fx-border-color: #e67e22;
     -fx-border-radius: 3;
     -fx-border-width: 1.5;
 }
 
 .table-view .check-box:selected .box {
-    -fx-background-color: #e67e22; /* πορτοκαλί αντί για μπλε */
+    -fx-background-color: #e67e22;
     -fx-border-color: #e67e22;
 }
 
@@ -148,7 +164,7 @@
 }
 
 .table-view .check-box:hover .box {
-    -fx-border-color: #ff9c50; /* λίγο πιο ανοιχτό πορτοκαλί για hover */
+    -fx-border-color: #ff9c50;
 }
 
 /* =====================================================
@@ -158,7 +174,6 @@
     -fx-background-color: transparent;
 }
 
-/* Plot area λευκό */
 .chart-plot-background {
     -fx-background-color: white;
     -fx-background-radius: 14;
@@ -166,10 +181,9 @@
 
 .axis,
 .axis-label {
-    -fx-tick-label-fill: rgba(0,0,0,0.95); /* για να φαίνεται στο λευκό */
+    -fx-tick-label-fill: rgba(0,0,0,0.95);
 }
 
-/* Bar colors */
 .bar-positive {
     -fx-bar-fill: #2ecc71;
 }
@@ -178,9 +192,8 @@
     -fx-bar-fill: #e74c3c;
 }
 
-/* Pie legend */
 .chart-legend-item {
-    -fx-text-fill: black; /* για να φαίνεται στο λευκό φόντο */
+    -fx-text-fill: black;
 }
 
 /* =====================================================
@@ -202,7 +215,7 @@
 }
 
 .info-bubble {
-    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-color: white;
     -fx-text-fill: #111111;
     -fx-padding: 16 22;
     -fx-background-radius: 14;
@@ -229,32 +242,23 @@
     -fx-background-color: transparent;
 }
 
-.chart {
-    -fx-background-color: transparent;
-}
-
-.axis,
-.axis-label {
-    -fx-tick-label-fill: black; /* για να φαίνεται στο λευκό φόντο */
-}
-
 /* =====================================================
    FILTER PANEL / SIDEBARS
    ===================================================== */
 .filter-bar {
-    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+    -fx-background-color: #d35400;
 }
 
 .center-scroll {
-    -fx-background: #be7636; /* πορτοκαλί gradient-ish αντί για μπλε */
+    -fx-background: #be7636;
 }
 
 .center-scroll .viewport {
-    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+    -fx-background-color: #d35400;
 }
 
 .root {
-    -fx-background-color: #d35400; /* πορτοκαλί αντί για μπλε */
+    -fx-background-color: #d35400;
 }
 
 .border-pane {
@@ -268,8 +272,9 @@
 .text {
     -fx-fill: #222222;
 }
+
 /* =====================================================
-   FORCE WHITE TEXT IN TOP BAR (FIX BLACK ON BLACK)
+   FORCE WHITE TEXT IN TOP BAR
    ===================================================== */
 .top-orange-section,
 .top-orange-section .label,
@@ -278,12 +283,6 @@
     -fx-text-fill: white;
 }
 
-.top-orange-section .button {
-    -fx-text-fill: white;
-}
-/* =====================================================
-   HARD OVERRIDE: FIX BLACK TEXT IN TOP BAR (COMPARISON)
-   ===================================================== */
 .top-orange-section .text {
     -fx-fill: white !important;
 }
@@ -295,26 +294,22 @@
 .top-orange-section .button .text {
     -fx-fill: white !important;
 }
+
 /* =====================================================
    FIX COMBOBOX (YEAR SELECTOR) IN TOP BAR
    ===================================================== */
-
-/* κλειστό ComboBox */
 .top-orange-section .combo-box {
     -fx-background-color: white;
 }
 
-/* το text του επιλεγμένου έτους */
 .top-orange-section .combo-box .text {
     -fx-fill: black !important;
 }
 
-/* dropdown arrow */
 .top-orange-section .combo-box .arrow {
     -fx-background-color: black;
 }
 
-/* dropdown list */
 .combo-box-popup .list-view {
     -fx-background-color: white;
 }

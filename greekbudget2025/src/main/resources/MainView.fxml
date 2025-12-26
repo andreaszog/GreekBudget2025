@@ -2,6 +2,8 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
@@ -9,51 +11,88 @@
             fx:controller="gr.greekbudget.MainController"
             styleClass="orange-background">
 
+    <!-- =========================
+         TOP BAR WITH LOGO
+         ========================= -->
     <top>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
+        <HBox alignment="CENTER_LEFT"
+              spacing="10"
+              styleClass="top-orange-section">
+
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets top="10" right="10" bottom="10" left="16"/>
             </padding>
 
-            <Label fx:id="usernameLabel"
-                  style="-fx-font-size: 14px; -fx-text-fill: white; -fx-font-weight: bold;"
-                  HBox.hgrow="ALWAYS"/>
+            <!-- LOGO (LEFT) -->
+            <ImageView fitHeight="48"
+                       preserveRatio="true"
+                       smooth="true">
+                <image>
+                    <Image url="@/images/blender-logo.png"/>
+                </image>
+            </ImageView>
 
+            <!-- SPACER -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- USERNAME -->
+            <Label fx:id="usernameLabel"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+            <!-- LOGOUT -->
             <Button text="Logout"
                     onAction="#logout"
                     styleClass="btn-orange-small"/>
+
         </HBox>
     </top>
 
+    <!-- =========================
+         CENTER MENU
+         ========================= -->
     <center>
         <VBox alignment="CENTER" spacing="20">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
+            <!-- Προσθήκη οδηγίας χρήστη -->
+            <Label text="Διαλέξτε λειτουργία:"
+                   style="-fx-font-size: 40px; -fx-font-weight: bold;"/>
+
             <Button text="Έσοδα - Έξοδα και Επεξεργασία"
                     onAction="#openIncomeExpense"
-                    prefWidth="300"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
 
             <Button text="Δαπάνες ανά Υπουργείο"
                     onAction="#openSummary"
-                    prefWidth="300"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
 
-            <Button text="Ανάλυση Προυπολογισμού"
+            <Button text="Ανάλυση Προϋπολογισμού"
                     onAction="#openAnalysis"
-                    prefWidth="300"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
 
             <Button text="Σενάρια"
                     onAction="#openScenarios"
-                    prefWidth="300"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
 
             <Button text="Γραφήματα"
                     onAction="#openCharts"
-                    prefWidth="300"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
         </VBox>
     </center>

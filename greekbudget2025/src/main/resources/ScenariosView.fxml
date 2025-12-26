@@ -28,19 +28,21 @@
         </HBox>
     </top>
 
-
     <center>
         <VBox spacing="20" alignment="CENTER">
             <Button text="ΣΕΝΑΡΙΑ ΣΕ ΕΣΟΔΑ - ΕΞΟΔΑ"
                     onAction="#openRevenueScenarios"
-                    prefWidth="350"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
 
             <Button text="ΣΕΝΑΡΙΑ ΣΕ ΥΠΟΥΡΓΙΚΕΣ ΔΑΠΑΝΕΣ"
                     onAction="#openMinistryScenarios"
-                    prefWidth="350"
+                    prefWidth="400"
+                    prefHeight="70"
+                    style="-fx-background-radius: 10; -fx-font-size: 16px; -fx-font-weight: bold;"
                     styleClass="btn-orange"/>
-                    
         </VBox>
     </center>
 

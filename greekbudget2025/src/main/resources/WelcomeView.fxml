@@ -28,11 +28,11 @@
 
     <!-- ACTION BUTTONS -->
     <Button text="Log In"
-            prefWidth="200"
+            prefWidth="400"
             onAction="#onLoginClicked"/>
 
     <Button text="Sign Up"
-            prefWidth="200"
+            prefWidth="400"
             onAction="#onSignupClicked"/>
 
 </VBox>

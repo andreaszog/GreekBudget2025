@@ -23,9 +23,8 @@
     -fx-border-width: 0 0 1 0;
 }
 
-/* Μεγαλύτερο λογότυπο σε όλες τις σελίδες */
 .app-header ImageView {
-    -fx-fit-height: 48; /* Αύξηση ύψους λογότυπου */
+    -fx-fit-height: 70;
     -fx-preserve-ratio: true;
     -fx-smooth: true;
 }
@@ -34,7 +33,7 @@
    TOP BAR
    ===================================================== */
 .top-orange-section {
-    -fx-background-color: #1f1f1f;
+    -fx-background-color: #e67e22;
 }
 
 /* =====================================================
@@ -70,7 +69,7 @@
    BUTTONS
    ===================================================== */
 .button {
-    -fx-background-color: #d96d0f;
+    -fx-background-color: #d2550d;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 20;
@@ -78,12 +77,12 @@
 }
 
 .button:hover {
-    -fx-background-color: #c85a00;
+    -fx-background-color: #d2550d;
 }
 
 /* μικρά κουμπιά */
 .btn-orange-small {
-    -fx-background-color: #d96d0f;
+    -fx-background-color: #d2550d;
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-background-radius: 12;
@@ -91,7 +90,7 @@
 }
 
 .btn-orange-small:hover {
-    -fx-background-color: #c85a00;
+    -fx-background-color: #d2550d;
 }
 
 /* =====================================================
@@ -246,19 +245,19 @@
    FILTER PANEL / SIDEBARS
    ===================================================== */
 .filter-bar {
-    -fx-background-color: #d35400;
+    -fx-background-color: #e67e22;
 }
 
 .center-scroll {
-    -fx-background: #be7636;
+    -fx-background: #e67e22;
 }
 
 .center-scroll .viewport {
-    -fx-background-color: #d35400;
+    -fx-background-color: #e67e22;
 }
 
 .root {
-    -fx-background-color: #d35400;
+    -fx-background-color: #e67e22;
 }
 
 .border-pane {
@@ -266,7 +265,7 @@
 }
 
 .border-pane > .bottom {
-    -fx-background-color: #1f1f1f;
+    -fx-background-color: #e67e22;
 }
 
 .text {

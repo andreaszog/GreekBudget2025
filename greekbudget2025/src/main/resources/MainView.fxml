@@ -17,14 +17,15 @@
     <top>
         <HBox alignment="CENTER_LEFT"
               spacing="10"
+              minHeight="90"
               styleClass="top-orange-section">
 
             <padding>
-                <Insets top="10" right="10" bottom="10" left="16"/>
+                <Insets top="20" right="10" bottom="20" left="16"/>
             </padding>
 
             <!-- LOGO (LEFT) -->
-            <ImageView fitHeight="48"
+            <ImageView fitHeight="140"
                        preserveRatio="true"
                        smooth="true">
                 <image>

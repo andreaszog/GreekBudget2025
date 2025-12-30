@@ -15,17 +15,21 @@
          TOP BAR WITH LOGO
          ========================= -->
     <top>
-        <HBox alignment="CENTER_LEFT"
+        <HBox alignment="TOP_LEFT"
               spacing="10"
-              minHeight="90"
               styleClass="top-orange-section">
 
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="0"/>
+            </BorderPane.margin>
+
+            <!-- ΜΗΔΕΝ padding -->
             <padding>
-                <Insets top="20" right="10" bottom="20" left="16"/>
+                <Insets top="0" right="0" bottom="0" left="0"/>
             </padding>
 
             <!-- LOGO (LEFT) -->
-            <ImageView fitHeight="140"
+            <ImageView fitHeight="170"
                        preserveRatio="true"
                        smooth="true">
                 <image>
@@ -57,7 +61,6 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- Προσθήκη οδηγίας χρήστη -->
             <Label text="Διαλέξτε λειτουργία:"
                    style="-fx-font-size: 40px; -fx-font-weight: bold;"/>
 

@@ -26,7 +26,6 @@ import gr.greekbudget.export.ExportOptions;
 import gr.greekbudget.export.PdfExportService;
 import gr.greekbudget.export.ChartSnapshotUtil;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import java.awt.image.BufferedImage;
 
 import java.io.File;

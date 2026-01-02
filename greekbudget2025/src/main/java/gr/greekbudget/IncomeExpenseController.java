@@ -8,7 +8,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 

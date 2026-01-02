@@ -1,10 +1,6 @@
 package gr.greekbudget;
 
-import gr.greekbudget.export.ChartSnapshotUtil;
-import gr.greekbudget.export.ExportContentProvider;
-import gr.greekbudget.export.ExportDialogController;
-import gr.greekbudget.export.ExportOptions;
-import gr.greekbudget.export.PdfExportService;
+
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -14,12 +10,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 

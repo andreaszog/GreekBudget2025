@@ -45,6 +45,9 @@ mvn clean install
 # Εκτέλεση μέσω Maven (JavaFX)
 mvn javafx:run
 
+# Εκτέλεση JAR με JavaFX modules
+java --module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar greekbudget2025.jar
+
 # -----------------------------------------------------
 # 3. ΟΔΗΓΙΕΣ ΧΡΗΣΗΣ ΤΟΥ ΠΡΟΓΡΑΜΜΑΤΟΣ
 # -----------------------------------------------------

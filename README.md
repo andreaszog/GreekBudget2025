@@ -114,5 +114,5 @@ Classes: 34 / 40 → ~15% covered
 
   ## 🎥 Demo Video
 
-Watch a short demo of the application on YouTube, licensed under **Creative Commons CC BY 4.0**:
+Δείτε μια σύντομη παρουσίαση της εφαρμογής στο YouTube, με άδεια Creative Commons CC BY 4.0:
 https://www.youtube.com/watch?v=3DngCcvRtPk

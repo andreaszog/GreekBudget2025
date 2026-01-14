@@ -111,3 +111,9 @@ Classes: 34 / 40 → ~15% covered
 - MoneyUtil → 94%
 - BudgetImpactRow → 100%
 - CategoryAmount → 85%
+
+  ## 🎥 Demo Video
+
+Watch a short demo of the application on YouTube:  
+https://www.youtube.com/watch?v=3DngCcvRtPk
+
